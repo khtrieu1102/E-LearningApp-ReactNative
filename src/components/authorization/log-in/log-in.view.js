@@ -4,7 +4,8 @@ import { Ionicons } from "@expo/vector-icons";
 
 const Login = () => {
 	const [userName, setUserName] = useState("");
-	const [password, setPassword] = useState("");
+    const [password, setPassword] = useState("");
+    const textColor = "black";
 	return (
 		<View
 			style={{
@@ -17,44 +18,43 @@ const Login = () => {
 				height: "100%",
 			}}
 		>
-			<Text style={{ color: "#8a92a1" }}>Email or username</Text>
+			<Text style={{ color: textColor }}>Email or username</Text>
 			<TextInput
 				style={{
-					borderColor: "white",
-					backgroundColor: "#8a92a1",
+					borderColor: textColor,
 					borderWidth: 1,
 					borderRadius: 5,
-					height: 40,
+                    height: 40,
+                    color: textColor,
 					marginBottom: 5,
 					paddingLeft: 5,
 				}}
 				onChangeText={(text) => setUserName(text)}
 				defaultValue={userName}
 			/>
-			<Text style={{ color: "#8a92a1" }}>Password</Text>
+			<Text style={{ color: textColor }}>Password</Text>
 			<View
 				style={{
 					flexDirection: "row",
 					borderWidth: 1,
-					borderColor: "white",
-					backgroundColor: "#8a92a1",
+					borderColor: textColor,
 					borderRadius: 5,
 					marginBottom: 5,
 				}}
 			>
 				<Ionicons
-					style={{ paddingLeft: 5, paddingRight: 5 }}
+					style={{ justifyContent: "center", paddingLeft: 5, paddingRight: 5 }}
 					name="md-eye-off"
-					size={32}
-					color="white"
+					size={40}
+					color={textColor}
 				/>
 				<TextInput
 					style={{
 						flex: 1,
-						backgroundColor: "#8a92a1",
 						borderRadius: 5,
 						height: 40,
 						paddingLeft: 5,
+                        color: textColor,
 					}}
 					onChangeText={(text) => setPassword(text)}
 					defaultValue={password}
