@@ -4,8 +4,8 @@ import { Ionicons } from "@expo/vector-icons";
 
 const CourseItemList = ({ courseDetails }) => {
 	const { id, title, author, level, released, duration } = courseDetails;
-	const backgroundColor = "black";
-	const textColor = "white";
+	const backgroundColor = "white";
+	const textColor = "black";
 
 	const handlePress = () => {
 		console.log("hello");

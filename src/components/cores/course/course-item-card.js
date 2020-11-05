@@ -23,7 +23,7 @@ const CourseItemCard = (props) => {
 				height: 220,
 				width: 220,
 				backgroundColor: "#ebf2ff",
-				shadowColor: "#000",
+				shadowColor: "black",
 				shadowOffset: {
 					width: 5,
 					height: 10,
