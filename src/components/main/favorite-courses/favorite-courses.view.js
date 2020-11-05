@@ -4,7 +4,7 @@ import { View, ScrollView } from "react-native";
 import VerticalSectionCourses from "../../cores/section-courses/vertical-section-courses"
 
 const FavoriteCourses = (props) => {
-	const backgroundColor = "black";
+	const backgroundColor = "white";
 	return (
 		<View
 			style={{
