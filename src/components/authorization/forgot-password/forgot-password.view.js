@@ -2,14 +2,13 @@ import React, { useState } from "react";
 import { View, Text, TextInput, Button, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
-const Login = () => {
+const ForgotPassword = () => {
 	const [formData, setFormData] = useState({
-		email: "",
-		password: "",
+		email: ""
 	});
 	const textColor = "black";
 	const onSubmit = () => {
-		console.log(formData.email, formData.password);
+		console.log(formData);
 	}
 	return (
 		<View
@@ -23,7 +22,7 @@ const Login = () => {
 				height: "100%",
 			}}
 		>
-			<Text style={{ color: textColor }}>Email</Text>
+			<Text style={{ color: textColor }}>Your registered email</Text>
 			<TextInput
 				style={{
 					borderColor: textColor,
@@ -37,34 +36,6 @@ const Login = () => {
 				onChangeText={(text) => setFormData({...formData, email: text})}
 				defaultValue={formData.email}
 			/>
-			<Text style={{ color: textColor }}>Password</Text>
-			<View
-				style={{
-					flexDirection: "row",
-					borderWidth: 1,
-					borderColor: textColor,
-					borderRadius: 5,
-					marginBottom: 5,
-				}}
-			>
-				<Ionicons
-					style={{ justifyContent: "center", paddingLeft: 5, paddingRight: 5 }}
-					name="md-eye-off"
-					size={40}
-					color={textColor}
-				/>
-				<TextInput
-					style={{
-						flex: 1,
-						borderRadius: 5,
-						height: 40,
-						paddingLeft: 5,
-                        color: textColor,
-					}}
-					onChangeText={(text) => setFormData({...formData, password: text})}
-					defaultValue={formData.password}
-				/>
-			</View>
 			<TouchableOpacity
 				style={{
 					backgroundColor: "#6998f5",
@@ -77,7 +48,20 @@ const Login = () => {
 				}}
 				onPress={() => onSubmit()}
 			>
-				<Text style={{ color: "white" }}>Sign In</Text>
+				<Text style={{ color: "white" }}>Get code to reset password</Text>
+			</TouchableOpacity>
+			<TouchableOpacity
+				style={{
+					alignItems: "center",
+					justifyContent: "center",
+					height: 40,
+					borderColor: "#6998f5",
+					borderWidth: 1,
+					borderRadius: 5,
+					marginBottom: 5,
+				}}
+			>
+				<Text style={{ color: "#6998f5" }}>Sign In</Text>
 			</TouchableOpacity>
 			<TouchableOpacity
 				style={{
@@ -92,21 +76,8 @@ const Login = () => {
 			>
 				<Text style={{ color: "#6998f5" }}>Register new account</Text>
 			</TouchableOpacity>
-			<TouchableOpacity
-				style={{
-					alignItems: "center",
-					justifyContent: "center",
-					height: 40,
-					borderColor: "#6998f5",
-					borderWidth: 1,
-					borderRadius: 5,
-					marginBottom: 5,
-				}}
-			>
-				<Text style={{ color: "#6998f5" }}>Forgot your password?</Text>
-			</TouchableOpacity>
 		</View>
 	);
 };
 
-export default Login;
+export default ForgotPassword;
