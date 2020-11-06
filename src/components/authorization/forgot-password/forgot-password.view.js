@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, Button, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native"
 
-const ForgotPassword = () => {
+const ForgotPassword = () => {	
+	const navigation = useNavigation();
+
 	const [formData, setFormData] = useState({
 		email: ""
 	});
@@ -60,6 +63,7 @@ const ForgotPassword = () => {
 					borderRadius: 5,
 					marginBottom: 5,
 				}}
+				onPress={() => {navigation.navigate("Authorization/LogIn")}}
 			>
 				<Text style={{ color: "#6998f5" }}>Sign In</Text>
 			</TouchableOpacity>
@@ -73,8 +77,22 @@ const ForgotPassword = () => {
 					borderRadius: 5,
 					marginBottom: 5,
 				}}
+				onPress={() => {navigation.navigate("Authorization/Register")}}
 			>
 				<Text style={{ color: "#6998f5" }}>Register new account</Text>
+			</TouchableOpacity>
+			<TouchableOpacity
+				style={{
+					alignItems: "center",
+					justifyContent: "center",
+					height: 40,
+					borderColor: "#6998f5",
+					borderWidth: 1,
+					borderRadius: 5,
+					marginBottom: 5,
+				}}
+			>
+				<Text style={{ color: "#6998f5" }}>Sign In with Google</Text>
 			</TouchableOpacity>
 		</View>
 	);
