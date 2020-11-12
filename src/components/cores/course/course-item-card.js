@@ -15,7 +15,7 @@ const CourseItemCard = (props) => {
 	} = courseDetails;
 
 	const handlePress = () => {
-		navigation.navigate("Home/CourseDetail", { courseDetails: courseDetails });
+		navigation.navigate("CourseDetail", { courseDetails: courseDetails });
 	};
 
 	return (

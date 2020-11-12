@@ -1,14 +1,17 @@
 import React from "react";
 import { View, Text, TouchableOpacity, Image } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native"
 
 const CourseItemList = ({ courseDetails }) => {
+	const navigation = useNavigation();
 	const { id, title, author, level, released, duration } = courseDetails;
 	const backgroundColor = "white";
 	const textColor = "black";
 
 	const handlePress = () => {
 		console.log("hello");
+		navigation.navigate("CourseDetail", { courseDetails: courseDetails });
 	};
 
 	return (

@@ -19,7 +19,7 @@ const HomeStackScreens = () => {
 				component={() => <VerticalSectionCourses />}
 			/>
 			<HomeStack.Screen 
-				name="Home/CourseDetail" 
+				name="CourseDetail" 
 				component={() => <CourseDetail />} 
 			/>
 		</HomeStack.Navigator>
@@ -31,6 +31,10 @@ const FavoriteStackScreens = () => {
 	return (
 		<FavoriteStack.Navigator>
 			<FavoriteStack.Screen name="FavoriteCourse/Dashboard" component={FavoriteCourse} />
+			<FavoriteStack.Screen 
+				name="CourseDetail" 
+				component={() => <CourseDetail />} 
+			/>
 		</FavoriteStack.Navigator>
 	);
 };
