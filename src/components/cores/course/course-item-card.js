@@ -1,7 +1,9 @@
+import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import { View, Text, TouchableOpacity, Image } from "react-native";
 
 const CourseItemCard = (props) => {
+	const navigation = useNavigation();
 	const { courseDetails } = props;
 	const {
 		title,
@@ -13,7 +15,7 @@ const CourseItemCard = (props) => {
 	} = courseDetails;
 
 	const handlePress = () => {
-		console.log("item pressed");
+		navigation.navigate("Home/CourseDetail", { courseDetails: courseDetails });
 	};
 
 	return (
