@@ -11,7 +11,7 @@ import { Video } from "expo-av";
 
 import { useRoute } from "@react-navigation/native";
 
-// import AuthorSimpleItem from "../Author/author-simple";
+import AuthorSimpleItem from "../../author/author-simple"
 import Actions from "./action-buttons";
 import Details from "./content-and-transcript";
 
@@ -59,7 +59,7 @@ const CourseDetail = ({}) => {
 				>
 					{title}
 				</Text>
-				{/* <AuthorSimpleItem authorName={author} /> */}
+				<AuthorSimpleItem authorName={author} />
 				<Text style={{ color: "#979ba1", fontSize: 14, paddingTop: 3 }}>
 					{level} - {released} - {duration}
 				</Text>

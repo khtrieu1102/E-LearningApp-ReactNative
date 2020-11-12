@@ -3,8 +3,10 @@ import { View, ScrollView } from "react-native";
 
 import SectionCoursesHeader from "./section-courses-header/section-courses-header";
 import CourseItemCard from "../course/course-item-card";
+import { useNavigation } from "@react-navigation/native"
 
 const HorizontalSectionCourses = ({ header }) => {
+	const navigation = useNavigation();
 	const backgroundColor = "white";
 	const textColor = "black";
 	const courses = [
@@ -91,11 +93,12 @@ const HorizontalSectionCourses = ({ header }) => {
 	];
 
 	const onSeeAll = () => {
+		navigation.navigate("Home/VerticalSectionCourse");
 		console.log(courses);
 	};
 
 	return (
-		<View style={{ width: "100%", paddingLeft: 10, paddingTop: 20, backgroundColor: backgroundColor }}>
+		<View style={{ backgroundColor: backgroundColor }}>
 			<SectionCoursesHeader
 				header={header}
 				showButtonSeeAll={true}

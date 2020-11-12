@@ -4,14 +4,14 @@ import { View, Text, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
 const SectionCoursesHeader = ({ header, onSeeAll, showButtonSeeAll }) => {
-	const textColor = "white";
+	const textColor = "black";
 	return (
 		<View
 			style={{
 				flexDirection: "row",
 				justifyContent: "space-between",
 				alignItems: "center",
-				paddingBottom: 10,
+				marginTop: 10
 			}}
 		>
 			<Text style={{ fontSize: 18, fontWeight: "bold", color: textColor }}>{header}</Text>
@@ -20,7 +20,6 @@ const SectionCoursesHeader = ({ header, onSeeAll, showButtonSeeAll }) => {
 					backgroundColor: "#dedede",
 					flexDirection: "row",
 					borderRadius: 20,
-					marginRight: 5,
 				}}
 				onPress={onSeeAll}
 			>
