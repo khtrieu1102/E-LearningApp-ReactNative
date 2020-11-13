@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
 	Text,
 	ScrollView,
@@ -26,6 +26,14 @@ const CourseDetail = ({}) => {
 		duration,
 		description,
 	} = route.params.courseDetails;
+	const [isPlaying, setIsPlaying] = useState(false);
+
+	useEffect(() => {
+
+		return () => {
+			setIsPlaying(false);
+		}
+	}, [])
 
 	return (
 		<View
@@ -43,7 +51,7 @@ const CourseDetail = ({}) => {
 					volume={1.0}
 					isMuted={false}
 					resizeMode="cover"
-					shouldPlay
+					playing={isPlaying}
 					isLooping
 					style={{ width: "95%", height: 200 }}
 					useNativeControls={true}
