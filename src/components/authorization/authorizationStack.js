@@ -6,25 +6,17 @@ import AuthorizationHome from "./authorization-home/authorization-home.view"
 import ForgotPassword from "./forgot-password/forgot-password.view"
 import LogIn from "./log-in/log-in.view"
 import Register from "./register/register.view"
+import SplashScreen from "./splash-screen/splash-screen.view";
 
 const Stack = createStackNavigator();
 
 const AuthorizationStack = () => {
     return (
         <Stack.Navigator>
+            <Stack.Screen name="SplashScreen" component={SplashScreen} />
             <Stack.Screen 
                 name="Authorization/AuthorizationHome" 
                 component={AuthorizationHome}         
-                options={{
-                    headerTitle: props => <Text>"Hello"</Text>,
-                    headerRight: () => (
-                        <Button
-                            onPress={() => alert('This is a button!')}
-                            title="Info"
-                            color="#000"
-                        />
-                    ),
-                }}
             />
             <Stack.Screen name="Authorization/ForgotPassword" component={ForgotPassword} />
             <Stack.Screen name="Authorization/LogIn" component={LogIn} />
@@ -34,5 +26,3 @@ const AuthorizationStack = () => {
 }
 
 export default AuthorizationStack;
-
-  

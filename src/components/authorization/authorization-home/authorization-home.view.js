@@ -5,7 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 const AuthorizationHome = () => {
 	const navigation = useNavigation();
 	return (
-		<View style={{flex: 1, alignItems: "center"}}>
+		<View style={{flex: 1, alignItems: "center", backgroundColor: "white"}}>
 			<View
 				style={{
 					flexDirection: "column",
