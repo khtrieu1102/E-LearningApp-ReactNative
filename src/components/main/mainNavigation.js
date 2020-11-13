@@ -1,6 +1,7 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import Home from "./home/home.view";
 import FavoriteCourse from "./favorite-courses/favorite-courses.view"
@@ -47,9 +48,50 @@ const FavoriteStackScreens = () => {
 
 const MainTabNavigator = () => {
     return (
-        <MainTab.Navigator>
+        <MainTab.Navigator screenOptions={({ route }) => ({
+			tabBarIcon: ({ focused, color, size }) => {
+			  let iconName;
+  
+			  switch (route.name) {
+				case 'Home': {
+					iconName = focused
+					  ? 'ios-home'
+					  : 'ios-home';
+					  break;
+				} 
+				case 'FavoriteCourse': {
+					iconName = focused ? 'ios-download' : 'ios-download';
+					break;
+				}
+				case 'Browse': {
+					iconName = 'ios-grid';
+					break;
+				}
+				case 'Search': {
+					iconName = 'ios-search';
+					break;
+				}
+				case 'Settings': {
+					iconName = 'ios-settings';
+					break;
+				}
+				default:
+			  }
+			  
+  
+			  // You can return any component that you like here!
+			  return <Ionicons name={iconName} size={size} color={color} />;
+			},
+		  })}
+		  tabBarOptions={{
+			activeTintColor: 'tomato',
+			inactiveTintColor: 'gray',
+		  }}>
             <MainTab.Screen name="Home" component={HomeStackScreens} />
             <MainTab.Screen name="FavoriteCourse" component={FavoriteStackScreens} />
+            <MainTab.Screen name="Browse" component={FavoriteStackScreens} />
+            <MainTab.Screen name="Search" component={FavoriteStackScreens} />
+            <MainTab.Screen name="Settings" component={FavoriteStackScreens} />
         </MainTab.Navigator>
     );
 }
