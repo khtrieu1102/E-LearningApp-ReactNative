@@ -7,6 +7,8 @@ import FavoriteCourse from "./favorite-courses/favorite-courses.view"
 import VerticalSectionCourses from "../cores/section-courses/vertical-section-courses";
 import CourseDetail from "../cores/course/detail/course-detail";
 
+import AuthorDetail from "../cores/author/author-detail"
+
 const MainTab = createBottomTabNavigator();
 
 const HomeStack = createStackNavigator();
@@ -21,6 +23,10 @@ const HomeStackScreens = () => {
 			<HomeStack.Screen 
 				name="CourseDetail" 
 				component={() => <CourseDetail />} 
+			/>
+			<HomeStack.Screen 
+				name="AuthorDetail" 
+				component={() => <AuthorDetail />} 
 			/>
 		</HomeStack.Navigator>
 	);
