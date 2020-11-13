@@ -3,11 +3,16 @@ import { TouchableOpacity, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native"
 
 const AuthorSimpleItem = ({ authorName }) => {
-    const navigation = useNavigation();
+	const navigation = useNavigation();
+	
+	const authorDetails = {
+		authorName: authorName,
+
+	}
 
 	const handlePress = () => {
 		console.log("Go to author name");
-		// navigation.navigate("AuthorDetail", { authorDetails: authorDetails });
+		navigation.navigate("AuthorDetail");
 	};
 
 	return (
