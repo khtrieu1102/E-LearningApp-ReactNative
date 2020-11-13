@@ -8,6 +8,8 @@ import FavoriteCourse from "./favorite-courses/favorite-courses.view"
 import VerticalSectionCourses from "../cores/section-courses/vertical-section-courses";
 import CourseDetail from "../cores/course/detail/course-detail";
 
+import Browse from "./browse/browse.view";
+
 import AuthorDetail from "../cores/author/author-detail"
 
 const MainTab = createBottomTabNavigator();
@@ -43,6 +45,19 @@ const FavoriteStackScreens = () => {
 				component={() => <CourseDetail />} 
 			/>
 		</FavoriteStack.Navigator>
+	);
+};
+
+const BrowseStack = createStackNavigator();
+const BrowseStackScreens = () => {
+	return (
+		<BrowseStack.Navigator>
+			<BrowseStack.Screen name="Browse/Dashboard" component={Browse} />
+			<BrowseStack.Screen 
+				name="CourseDetail" 
+				component={() => <CourseDetail />} 
+			/>
+		</BrowseStack.Navigator>
 	);
 };
 
@@ -89,7 +104,7 @@ const MainTabNavigator = () => {
 		  }}>
             <MainTab.Screen name="Home" component={HomeStackScreens} />
             <MainTab.Screen name="FavoriteCourse" component={FavoriteStackScreens} />
-            <MainTab.Screen name="Browse" component={FavoriteStackScreens} />
+            <MainTab.Screen name="Browse" component={BrowseStackScreens} />
             <MainTab.Screen name="Search" component={FavoriteStackScreens} />
             <MainTab.Screen name="Settings" component={FavoriteStackScreens} />
         </MainTab.Navigator>
