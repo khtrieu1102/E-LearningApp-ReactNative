@@ -13,14 +13,15 @@ const Stack = createStackNavigator();
 const AuthorizationStack = () => {
     return (
         <Stack.Navigator>
-            <Stack.Screen name="SplashScreen" component={SplashScreen} />
+            <Stack.Screen name="SplashScreen" component={SplashScreen} options={{ headerShown: false}} />
             <Stack.Screen 
                 name="Authorization/AuthorizationHome" 
-                component={AuthorizationHome}         
+                component={AuthorizationHome}
+                options={{ headerShown: false}}
             />
-            <Stack.Screen name="Authorization/ForgotPassword" component={ForgotPassword} />
-            <Stack.Screen name="Authorization/LogIn" component={LogIn} />
-            <Stack.Screen name="Authorization/Register" component={Register} />
+            <Stack.Screen name="Authorization/ForgotPassword" component={ForgotPassword} options={{ headerShown: false}} />
+            <Stack.Screen name="Authorization/LogIn" component={LogIn} options={{ headerShown: false}} />
+            <Stack.Screen name="Authorization/Register" component={Register} options={{ headerShown: false}} />
         </Stack.Navigator>
     );
 }
