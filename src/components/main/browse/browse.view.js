@@ -2,6 +2,7 @@ import React from "react";
 import { View, ScrollView } from "react-native";
 
 import HorizontalSectionCourses from "../../cores/section-courses/horizontal-section-courses"
+import HorizontalSectionPaths from "../../cores/section-paths/horizontal-section-paths";
 
 const Browse = (props) => {
 	const backgroundColor = "white";
@@ -13,6 +14,7 @@ const Browse = (props) => {
 			}}
 		>
 			<HorizontalSectionCourses header="Continue Learning" />
+			<HorizontalSectionPaths header="ABC" />
 		</ScrollView>
 	);
 };

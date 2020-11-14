@@ -7,6 +7,8 @@ import Home from "./home/home.view";
 import FavoriteCourse from "./favorite-courses/favorite-courses.view"
 import VerticalSectionCourses from "../cores/section-courses/vertical-section-courses";
 import CourseDetail from "../cores/course/detail/course-detail";
+import PathDetail from "../cores/path/path-detail"
+import VerticalSectionPaths from '../cores/section-paths/vertical-section-paths';
 
 import Browse from "./browse/browse.view";
 
@@ -20,7 +22,7 @@ const HomeStackScreens = () => {
 		<HomeStack.Navigator>
 			<HomeStack.Screen name="Home/Dashboard" component={Home} />
 			<HomeStack.Screen
-				name="Home/VerticalSectionCourse"
+				name="VerticalSectionCourse"
 				component={() => <VerticalSectionCourses />}
 			/>
 			<HomeStack.Screen 
@@ -53,9 +55,21 @@ const BrowseStackScreens = () => {
 	return (
 		<BrowseStack.Navigator>
 			<BrowseStack.Screen name="Browse/Dashboard" component={Browse} />
+			<BrowseStack.Screen
+				name="VerticalSectionCourse"
+				component={() => <VerticalSectionCourses />}
+			/>
 			<BrowseStack.Screen 
 				name="CourseDetail" 
 				component={() => <CourseDetail />} 
+			/>
+			<BrowseStack.Screen 
+				name="PathDetail" 
+				component={() => <PathDetail />} 
+			/>
+			<BrowseStack.Screen 
+				name="VerticalSectionPaths" 
+				component={() => <VerticalSectionPaths />} 
 			/>
 		</BrowseStack.Navigator>
 	);
