@@ -1,7 +1,7 @@
 import React from "react";
 import { View, ScrollView } from "react-native";
 
-import SectionCoursesHeader from "./section-courses-header/section-courses-header";
+import SectionCoursesHeader from "./section-courses-header";
 import CourseItemCard from "../course/course-item-card";
 import { useNavigation } from "@react-navigation/native"
 
@@ -93,7 +93,7 @@ const HorizontalSectionCourses = ({ header }) => {
 	];
 
 	const onSeeAll = () => {
-		navigation.navigate("Home/VerticalSectionCourse");
+		navigation.navigate("VerticalSectionCourse");
 		console.log(courses);
 	};
 

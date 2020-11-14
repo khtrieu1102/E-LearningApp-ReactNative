@@ -1,7 +1,7 @@
 import React from "react";
 import { View, ScrollView, FlatList } from "react-native";
 
-import SectionCoursesHeader from "./section-courses-header/section-courses-header";
+import SectionCoursesHeader from "./section-courses-header";
 import CourseItemList from "../course/course-item-list";
 
 const VerticalSectionCourses = ({ courses, header, route, navigation }) => {
