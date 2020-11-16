@@ -11,8 +11,11 @@ import PathDetail from "../cores/path/path-detail"
 import VerticalSectionPaths from '../cores/section-paths/vertical-section-paths';
 
 import Browse from "./browse/browse.view";
+import Settings from "./settings/settings.view"
 
 import AuthorDetail from "../cores/author/author-detail"
+import SkillDetail from "../cores/section-skills/skill-detail";
+import FullSkillTopic from "../cores/section-skills/full-skill-topic";
 
 const MainTab = createBottomTabNavigator();
 
@@ -22,7 +25,7 @@ const HomeStackScreens = () => {
 		<HomeStack.Navigator>
 			<HomeStack.Screen name="Home/Dashboard" component={Home} />
 			<HomeStack.Screen
-				name="VerticalSectionCourse"
+				name="VerticalSectionCourses"
 				component={() => <VerticalSectionCourses />}
 			/>
 			<HomeStack.Screen 
@@ -60,7 +63,7 @@ const BrowseStackScreens = () => {
 		<BrowseStack.Navigator>
 			<BrowseStack.Screen name="Browse/Dashboard" component={Browse} />
 			<BrowseStack.Screen
-				name="VerticalSectionCourse"
+				name="VerticalSectionCourses"
 				component={() => <VerticalSectionCourses />}
 			/>
 			<BrowseStack.Screen 
@@ -75,17 +78,45 @@ const BrowseStackScreens = () => {
 				name="VerticalSectionPaths" 
 				component={() => <VerticalSectionPaths />} 
 			/>
-			<HomeStack.Screen 
+			<BrowseStack.Screen 
 				name="AuthorDetail" 
 				component={() => <AuthorDetail />} 
+			/>
+			<BrowseStack.Screen 
+				name="FullSkillTopic" 
+				component={() => <FullSkillTopic />} 
+			/>
+			<BrowseStack.Screen 
+				name="SkillDetail" 
+				component={() => <SkillDetail />} 
 			/>
 		</BrowseStack.Navigator>
 	);
 };
 
+const SearchStack = createStackNavigator();
+const SearchStackScreens = () => {
+	return (
+		<SearchStack.Navigator>
+			<SearchStack.Screen name="Search/Dashboard" component={Browse} />
+		</SearchStack.Navigator>
+	);
+};
+
+const SettingsStack = createStackNavigator();
+const SettingsStackScreens = () => {
+	return (
+		<SettingsStack.Navigator>
+			<SettingsStack.Screen name="Settings/Dashboard" component={Settings} />
+		</SettingsStack.Navigator>
+	);
+};
+
+
+
 const MainTabNavigator = () => {
     return (
-        <MainTab.Navigator screenOptions={({ route }) => ({
+        <MainTab.Navigator initialRouteName="Home" screenOptions={({ route }) => ({
 			tabBarIcon: ({ focused, color, size }) => {
 			  let iconName;
   
@@ -127,8 +158,8 @@ const MainTabNavigator = () => {
             <MainTab.Screen name="Home" component={HomeStackScreens} />
             <MainTab.Screen name="FavoriteCourse" component={FavoriteStackScreens} />
             <MainTab.Screen name="Browse" component={BrowseStackScreens} />
-            <MainTab.Screen name="Search" component={FavoriteStackScreens} />
-            <MainTab.Screen name="Settings" component={FavoriteStackScreens} />
+            <MainTab.Screen name="Search" component={SearchStackScreens} />
+            <MainTab.Screen name="Settings" component={SettingsStackScreens} />
         </MainTab.Navigator>
     );
 }
