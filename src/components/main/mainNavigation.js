@@ -46,6 +46,10 @@ const FavoriteStackScreens = () => {
 				name="CourseDetail" 
 				component={() => <CourseDetail />} 
 			/>
+			<HomeStack.Screen 
+				name="AuthorDetail" 
+				component={() => <AuthorDetail />} 
+			/>
 		</FavoriteStack.Navigator>
 	);
 };
@@ -70,6 +74,10 @@ const BrowseStackScreens = () => {
 			<BrowseStack.Screen 
 				name="VerticalSectionPaths" 
 				component={() => <VerticalSectionPaths />} 
+			/>
+			<HomeStack.Screen 
+				name="AuthorDetail" 
+				component={() => <AuthorDetail />} 
 			/>
 		</BrowseStack.Navigator>
 	);
