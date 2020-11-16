@@ -2,7 +2,7 @@ import React from "react";
 import { Text, ScrollView, Image, View, TouchableOpacity } from "react-native";
 
 import VerticalSectionCourses from "../section-courses/vertical-section-courses";
-import Description from "../Description/description";
+import Description from "../description/description";
 import { useNavigation, useRoute } from "@react-navigation/native";
 
 const PathDetail = ({ }) => {
