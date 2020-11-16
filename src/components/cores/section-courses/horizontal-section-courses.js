@@ -93,7 +93,7 @@ const HorizontalSectionCourses = ({ header }) => {
 	];
 
 	const onSeeAll = () => {
-		navigation.navigate("VerticalSectionCourse");
+		navigation.navigate("VerticalSectionCourses", courses);
 		console.log(courses);
 	};
 

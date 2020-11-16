@@ -1,11 +1,13 @@
 import React from "react";
 import { View, ScrollView, FlatList } from "react-native";
+import { useRoute } from "@react-navigation/native";
 
 import SectionCoursesHeader from "./section-courses-header";
 import CourseItemList from "../course/course-item-list";
 
-const VerticalSectionCourses = ({ courses, header, route, navigation }) => {
-	// const { courses } = route.params;
+const VerticalSectionCourses = ({ header }) => {
+	const route = useRoute();
+	const courses = route?.params?.courses;
 	let tempCourses;
 
 	if (courses != null) {
@@ -150,7 +152,7 @@ const VerticalSectionCourses = ({ courses, header, route, navigation }) => {
 			<FlatList
 				data={tempCourses}
 				renderItem={({ item }) => (
-					<CourseItemList courseDetails={item} navigation={navigation}/>
+					<CourseItemList courseDetails={item} />
 				)}
 				keyExtractor={(item) => item.id + ""} // expect key as a string.
 			/>
