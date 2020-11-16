@@ -1,3 +1,4 @@
+import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import {
 	View,
@@ -74,6 +75,9 @@ const FeatureCard = ({ title }) => {
 			duration: "2h",
 		},
 	];
+
+	const navigation = useNavigation();
+
 	const handlePress = () => {
 		navigation.navigate("VerticalSectionCourses", courses);
 		console.log("Feature Press");
