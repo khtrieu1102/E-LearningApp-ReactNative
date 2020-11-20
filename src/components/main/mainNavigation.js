@@ -37,6 +37,14 @@ const HomeStackScreens = () => {
 				name="AuthorDetail" 
 				component={() => <AuthorDetail />} 
 			/>
+			<HomeStack.Screen 
+				name="PathDetail" 
+				component={() => <PathDetail />} 
+			/>
+			<HomeStack.Screen 
+				name="VerticalSectionPaths" 
+				component={() => <VerticalSectionPaths />} 
+			/>
 		</HomeStack.Navigator>
 	);
 };
@@ -100,6 +108,18 @@ const SearchStackScreens = () => {
 	return (
 		<SearchStack.Navigator>
 			<SearchStack.Screen name="Search/Dashboard" component={Search} />
+			<SearchStack.Screen
+				name="VerticalSectionCourses"
+				component={() => <VerticalSectionCourses />}
+			/>
+			<SearchStack.Screen 
+				name="CourseDetail" 
+				component={() => <CourseDetail />} 
+			/>
+			<SearchStack.Screen 
+				name="AuthorDetail" 
+				component={() => <AuthorDetail />} 
+			/>
 		</SearchStack.Navigator>
 	);
 };
@@ -117,7 +137,7 @@ const SettingsStackScreens = () => {
 
 const MainTabNavigator = () => {
     return (
-        <MainTab.Navigator initialRouteName="Search" screenOptions={({ route }) => ({
+        <MainTab.Navigator initialRouteName="Home" screenOptions={({ route }) => ({
 			tabBarIcon: ({ focused, color, size }) => {
 			  let iconName;
   
