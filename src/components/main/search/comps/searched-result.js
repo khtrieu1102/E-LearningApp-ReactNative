@@ -1,13 +1,18 @@
 import React from "react";
 import { TouchableOpacity, Text, SectionList, View } from "react-native";
-import { TabView, SceneMap } from 'react-native-tab-view';
+import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 
-// import "../../../cores/section-authors/horizontal-section-authors"
+import VerticalSectionAuthors from "../../../cores/section-authors/vertical-section-authors"
 import VerticalSectionCourses from "../../../cores/section-courses/vertical-section-courses"
+import HorizontalSectionAuthors from "../../../cores/section-authors/horizontal-section-authors"
+import HorizontalSectionCourses from "../../../cores/section-courses/horizontal-section-courses"
 
 const SearchedResult = (props) => {
 	const TabAllResult = () => (
-		<Text>All result</Text>
+        <View>
+            <HorizontalSectionCourses header="Courses results" />
+            <HorizontalSectionAuthors header="Authors results" />
+        </View>
 	);
 
     const TabCourses = () => (
@@ -15,7 +20,7 @@ const SearchedResult = (props) => {
     );
         
     const TabAuthors = () => (
-        <Text>Authors result</Text>
+        <VerticalSectionAuthors />
     );
 
 	const [index, setIndex] = React.useState(0);
@@ -37,7 +42,16 @@ const SearchedResult = (props) => {
 				navigationState={{ index, routes }}
 				renderScene={renderScene}
 				onIndexChange={setIndex}
-				initialLayout={{height: 300, background: "white"}}
+                initialLayout={{height: 300, background: "white"}}
+                renderTabBar={props => <TabBar 
+                    style={{backgroundColor: "white"}} 
+                    renderLabel={({ route, focused, color }) => (
+                        <Text style={{ color:'black', margin: 8 }}>
+                          {route.title.toUpperCase()}
+                        </Text>
+                    )}                 
+                    {...props} 
+                />}
 			/>
 		</>
 	);

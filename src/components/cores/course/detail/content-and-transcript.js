@@ -1,6 +1,6 @@
 import React from "react";
 import { TouchableOpacity, Text, SectionList, View } from "react-native";
-import { TabView, SceneMap } from 'react-native-tab-view';
+import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 
 const Detail = (props) => {
 	const ContentsData = [
@@ -76,20 +76,6 @@ const Detail = (props) => {
 	  first: ContentsComponent,
 	  second: TranscriptComponent,
 	});
-  
-	const renderTabBar = () => {
-		return (
-			<View>
-				{routes.map((route, i) => {
-					return (
-						<TouchableOpacity onPress={() => {setIndex(i)}}>
-							{route.title}
-						</TouchableOpacity>
-					)
-				})}
-			</View>
-		)
-	}
 
 	return (
 		<>
@@ -98,6 +84,15 @@ const Detail = (props) => {
 				renderScene={renderScene}
 				onIndexChange={setIndex}
 				initialLayout={{height: 300, background: "white"}}
+				renderTabBar={props => <TabBar 
+                    style={{backgroundColor: "white"}} 
+                    renderLabel={({ route, focused, color }) => (
+                        <Text style={{ color:'black', margin: 8 }}>
+                          {route.title.toUpperCase()}
+                        </Text>
+                    )}                 
+                    {...props} 
+                />}
 			/>
 		</>
 	);
