@@ -12,6 +12,7 @@ import VerticalSectionPaths from '../cores/section-paths/vertical-section-paths'
 
 import Browse from "./browse/browse.view";
 import Settings from "./settings/settings.view"
+import Search from "./search/search.view"
 
 import AuthorDetail from "../cores/author/author-detail"
 import SkillDetail from "../cores/section-skills/skill-detail";
@@ -98,7 +99,7 @@ const SearchStack = createStackNavigator();
 const SearchStackScreens = () => {
 	return (
 		<SearchStack.Navigator>
-			<SearchStack.Screen name="Search/Dashboard" component={Browse} />
+			<SearchStack.Screen name="Search/Dashboard" component={Search} />
 		</SearchStack.Navigator>
 	);
 };
@@ -116,7 +117,7 @@ const SettingsStackScreens = () => {
 
 const MainTabNavigator = () => {
     return (
-        <MainTab.Navigator initialRouteName="Home" screenOptions={({ route }) => ({
+        <MainTab.Navigator initialRouteName="Search" screenOptions={({ route }) => ({
 			tabBarIcon: ({ focused, color, size }) => {
 			  let iconName;
   
