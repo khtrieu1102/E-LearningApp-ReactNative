@@ -2,6 +2,7 @@ import React from "react";
 import { View, ScrollView } from "react-native";
 
 import HorizontalSectionCourses from "../../cores/section-courses/horizontal-section-courses"
+import HorizontalSectionPaths from "../../cores/section-paths/horizontal-section-paths"
 
 const Home = (props) => {
 	const backgroundColor = "white";
@@ -13,9 +14,8 @@ const Home = (props) => {
 			}}
 		>
 			<HorizontalSectionCourses header="Continue Learning" />
-			{/* <SectionPaths navigation={navigation} header="Paths" /> */}
+			<HorizontalSectionPaths header="Paths" />
 			<HorizontalSectionCourses header="Channels" />
-			<HorizontalSectionCourses header="Bookmarks" />
 			<HorizontalSectionCourses header="Bookmarks" />
 		</ScrollView>
 	);
