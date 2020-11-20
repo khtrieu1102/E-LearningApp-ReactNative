@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, Button, TouchableOpacity } from "react-native";
+import { View, Text, TextInput, Image, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from '@react-navigation/native';
 
@@ -25,6 +25,10 @@ const Login = () => {
 				height: "100%",
 			}}
 		>
+			<Image
+					style={{ height: "50px", paddingBottom: 100 }}
+					source={require("../assets/fit-hcmus-logo.png")}
+				/>
 			<Text style={{ color: textColor }}>Email</Text>
 			<TextInput
 				style={{

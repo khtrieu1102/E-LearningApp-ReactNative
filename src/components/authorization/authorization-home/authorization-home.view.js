@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, Image, TouchableOpacity } from "react-native";
 import { useNavigation } from '@react-navigation/native';
 
 const AuthorizationHome = () => {
@@ -16,6 +16,10 @@ const AuthorizationHome = () => {
 					width: 250,
 				}}
 			>
+				<Image
+					style={{ height: "50px", paddingBottom: 100 }}
+					source={require("../assets/fit-hcmus-logo.png")}
+				/>
 				<TouchableOpacity
 					style={{
 						backgroundColor: "#6998f5",

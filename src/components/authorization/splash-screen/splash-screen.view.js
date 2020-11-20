@@ -1,18 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, TextInput, Button, TouchableOpacity } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import { View, Text, Image } from "react-native";
 import { useNavigation } from '@react-navigation/native';
 
 const SplashScreen = () => {	
     const navigation = useNavigation();
     const [timer, setTimer] = useState(0);
-    const [title, setTitle] = useState("loading...");
+    const [title, setTitle] = useState("Loading...");
     const textColor = "black";
 
     useEffect(() => {
         const interval = setInterval(() => {
             setTimer(c => c + 1);
-            setTitle(`loading ${timer}%...`);
+            setTitle(`Loading ${timer}%...`);
         }, 50);
         if (timer == 100) {
             clearInterval(interval);
@@ -32,13 +31,16 @@ const SplashScreen = () => {
 			style={{
 				flexDirection: "column",
 				justifyContent: "center",
-				alignItems: "stretch",
+				alignItems: "center",
 				maxWidth: 500,
-				marginLeft: "5%",
-				marginRight: "5%",
-				height: "100%",
+                height: "100%",
+                backgroundColor: "white"
 			}}
 		>
+            <Image
+                style={{ height: "50px", paddingBottom: 100 }}
+                source={require("../assets/fit-hcmus-logo.png")}
+            />
 			<Text style={{ color: textColor }}>{title}</Text>
 		</View>
 	);
