@@ -1,6 +1,7 @@
 import React from "react";
 import { TouchableOpacity, Text, View } from "react-native";
 import { NavigationContainer, useNavigation } from "@react-navigation/native";
+import { Ionicons } from "@expo/vector-icons";
 
 import Description from "../../description/description";
 
@@ -12,7 +13,7 @@ const Actions = (props) => {
 		// navigation.navigate("AuthorDetail", { authorDetails: authorDetails });
 	};
 
-	const CircleButton = ({ buttonName, handlePress }) => (
+	const CircleButton = ({ buttonName, iconName, handlePress }) => (
 		<TouchableOpacity
 			style={{
 				marginRight: 20,
@@ -26,9 +27,18 @@ const Actions = (props) => {
 					width: 50, 
 					height: 50,
 					backgroundColor: "#dedede",
+					alignItems: "center"
 				}}
 				onPress={handlePress}
-			/>
+			>
+				<Ionicons
+					style={{ alignSelf: "center", 
+					flex: 1,}}
+					name={iconName}
+					size={32}
+					color="#8a92a1"
+				/>
+			</TouchableOpacity>
 			<View>
 				<Text style={{ alignSelf: "center" }}>{buttonName}</Text>
 			</View>
@@ -69,9 +79,9 @@ const Actions = (props) => {
 					paddingTop: 10,
 				}}
 			>
-				<CircleButton handlePress={handlePress} buttonName="Bookmark" />
-				<CircleButton handlePress={handlePress} buttonName="Channel" />
-				<CircleButton handlePress={onAddToFavorite} buttonName="Downloads" />
+				<CircleButton handlePress={handlePress} iconName="ios-add" buttonName="Bookmark" />
+				<CircleButton handlePress={handlePress} iconName="ios-add" buttonName="Channel" />
+				<CircleButton handlePress={onAddToFavorite} iconName="ios-heart" buttonName="Downloads" />
 				{/* <CircleButton
 					handlePress={onAddToFavorite}
 					buttonName="Remove downloads"
