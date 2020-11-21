@@ -18,164 +18,178 @@ import AuthorDetail from "../cores/author/author-detail"
 import SkillDetail from "../cores/section-skills/skill-detail";
 import FullSkillTopic from "../cores/section-skills/full-skill-topic";
 
-const MainTab = createBottomTabNavigator();
-
-const HomeStack = createStackNavigator();
-const HomeStackScreens = () => {
-	return (
-		<HomeStack.Navigator>
-			<HomeStack.Screen name="Home/Dashboard" component={Home} />
-			<HomeStack.Screen
-				name="VerticalSectionCourses"
-				component={() => <VerticalSectionCourses />}
-			/>
-			<HomeStack.Screen 
-				name="CourseDetail" 
-				component={() => <CourseDetail />} 
-			/>
-			<HomeStack.Screen 
-				name="AuthorDetail" 
-				component={() => <AuthorDetail />} 
-			/>
-			<HomeStack.Screen 
-				name="PathDetail" 
-				component={() => <PathDetail />} 
-			/>
-			<HomeStack.Screen 
-				name="VerticalSectionPaths" 
-				component={() => <VerticalSectionPaths />} 
-			/>
-		</HomeStack.Navigator>
-	);
-};
-
-const FavoriteStack = createStackNavigator();
-const FavoriteStackScreens = () => {
-	return (
-		<FavoriteStack.Navigator>
-			<FavoriteStack.Screen name="FavoriteCourse/Dashboard" component={FavoriteCourse} />
-			<FavoriteStack.Screen 
-				name="CourseDetail" 
-				component={() => <CourseDetail />} 
-			/>
-			<HomeStack.Screen 
-				name="AuthorDetail" 
-				component={() => <AuthorDetail />} 
-			/>
-		</FavoriteStack.Navigator>
-	);
-};
-
-const BrowseStack = createStackNavigator();
-const BrowseStackScreens = () => {
-	return (
-		<BrowseStack.Navigator>
-			<BrowseStack.Screen name="Browse/Dashboard" component={Browse} />
-			<BrowseStack.Screen
-				name="VerticalSectionCourses"
-				component={() => <VerticalSectionCourses />}
-			/>
-			<BrowseStack.Screen 
-				name="CourseDetail" 
-				component={() => <CourseDetail />} 
-			/>
-			<BrowseStack.Screen 
-				name="PathDetail" 
-				component={() => <PathDetail />} 
-			/>
-			<BrowseStack.Screen 
-				name="VerticalSectionPaths" 
-				component={() => <VerticalSectionPaths />} 
-			/>
-			<BrowseStack.Screen 
-				name="AuthorDetail" 
-				component={() => <AuthorDetail />} 
-			/>
-			<BrowseStack.Screen 
-				name="FullSkillTopic" 
-				component={() => <FullSkillTopic />} 
-			/>
-			<BrowseStack.Screen 
-				name="SkillDetail" 
-				component={() => <SkillDetail />} 
-			/>
-		</BrowseStack.Navigator>
-	);
-};
-
-const SearchStack = createStackNavigator();
-const SearchStackScreens = () => {
-	return (
-		<SearchStack.Navigator>
-			<SearchStack.Screen name="Search/Dashboard" component={Search} />
-			<SearchStack.Screen
-				name="VerticalSectionCourses"
-				component={() => <VerticalSectionCourses />}
-			/>
-			<SearchStack.Screen 
-				name="CourseDetail" 
-				component={() => <CourseDetail />} 
-			/>
-			<SearchStack.Screen 
-				name="AuthorDetail" 
-				component={() => <AuthorDetail />} 
-			/>
-		</SearchStack.Navigator>
-	);
-};
-
-const SettingsStack = createStackNavigator();
-const SettingsStackScreens = () => {
-	return (
-		<SettingsStack.Navigator>
-			<SettingsStack.Screen name="Settings/Dashboard" component={Settings} />
-		</SettingsStack.Navigator>
-	);
-};
-
-
+import { useSelector, useDispatch } from "react-redux";
 
 const MainTabNavigator = () => {
+    const appSettingsReducer = useSelector((state) => state.appSettingsReducer);
+	const { theme } = appSettingsReducer;
+	const MainTab = createBottomTabNavigator();
+
+	const HomeStack = createStackNavigator();
+	const FavoriteStack = createStackNavigator();
+	const BrowseStack = createStackNavigator();
+	const SearchStack = createStackNavigator();
+	const SettingsStack = createStackNavigator();
+
+	const headerStyleOptions = {
+		headerStyle: {
+			backgroundColor: theme.primaryBackgroundColor,
+		},
+		headerTintColor: theme.primaryTextColor,
+		headerTitleStyle: {
+			fontWeight: 'bold',
+		},
+	}
+
+	const HomeStackScreens = () => {
+		return (
+			<HomeStack.Navigator screenOptions={headerStyleOptions}>
+				<HomeStack.Screen name="Home/Dashboard" component={Home} />
+				<HomeStack.Screen
+					name="VerticalSectionCourses"
+					component={() => <VerticalSectionCourses />}
+					options={({ route }) => ({ title: route.params.header })}
+				/>
+				<HomeStack.Screen 
+					name="CourseDetail" 
+					component={() => <CourseDetail />} 
+				/>
+				<HomeStack.Screen 
+					name="AuthorDetail" 
+					component={() => <AuthorDetail />} 
+				/>
+				<HomeStack.Screen 
+					name="PathDetail" 
+					component={() => <PathDetail />} 
+				/>
+				<HomeStack.Screen 
+					name="VerticalSectionPaths" 
+					component={() => <VerticalSectionPaths />} 
+				/>
+			</HomeStack.Navigator>
+		);
+	};
+
+	const FavoriteStackScreens = () => {
+		return (
+			<FavoriteStack.Navigator screenOptions={headerStyleOptions}>
+				<FavoriteStack.Screen name="FavoriteCourse/Dashboard" component={FavoriteCourse} />
+				<FavoriteStack.Screen 
+					name="CourseDetail" 
+					component={() => <CourseDetail />} 
+				/>
+				<HomeStack.Screen 
+					name="AuthorDetail" 
+					component={() => <AuthorDetail />} 
+				/>
+			</FavoriteStack.Navigator>
+		);
+	};
+
+	const BrowseStackScreens = () => {
+		return (
+			<BrowseStack.Navigator screenOptions={headerStyleOptions}>
+				<BrowseStack.Screen name="Browse/Dashboard" component={Browse} />
+				<BrowseStack.Screen
+					name="VerticalSectionCourses"
+					component={() => <VerticalSectionCourses />}
+				/>
+				<BrowseStack.Screen 
+					name="CourseDetail" 
+					component={() => <CourseDetail />} 
+				/>
+				<BrowseStack.Screen 
+					name="PathDetail" 
+					component={() => <PathDetail />} 
+				/>
+				<BrowseStack.Screen 
+					name="VerticalSectionPaths" 
+					component={() => <VerticalSectionPaths />} 
+				/>
+				<BrowseStack.Screen 
+					name="AuthorDetail" 
+					component={() => <AuthorDetail />} 
+				/>
+				<BrowseStack.Screen 
+					name="FullSkillTopic" 
+					component={() => <FullSkillTopic />} 
+				/>
+				<BrowseStack.Screen 
+					name="SkillDetail" 
+					component={() => <SkillDetail />} 
+				/>
+			</BrowseStack.Navigator>
+		);
+	};
+
+	const SearchStackScreens = () => {
+		return (
+			<SearchStack.Navigator screenOptions={headerStyleOptions}>
+				<SearchStack.Screen name="Search/Dashboard" component={Search} />
+				<SearchStack.Screen
+					name="VerticalSectionCourses"
+					component={() => <VerticalSectionCourses />}
+				/>
+				<SearchStack.Screen 
+					name="CourseDetail" 
+					component={() => <CourseDetail />} 
+				/>
+				<SearchStack.Screen 
+					name="AuthorDetail" 
+					component={() => <AuthorDetail />} 
+				/>
+			</SearchStack.Navigator>
+		);
+	};
+
+	const SettingsStackScreens = () => {
+		return (
+			<SettingsStack.Navigator screenOptions={headerStyleOptions}>
+				<SettingsStack.Screen name="Settings/Dashboard" component={Settings} />
+			</SettingsStack.Navigator>
+		);
+	};
+
     return (
-        <MainTab.Navigator initialRouteName="Home" screenOptions={({ route }) => ({
-			tabBarIcon: ({ focused, color, size }) => {
-			  let iconName;
-  
-			  switch (route.name) {
-				case 'Home': {
-					iconName = focused
-					  ? 'ios-home'
-					  : 'ios-home';
-					  break;
-				} 
-				case 'FavoriteCourse': {
-					iconName = focused ? 'ios-download' : 'ios-download';
-					break;
+		<MainTab.Navigator initialRouteName="Home" 
+			screenOptions={({ route }) => ({
+				tabBarIcon: ({ focused, color, size }) => {
+				let iconName;
+	
+				switch (route.name) {
+					case 'Home': {
+						iconName = focused
+						? 'ios-home'
+						: 'ios-home';
+						break;
+					} 
+					case 'FavoriteCourse': {
+						iconName = focused ? 'ios-download' : 'ios-download';
+						break;
+					}
+					case 'Browse': {
+						iconName = 'ios-grid';
+						break;
+					}
+					case 'Search': {
+						iconName = 'ios-search';
+						break;
+					}
+					case 'Settings': {
+						iconName = 'ios-settings';
+						break;
+					}
+					default:
 				}
-				case 'Browse': {
-					iconName = 'ios-grid';
-					break;
+				// You can return any component that you like here!
+				return <Ionicons name={iconName} size={size} color={color} />;
 				}
-				case 'Search': {
-					iconName = 'ios-search';
-					break;
-				}
-				case 'Settings': {
-					iconName = 'ios-settings';
-					break;
-				}
-				default:
-			  }
-			  
-  
-			  // You can return any component that you like here!
-			  return <Ionicons name={iconName} size={size} color={color} />;
-			},
-		  })}
-		  tabBarOptions={{
-			activeTintColor: 'tomato',
-			inactiveTintColor: 'gray',
-		  }}>
+		  	})}
+			tabBarOptions={{
+				activeTintColor: 'tomato',
+				inactiveTintColor: 'gray',
+			}}
+		>
             <MainTab.Screen name="Home" component={HomeStackScreens} />
             <MainTab.Screen name="FavoriteCourse" component={FavoriteStackScreens} />
             <MainTab.Screen name="Browse" component={BrowseStackScreens} />
