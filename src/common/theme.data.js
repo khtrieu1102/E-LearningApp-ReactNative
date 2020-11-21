@@ -2,14 +2,14 @@ const theme = {
 	light: {
         primaryBackgroundColor: "white",
         primaryTextColor: "black",
-        secondaryBackgroundColor: "",
-        secondaryTextColor: "blue"
+        secondaryBackgroundColor: "#6998f5",
+        secondaryTextColor: "#6998f5"
     },
     dark: {
         primaryBackgroundColor: "black",
         primaryTextColor: "white",
-        secondaryBackgroundColor: "",
-        secondaryTextColor: "blue"
+        secondaryBackgroundColor: "#6998f5",
+        secondaryTextColor: "#6998f5"
     }
 }
 

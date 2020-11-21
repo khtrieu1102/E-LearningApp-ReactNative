@@ -2,11 +2,15 @@ import React, { useEffect, useState } from "react";
 import { View, Text, Image } from "react-native";
 import { useNavigation } from '@react-navigation/native';
 
+import { useSelector, useDispatch } from 'react-redux';
+
 const SplashScreen = () => {	
+    const appSettingsReducer = useSelector((state) => state.appSettingsReducer);
+    const { theme } = appSettingsReducer;
+
     const navigation = useNavigation();
-    const [timer, setTimer] = useState(0);
+    const [timer, setTimer] = useState(90);
     const [title, setTitle] = useState("Loading...");
-    const textColor = "black";
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -34,14 +38,14 @@ const SplashScreen = () => {
 				alignItems: "center",
 				maxWidth: 500,
                 height: "100%",
-                backgroundColor: "white"
+                backgroundColor: theme.primaryBackgroundColor
 			}}
 		>
             <Image
                 style={{ height: "50px", paddingBottom: 100 }}
                 source={require("../assets/fit-hcmus-logo.png")}
             />
-			<Text style={{ color: textColor }}>{title}</Text>
+			<Text style={{ color: theme.primaryTextColor }}>{title}</Text>
 		</View>
 	);
 };
