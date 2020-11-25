@@ -1,4 +1,5 @@
 import React from "react";
+import { View } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -33,16 +34,23 @@ const MainTabNavigator = () => {
 
 	const headerStyleOptions = {
 		headerStyle: {
-			backgroundColor: theme.primaryBackgroundColor,
+			backgroundColor: "transparent",
 		},
 		headerTintColor: theme.primaryTextColor,
 		headerTitleStyle: {
 			fontWeight: 'bold',
 		},
+		cardStyle: {
+			paddingLeft: "3%",
+			paddingBottom: "3%",
+			paddingRight: "3%",
+			backgroundColor: theme.primaryBackgroundColor,
+		}
 	}
 
 	const HomeStackScreens = () => {
 		return (
+			
 			<HomeStack.Navigator screenOptions={headerStyleOptions}>
 				<HomeStack.Screen name="Home/Dashboard" component={Home} />
 				<HomeStack.Screen
@@ -66,6 +74,7 @@ const MainTabNavigator = () => {
 					name="VerticalSectionPaths" 
 					component={() => <VerticalSectionPaths />} 
 				/>
+			
 			</HomeStack.Navigator>
 		);
 	};
@@ -154,47 +163,48 @@ const MainTabNavigator = () => {
 		<MainTab.Navigator initialRouteName="Home" 
 			screenOptions={({ route }) => ({
 				tabBarIcon: ({ focused, color, size }) => {
-				let iconName;
-	
-				switch (route.name) {
-					case 'Home': {
-						iconName = focused
-						? 'ios-home'
-						: 'ios-home';
-						break;
-					} 
-					case 'FavoriteCourse': {
-						iconName = focused ? 'ios-download' : 'ios-download';
-						break;
+					let iconName;
+		
+					switch (route.name) {
+						case 'Home': {
+							iconName = focused
+							? 'ios-home'
+							: 'ios-home';
+							break;
+						} 
+						case 'FavoriteCourse': {
+							iconName = focused ? 'ios-download' : 'ios-download';
+							break;
+						}
+						case 'Browse': {
+							iconName = 'ios-grid';
+							break;
+						}
+						case 'Search': {
+							iconName = 'ios-search';
+							break;
+						}
+						case 'Settings': {
+							iconName = 'ios-settings';
+							break;
+						}
+						default:
 					}
-					case 'Browse': {
-						iconName = 'ios-grid';
-						break;
-					}
-					case 'Search': {
-						iconName = 'ios-search';
-						break;
-					}
-					case 'Settings': {
-						iconName = 'ios-settings';
-						break;
-					}
-					default:
+					// You can return any component that you like here!
+					return <Ionicons name={iconName} size={size} color={color} />;
 				}
-				// You can return any component that you like here!
-				return <Ionicons name={iconName} size={size} color={color} />;
-				}
-		  	})}
+			})}
+			style
 			tabBarOptions={{
 				activeTintColor: 'tomato',
 				inactiveTintColor: 'gray',
 			}}
 		>
-            <MainTab.Screen name="Home" component={HomeStackScreens} />
-            <MainTab.Screen name="FavoriteCourse" component={FavoriteStackScreens} />
-            <MainTab.Screen name="Browse" component={BrowseStackScreens} />
-            <MainTab.Screen name="Search" component={SearchStackScreens} />
-            <MainTab.Screen name="Settings" component={SettingsStackScreens} />
+			<MainTab.Screen name="Home" component={HomeStackScreens} />
+			<MainTab.Screen name="FavoriteCourse" component={FavoriteStackScreens} />
+			<MainTab.Screen name="Browse" component={BrowseStackScreens} />
+			<MainTab.Screen name="Search" component={SearchStackScreens} />
+			<MainTab.Screen name="Settings" component={SettingsStackScreens} />
         </MainTab.Navigator>
     );
 }

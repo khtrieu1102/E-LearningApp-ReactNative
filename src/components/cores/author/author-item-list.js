@@ -2,8 +2,11 @@ import React from "react";
 import { useNavigation } from "@react-navigation/native";
 import { View, Text, TouchableOpacity, Image } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { useSelector } from "react-redux";
 
 const AuthorItemList = ({ authorDetails }) => {
+	const appSettingsReducer = useSelector((state) => state.appSettingsReducer);
+	const { theme } = appSettingsReducer;
 	const { id, authorName, amount } = authorDetails;
 	const navigation = useNavigation();
 
@@ -15,7 +18,6 @@ const AuthorItemList = ({ authorDetails }) => {
 		<View>
 			<View
 				style={{
-					backgroundColor: "white",
 					flexDirection: "row",
 					paddingTop: 10,
 				}}
@@ -23,7 +25,6 @@ const AuthorItemList = ({ authorDetails }) => {
 				<TouchableOpacity
 					style={{
 						width: "90%",
-						backgroundColor: "white",
 						flexDirection: "row",
 						justifyContent: "flex-start",
 						marginBottom: 10,
@@ -42,6 +43,7 @@ const AuthorItemList = ({ authorDetails }) => {
 							style={{
 								fontWeight: "bold",
 								marginBottom: 5,
+								color: theme.primaryTextColor
 							}}
 						>
 							{authorName}

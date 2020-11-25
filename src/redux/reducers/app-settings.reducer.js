@@ -2,7 +2,7 @@ import actionTypes from "../action-types";
 import theme from "../../common/theme.data"
 
 const initialState = {
-	theme: theme["light"],
+	theme: theme["dark"],
 };
 
 const authorizationReducer = (state = initialState, action) => {

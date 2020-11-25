@@ -5,35 +5,32 @@ import { NavigationContainer } from '@react-navigation/native';
 import AuthorizationStack from "./src/components/authorization/authorizationStack"
 import MainTabNavigation from "./src/components/main/mainNavigation"
 
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 export default function App() {
   const authorizationReducer = useSelector((state) => state.authorizationReducer);
-  const dispatch = useDispatch();
+  const appSettingsReducer = useSelector((state) => state.appSettingsReducer);
+  const { theme } = appSettingsReducer;
   const { isAuthenticated, role } = authorizationReducer;
 
   return (
-      <NavigationContainer style={{backgroundColor: "white"}}>
+      <NavigationContainer>
         { !isAuthenticated && 
-          <View style={{ flex: 1, backgroundColor: "white" }}>
+          <View style={{ flex: 1, backgroundColor: theme.primaryBackgroundColor }}>
             <AuthorizationStack />
           </View>
         }
 
         {
           isAuthenticated && 
-          <View style={styles.container}>
+          <View style={{
+              flex: 1,
+              backgroundColor: theme.primaryBackgroundColor,
+            }}
+          >
             <MainTabNavigation />
           </View>
         }
       </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'white',
-    padding: "3%"
-  },
-});

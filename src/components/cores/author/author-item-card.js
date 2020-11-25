@@ -1,8 +1,11 @@
 import React from "react";
 import { View, Text, TouchableOpacity, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { useSelector } from "react-redux"
 
 const AuthorItemCard = ({ authorDetails }) => {
+	const appSettingsReducer = useSelector((state) => state.appSettingsReducer);
+	const { theme } = appSettingsReducer;
 	const { id, authorName, position, description } = authorDetails;
 	const navigation = useNavigation();
 	const handlePress = () => {
@@ -27,7 +30,7 @@ const AuthorItemCard = ({ authorDetails }) => {
 				style={{ borderRadius: 50, width: 80, height: 80 }}
 			/>
 			<View style={{ marginTop: 10 }}>
-				<Text style={{ alignSelf: "center" }}>{authorName}</Text>
+				<Text style={{ alignSelf: "center", color: theme.primaryTextColor }}>{authorName}</Text>
 			</View>
 		</TouchableOpacity>
 	);

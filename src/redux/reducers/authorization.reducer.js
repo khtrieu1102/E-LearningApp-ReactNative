@@ -6,7 +6,7 @@ const initialState = {
 		refreshToken: "",
 	},
 	role: "",
-	isAuthenticated: false,
+	isAuthenticated: true,
 	isLoading: false,
 	error: false,
 };

@@ -4,11 +4,13 @@ import { View, ScrollView } from "react-native";
 import SectionCoursesHeader from "./section-courses-header";
 import CourseItemCard from "../course/course-item-card";
 import { useNavigation } from "@react-navigation/native"
+import { useSelector } from "react-redux";
 
-const HorizontalSectionCourses = ({ header }) => {
+const HorizontalSectionCourses = ({ header }) => {    
+	const appSettingsReducer = useSelector((state) => state.appSettingsReducer);
+	const { theme } = appSettingsReducer;
+
 	const navigation = useNavigation();
-	const backgroundColor = "white";
-	const textColor = "black";
 	const courses = [
 		{
 			id: 1,
@@ -93,14 +95,15 @@ const HorizontalSectionCourses = ({ header }) => {
 	];
 
 	const onSeeAll = () => {
-		navigation.navigate("VerticalSectionCourses", courses);
+		navigation.navigate("VerticalSectionCourses", {header, courses});
 		console.log(courses);
 	};
 
 	return (
-		<View style={{ backgroundColor: backgroundColor }}>
+		<View>
 			<SectionCoursesHeader
 				header={header}
+				textColor={theme.primaryTextColor}
 				showButtonSeeAll={true}
 				onSeeAll={onSeeAll}
 			/>

@@ -1,7 +1,11 @@
 import React from "react";
 import { View, Text } from "react-native";
+import { useSelector } from "react-redux"
 
 const SectionAuthorsHeader = ({ header, onSeeAll, showButtonSeeAll }) => {
+	const appSettingsReducer = useSelector((state) => state.appSettingsReducer);
+	const { theme } = appSettingsReducer;
+
 	return (
 		<View
 			style={{
@@ -11,7 +15,7 @@ const SectionAuthorsHeader = ({ header, onSeeAll, showButtonSeeAll }) => {
 				paddingBottom: 10,
 			}}
 		>
-			<Text style={{ fontSize: 18, fontWeight: "bold" }}>{header}</Text>
+			<Text style={{ fontSize: 18, fontWeight: "bold", color: theme.primaryTextColor }}>{header}</Text>
 		</View>
 	);
 };

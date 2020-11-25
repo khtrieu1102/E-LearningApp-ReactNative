@@ -9,7 +9,6 @@ const FavoriteCourses = (props) => {
 		<View
 			style={{
 				flex: 1,
-				backgroundColor: backgroundColor,
 			}}
 		>
 			<VerticalSectionCourses header="Your favorite courses" />

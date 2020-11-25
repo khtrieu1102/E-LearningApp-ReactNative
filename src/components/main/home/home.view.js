@@ -3,14 +3,17 @@ import { View, ScrollView } from "react-native";
 
 import HorizontalSectionCourses from "../../cores/section-courses/horizontal-section-courses"
 import HorizontalSectionPaths from "../../cores/section-paths/horizontal-section-paths"
+import { useSelector, useDispatch } from "react-redux";
 
 const Home = (props) => {
-	const backgroundColor = "white";
+	const appSettingsReducer = useSelector((state) => state.appSettingsReducer);
+	const { theme } = appSettingsReducer;
+
 	return (
 		<ScrollView
 			style={{
 				flex: 1,
-				backgroundColor: backgroundColor,
+				backgroundColor: theme.primaryBackgroundColor,
 			}}
 		>
 			<HorizontalSectionCourses header="Continue Learning" />

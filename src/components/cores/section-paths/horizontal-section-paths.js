@@ -5,8 +5,9 @@ import { useNavigation } from "@react-navigation/native";
 import SectionPathsHeader from "./section-paths-header";
 import PathCardItem from "../Path/path-card-item";
 
-const HorizontalSectionPaths = (props) => {
-	const { header, isMultipleSections } = props;
+
+const HorizontalSectionPaths = (props) => {    
+	const { header } = props;
 	const navigation = useNavigation();
 	const paths = [
 		{
@@ -48,14 +49,13 @@ const HorizontalSectionPaths = (props) => {
 	}
 
 	return (
-		<View style={{ paddingTop: 20 }}>
+		<View>
 			<SectionPathsHeader header={header} onSeeAll={onSeeAll} showButtonSeeAll={true}/>
 			<ScrollView horizontal={true}>
 				{paths.map((path, index) => (
 					<PathCardItem
 						key={index}
 						pathDetails={path}
-						navigation={navigation}
 					/>
 				))}
 			</ScrollView>

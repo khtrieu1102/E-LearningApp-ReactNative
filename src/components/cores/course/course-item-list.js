@@ -2,12 +2,15 @@ import React from "react";
 import { View, Text, TouchableOpacity, Image } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native"
+import { useSelector } from "react-redux"
 
 const CourseItemList = ({ courseDetails }) => {
+	const appSettingsReducer = useSelector((state) => state.appSettingsReducer);
+	const { theme } = appSettingsReducer;
+
 	const navigation = useNavigation();
 	const { id, title, author, level, released, duration } = courseDetails;
-	const backgroundColor = "white";
-	const textColor = "black";
+	const textColor = theme.primaryTextColor;
 
 	const handlePress = () => {
 		console.log("hello");
@@ -18,18 +21,17 @@ const CourseItemList = ({ courseDetails }) => {
 		<View>
 			<View
 				style={{
-					backgroundColor: backgroundColor,
+					backgroundColor: "transparent",
 					flexDirection: "row",
 					paddingTop: 10,
+					marginBottom: 10
 				}}
 			>
 				<TouchableOpacity
 					style={{
 						width: "90%",
-						backgroundColor: backgroundColor,
 						flexDirection: "row",
 						justifyContent: "flex-start",
-						marginBottom: 10,
 					}}
 					onPress={handlePress}
 				>

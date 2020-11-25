@@ -4,8 +4,10 @@ import { useRoute } from "@react-navigation/native";
 
 import SectionCoursesHeader from "./section-courses-header";
 import CourseItemList from "../course/course-item-list";
+import { useSelector } from "react-redux";
 
 const VerticalSectionCourses = ({ header }) => {
+
 	const route = useRoute();
 	const courses = route?.params?.courses;
 	let tempCourses;

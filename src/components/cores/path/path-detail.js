@@ -216,7 +216,7 @@ const PathDetail = ({ }) => {
 				</View>
 			</View>
 			<Description description={description} />
-			<VerticalSectionCourses navigation={navigation} />
+			<VerticalSectionCourses />
 		</ScrollView>
 	);
 };

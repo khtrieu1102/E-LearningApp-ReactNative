@@ -1,8 +1,12 @@
 import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import { View, Text, TouchableOpacity, Image } from "react-native";
+import { useSelector } from "react-redux"
 
 const CourseItemCard = (props) => {
+	const appSettingsReducer = useSelector((state) => state.appSettingsReducer);
+	const { theme } = appSettingsReducer;
+
 	const navigation = useNavigation();
 	const { courseDetails } = props;
 	const {
@@ -24,7 +28,7 @@ const CourseItemCard = (props) => {
 				marginRight: 20,
 				height: 220,
 				width: 220,
-				backgroundColor: "#ebf2ff",
+				backgroundColor: theme.courseItemColor,
 				shadowColor: "black",
 				shadowOffset: {
 					width: 5,

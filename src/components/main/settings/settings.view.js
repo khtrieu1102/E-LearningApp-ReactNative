@@ -12,7 +12,6 @@ const Settings = () => {
 		<View
 			style={{
 				height: "100%",
-				backgroundColor: "white"
 			}}
 		>
 			<FullWidthButton text="Profile Information" onPress={() => console.log("HE")}/>

@@ -2,11 +2,13 @@ import React, { useState } from "react";
 import { View, Text, TextInput, Image, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from '@react-navigation/native';
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import actionCreators from '../../../redux/action-creators';
 
 const Login = () => {	
     const appSettingsReducer = useSelector((state) => state.appSettingsReducer);
 	const { theme } = appSettingsReducer;
+	const dispatch = useDispatch();
 
 	const navigation = useNavigation();
 	const [formData, setFormData] = useState({
@@ -15,7 +17,10 @@ const Login = () => {
 	});
 
 	const onSubmit = () => {
-		console.log(formData.email, formData.password);
+		if (formData.email && formData.password) {
+			console.log(formData.email, formData.password);
+			dispatch(actionCreators.authorization.setIsAuthenticated(true));
+		}
 	}
 	return (
 		<View style={{flex: 1, alignItems: "center", backgroundColor: theme.primaryBackgroundColor}}>

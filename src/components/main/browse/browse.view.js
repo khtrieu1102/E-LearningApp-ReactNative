@@ -8,12 +8,10 @@ import FeatureCard from "../../cores/feature/feature-card";
 import HorizontalSectionSkills from "../../cores/section-skills/horizontal-section-skills";
 
 const Browse = (props) => {
-	const backgroundColor = "white";
 	return (
 		<ScrollView
 			style={{
 				flex: 1,
-				backgroundColor: backgroundColor,
 			}}
 		>
 			<FeatureCard title="NEW" />

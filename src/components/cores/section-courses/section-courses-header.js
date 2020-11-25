@@ -2,9 +2,12 @@ import React from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 
 import { Ionicons } from "@expo/vector-icons";
+import { useSelector } from "react-redux"
 
 const SectionCoursesHeader = ({ header, onSeeAll, showButtonSeeAll }) => {
-	const textColor = "black";
+	const appSettingsReducer = useSelector((state) => state.appSettingsReducer);
+	const { theme } = appSettingsReducer;
+
 	return (
 		<View
 			style={{
@@ -14,7 +17,7 @@ const SectionCoursesHeader = ({ header, onSeeAll, showButtonSeeAll }) => {
 				marginTop: 10
 			}}
 		>
-			<Text style={{ fontSize: 18, fontWeight: "bold", color: textColor }}>{header}</Text>
+			<Text style={{ fontSize: 18, fontWeight: "bold", color: theme.primaryTextColor }}>{header}</Text>
 			{showButtonSeeAll && <TouchableOpacity
 				style={{
 					backgroundColor: "#dedede",
