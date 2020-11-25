@@ -1,10 +1,15 @@
 import React from "react";
 import { Text, ScrollView, Image, View, Button } from "react-native";
+import { useSelector } from "react-redux"
 
 import VerticalSectionCourses from "../section-courses/vertical-section-courses";
 import Description from "../description/description";
 
 const AuthorDetail = ({ route }) => {
+	const appSettingsReducer = useSelector((state) => state.appSettingsReducer);
+	const { theme } = appSettingsReducer;
+	const textColor = theme.primaryTextColor;
+
     const authorDetails = {			
         id: 1,
         authorName: "Tom Rivett",
@@ -170,7 +175,7 @@ const AuthorDetail = ({ route }) => {
 
 	return (
 		<ScrollView
-			style={{ flex: 1, backgroundColor: "white" }}
+			style={{ flex: 1}}
 		>
 			<View
 				style={{
@@ -192,6 +197,7 @@ const AuthorDetail = ({ route }) => {
 						paddingTop: 5,
 						fontWeight: "bold",
 						fontSize: 17,
+						color: textColor
 					}}
 				>
 					{authorDetails.authorName}
@@ -201,6 +207,7 @@ const AuthorDetail = ({ route }) => {
 						alignSelf: "center",
                         fontSize: 14,
                         paddingBottom: 10,
+						color: textColor
 					}}
 				>
 					{authorDetails.position}
@@ -223,6 +230,7 @@ const AuthorDetail = ({ route }) => {
 						textAlign: "center",
 						marginTop: 10,
 						fontSize: 14,
+						color: textColor
 					}}
 				>
 					Follow to be notified when new courses are published

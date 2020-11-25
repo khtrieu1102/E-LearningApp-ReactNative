@@ -1,7 +1,12 @@
 import React, { useState } from "react";
 import { Text, View } from "react-native";
+import { useSelector } from "react-redux";
 
 const Description = ({ description }) => {
+	const appSettingsReducer = useSelector((state) => state.appSettingsReducer);
+	const { theme } = appSettingsReducer;
+	const textColor = theme.primaryTextColor;
+
 	const [isShowFullDescription, setIsShowFullDescription] = useState(true);
 	const [lineToShow, setLineToShow] = useState(3);
 
@@ -14,7 +19,7 @@ const Description = ({ description }) => {
 
 	return (
 		<View style={{ paddingTop: 10 }}>
-			<Text numberOfLines={lineToShow} style={{ fontSize: 16 }}>
+			<Text numberOfLines={lineToShow} style={{ fontSize: 16, color: textColor }}>
 				{description}
 				{"\n"}
 			</Text>

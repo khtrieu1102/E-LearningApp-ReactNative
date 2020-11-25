@@ -4,8 +4,13 @@ import { Text, ScrollView, Image, View, TouchableOpacity } from "react-native";
 import VerticalSectionCourses from "../section-courses/vertical-section-courses";
 import Description from "../description/description";
 import { useNavigation, useRoute } from "@react-navigation/native";
+import { useSelector } from "react-redux"
 
 const PathDetail = ({ }) => {
+	const appSettingsReducer = useSelector((state) => state.appSettingsReducer);
+	const { theme } = appSettingsReducer;
+	const textColor = theme.primaryTextColor;
+	const backgroundColor = theme.primaryBackgroundColor;
 	
 	const route = useRoute();
 	const {
@@ -173,19 +178,18 @@ const PathDetail = ({ }) => {
 
 	return (
 		<ScrollView
-			style={{ flex: 1, backgroundColor: "white" }}
+			style={{ flex: 1 }}
 		>
 			<View
 				style={{
-					backgroundColor: "white",
 					flexDirection: "row",
 					paddingTop: 10,
 				}}
 			>
 				<View
 					style={{
-						width: "90%",
-						backgroundColor: "white",
+						width: "100%",
+						backgroundColor: backgroundColor,
 						flexDirection: "row",
 						justifyContent: "flex-start",
 						marginBottom: 10,
@@ -204,6 +208,7 @@ const PathDetail = ({ }) => {
 								fontWeight: "bold",
 								marginBottom: 5,
 								fontSize: 30,
+								color: textColor
 							}}
 							numberOfLines={1}
 						>

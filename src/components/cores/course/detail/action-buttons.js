@@ -2,10 +2,16 @@ import React from "react";
 import { TouchableOpacity, Text, View } from "react-native";
 import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
+import { useSelector } from "react-redux";
 
 import Description from "../../description/description";
 
 const Actions = (props) => {
+	const appSettingsReducer = useSelector((state) => state.appSettingsReducer);
+	const { theme } = appSettingsReducer;
+	const textColor = theme.primaryTextColor;
+	const backgroundColor = theme.primaryBackgroundColor;
+
 	const navigation = useNavigation();
 	const { description, onAddToFavorite, onRemoveFromFavorite } = props;
 	const handlePress = () => {
@@ -16,7 +22,6 @@ const Actions = (props) => {
 	const CircleButton = ({ buttonName, iconName, handlePress }) => (
 		<TouchableOpacity
 			style={{
-				marginRight: 20,
 				alignItems: "center",
 			}}
 			onPress={handlePress}
@@ -40,7 +45,7 @@ const Actions = (props) => {
 				/>
 			</TouchableOpacity>
 			<View>
-				<Text style={{ alignSelf: "center" }}>{buttonName}</Text>
+				<Text style={{ alignSelf: "center", color: textColor }}>{buttonName}</Text>
 			</View>
 		</TouchableOpacity>
 	);
@@ -57,8 +62,8 @@ const Actions = (props) => {
 		>
 			<Text
 				style={{
-					flex: 1,
-					color: "black",
+					flex: 1, 
+					color: backgroundColor,
 					alignSelf: "center",
 					fontSize: 12,
 					padding: 15,

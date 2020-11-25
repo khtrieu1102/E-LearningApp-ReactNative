@@ -10,12 +10,17 @@ import {
 import { Video } from "expo-av";
 
 import { useRoute } from "@react-navigation/native";
+import { useSelector } from "react-redux";
 
 import AuthorSimpleItem from "../../author/author-simple"
 import Actions from "./action-buttons";
 import Details from "./content-and-transcript";
 
 const CourseDetail = ({}) => {
+	const appSettingsReducer = useSelector((state) => state.appSettingsReducer);
+	const { theme } = appSettingsReducer;
+	const textColor = theme.primaryTextColor;
+
 	const route = useRoute();
 	const {
 		id,
@@ -39,7 +44,6 @@ const CourseDetail = ({}) => {
 		<View
 			style={{
 				flex: 1,
-				backgroundColor: "white",
 			}}
 		>
 			
@@ -53,7 +57,7 @@ const CourseDetail = ({}) => {
 					resizeMode="cover"
 					playing={isPlaying}
 					isLooping
-					style={{ width: "95%", height: 200 }}
+					style={{ height: 200 }}
 					useNativeControls={true}
 				/>
 			<ScrollView style={{ paddingLeft: 10, paddingRight: 10 }}>
@@ -62,6 +66,7 @@ const CourseDetail = ({}) => {
 						fontWeight: "bold",
 						marginBottom: 5,
 						fontSize: 28,
+						color: textColor
 					}}
 					numberOfLines={3}
 				>

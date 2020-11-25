@@ -1,8 +1,13 @@
 import React from "react";
 import { TouchableOpacity, Text, SectionList, View } from "react-native";
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
+import { useSelector } from "react-redux"
 
 const Detail = (props) => {
+	const appSettingsReducer = useSelector((state) => state.appSettingsReducer);
+	const { theme } = appSettingsReducer;
+	const textColor = theme.primaryTextColor;
+	const backgroundColor = theme.primaryBackgroundColor;
 	const ContentsData = [
 		{ title: "Course Overview", data: ["Course overview"] },
 		{ title: "Main Contents", data: ["Section 1", "Section 2", "Section 3"] },
@@ -33,14 +38,14 @@ const Detail = (props) => {
 	};
 
 	const Item = ({ title }) => (
-		<View style={{ paddingBottom: 5, paddingTop: 5 }}>
-			<Text>{title}</Text>
+		<View style={{ paddingBottom: 5, paddingTop: 5, backgroundColor: backgroundColor }}>
+			<Text style={{ color: textColor }}>{title}</Text>
 		</View>
 	);
 
 	const Header = ({ title }) => (
-		<View style={{ paddingTop: 5 }}>
-			<Text style={{ fontSize: 20 }}>{title}</Text>
+		<View style={{ paddingTop: 5, backgroundColor: backgroundColor }}>
+			<Text style={{ fontSize: 20, color: textColor }}>{title}</Text>
 		</View>
 	);
 
@@ -83,11 +88,11 @@ const Detail = (props) => {
 				navigationState={{ index, routes }}
 				renderScene={renderScene}
 				onIndexChange={setIndex}
-				initialLayout={{height: 300, background: "white"}}
+				initialLayout={{height: 300, background: backgroundColor}}
 				renderTabBar={props => <TabBar 
-                    style={{backgroundColor: "white"}} 
+                    style={{backgroundColor: backgroundColor}} 
                     renderLabel={({ route, focused, color }) => (
-                        <Text style={{ color:'black', margin: 8 }}>
+                        <Text style={{ color: textColor, margin: 8 }}>
                           {route.title.toUpperCase()}
                         </Text>
                     )}                 
