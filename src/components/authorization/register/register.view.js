@@ -9,8 +9,9 @@ const Register = () => {
 	const { theme } = appSettingsReducer;
 	const navigation = useNavigation();
 	const [formData, setFormData] = useState({
+		username: "",
 		email: "",
-		fullName: "",
+		phone: "",
 		password: "",
 		retypePassword: "",
 	});
@@ -36,6 +37,20 @@ const Register = () => {
 					style={{ height: "50px", paddingBottom: 100 }}
 					source={require("../assets/fit-hcmus-logo.png")}
 				/>
+				<Text style={{ color: theme.primaryTextColor }}>Username</Text>
+				<TextInput
+					style={{
+						borderColor: theme.primaryTextColor,
+						borderWidth: 1,
+						borderRadius: 5,
+						height: 40,
+						color: theme.primaryTextColor,
+						marginBottom: 5,
+						paddingLeft: 5,
+					}}
+					onChangeText={(text) => setFormData({...formData, username: text})}
+					defaultValue={formData.username}
+				/>
 				<Text style={{ color: theme.primaryTextColor }}>Email</Text>
 				<TextInput
 					style={{
@@ -50,7 +65,7 @@ const Register = () => {
 					onChangeText={(text) => setFormData({...formData, email: text})}
 					defaultValue={formData.email}
 				/>
-				<Text style={{ color: theme.primaryTextColor }}>Full name</Text>
+				<Text style={{ color: theme.primaryTextColor }}>Phone Number</Text>
 				<TextInput
 					style={{
 						borderColor: theme.primaryTextColor,
@@ -61,8 +76,8 @@ const Register = () => {
 						marginBottom: 5,
 						paddingLeft: 5,
 					}}
-					onChangeText={(text) => setFormData({...formData, fullName: text})}
-					defaultValue={formData.fullName}
+					onChangeText={(text) => setFormData({...formData, phone: text})}
+					defaultValue={formData.phone}
 				/>
 				<Text style={{ color: theme.primaryTextColor }}>Password</Text>
 				<View
@@ -81,6 +96,7 @@ const Register = () => {
 						color={theme.primaryTextColor}
 					/>
 					<TextInput
+						secureTextEntry={true}
 						style={{
 							flex: 1,
 							borderRadius: 5,
@@ -109,6 +125,7 @@ const Register = () => {
 						color={theme.primaryTextColor}
 					/>
 					<TextInput
+						secureTextEntry={true}
 						style={{
 							flex: 1,
 							borderRadius: 5,

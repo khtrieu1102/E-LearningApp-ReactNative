@@ -69,6 +69,7 @@ const Login = () => {
 						color={theme.primaryTextColor}
 					/>
 					<TextInput
+						secureTextEntry={true}
 						style={{
 							flex: 1,
 							borderRadius: 5,
