@@ -1,61 +1,84 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, Button, TouchableOpacity, Switch } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
+import { Ionicons } from "@expo/vector-icons";
 
-import ActionCreators from "../../../redux/action-creators";
+import Creators from "../../../redux/action-creators";
 
 const ThemeSettings = ({ onPress }) => {
 	const dispatch = useDispatch();
 	const appSettingsReducer = useSelector((state) => state.appSettingsReducer);
-	const { theme, themeName } = appSettingsReducer;
-  	const toggleSwitch = () => {
-		if (themeName == "light") dispatch(ActionCreators.appSettings.setTheme(2));
-		else dispatch(ActionCreators.appSettings.setTheme(1));
-	};
+    const { theme, themeName } = appSettingsReducer;
+    
+    const toggleTheme = () => {
+        if (themeName == "dark") {
+            dispatch(Creators.appSettings.setTheme("light"));
+        }
+        else dispatch(Creators.appSettings.setTheme("dark"));
+    }
 	
 	return (
-        <View
-            style={{
-                flexDirection: "row",
-                borderBottomWidth: 1,
-                height: 50,
-                alignItems: "center",
-                borderColor: "#8a92a1",
-		}}>
-            <Text
+        <View>
+            <TouchableOpacity
                 style={{
-                    flex: 1,
-                    color: theme.primaryTextColor,
-                    fontSize: 15,
-                    paddingLeft: 5,
-                }}
-            >
-                Application Theme
-            </Text>
-            
-            <View
-                style={{
-                    flexDirection: "column",
+                    flexDirection: "row",
+                    borderBottomWidth: 1,
+                    height: 50,
                     alignItems: "center",
-            }}>
-                <Switch
-                    trackColor={{ false: "#767577", true: "#81b0ff" }}
-                    thumbColor={"#f4f3f4"}
-                    ios_backgroundColor="#3e3e3e"
-                    onValueChange={toggleSwitch}
-                    value={themeName == "light"}
-                />
-                <Text
-                style={{
-                    flex: 1,
-                    color: theme.primaryTextColor,
-                    fontSize: 10,
-                    paddingLeft: 5,
+                    borderColor: "#8a92a1",
                 }}
+                onPress={toggleTheme}
             >
-                [{themeName.toUpperCase()}]
-            </Text>
-            </View>
+                <Text
+                    style={{
+                        flex: 1,
+                        color: theme.primaryTextColor,
+                        fontSize: 15,
+                        paddingLeft: 5,
+                    }}
+                >
+                    Light Theme
+                </Text>
+                {
+                    themeName == "light" &&
+                    <Ionicons
+                        style={{ paddingLeft: 5, paddingRight: 5 }}
+                        name="ios-checkmark"
+                        size={32}
+                        color="#8a92a1"
+                    />
+                }
+            </TouchableOpacity>
+            <TouchableOpacity
+                style={{
+                    flexDirection: "row",
+                    borderBottomWidth: 1,
+                    height: 50,
+                    alignItems: "center",
+                    borderColor: "#8a92a1",
+                }}
+                onPress={toggleTheme}
+            >
+                <Text
+                    style={{
+                        flex: 1,
+                        color: theme.primaryTextColor,
+                        fontSize: 15,
+                        paddingLeft: 5,
+                    }}
+                >
+                    Dark Theme
+                </Text>
+                {
+                    themeName == "dark" &&
+                    <Ionicons
+                        style={{ paddingLeft: 5, paddingRight: 5 }}
+                        name="ios-checkmark"
+                        size={32}
+                        color="#8a92a1"
+                    />
+                }
+            </TouchableOpacity>
         </View>
 	);
 };

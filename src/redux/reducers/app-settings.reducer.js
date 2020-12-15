@@ -2,9 +2,12 @@ import actionTypes from "../action-types";
 import theme from "../../common/theme.data"
 
 const initialName = "light";
+const initialLanguage = "vietnamese";
 const initialState = {
 	themeName: initialName,
 	theme: theme[initialName],
+	languageName: initialLanguage,
+	language: initialLanguage,
 };
 
 const authorizationReducer = (state = initialState, action) => {
@@ -13,14 +16,27 @@ const authorizationReducer = (state = initialState, action) => {
 		case actionTypes.appSettings.SET_THEME: {
 			var name;
 			switch (payload) {
-				case 1: name = "light"; break;
-				case 2: name = "dark"; break;
+				case "light": name = "light"; break;
+				case "dark": name = "dark"; break;
 				default:
 			}
 			return {
 				...state,
 				themeName: name,
 				theme: theme[name],
+			};
+		}
+		case actionTypes.appSettings.SET_LANGUAGE: {
+			var name;
+			switch (payload) {
+				case "vietnamese": name = "vietnamese"; break;
+				case "english": name = "english"; break;
+				default:
+			}
+			return {
+				...state,
+				languageName: name,
+				language: name,
 			};
 		}
 		default:

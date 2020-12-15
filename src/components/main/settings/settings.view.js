@@ -11,8 +11,7 @@ const Settings = () => {
 	return (
 		<View>
 			<FullWidthButton text="Profile Information" onPress={() => navigation.navigate("Settings/UserProfile")}/>
-			<ThemeSettings />
-			
+			<FullWidthButton text="Choose theme" onPress={() => navigation.navigate("Settings/ThemeSettings")}/>
 			<FullWidthButton text="Language" onPress={() => navigation.navigate("Settings/LanguageSettings")}/>
 			<FullWidthButton text="More Setting" onPress={() => console.log("HE")}/>
 		</View>

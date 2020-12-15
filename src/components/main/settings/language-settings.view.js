@@ -3,21 +3,32 @@ import { View, Text, TextInput, Button, TouchableOpacity, Switch } from "react-n
 import { useSelector, useDispatch } from "react-redux";
 import { Ionicons } from "@expo/vector-icons";
 
+import Creators from "../../../redux/action-creators";
+
 const LanguageSettings = ({ onPress }) => {
 	const dispatch = useDispatch();
 	const appSettingsReducer = useSelector((state) => state.appSettingsReducer);
-	const { theme, themeName } = appSettingsReducer;
+    const { theme, languageName } = appSettingsReducer;
+    
+    const toggleLanguage = () => {
+        if (languageName == "vietnamese") {
+            dispatch(Creators.appSettings.setTheme("english"));
+        }
+        else dispatch(Creators.appSettings.setTheme("vietnamese"));
+    }
 	
 	return (
         <View>
-            <View
+            <TouchableOpacity
                 style={{
                     flexDirection: "row",
                     borderBottomWidth: 1,
                     height: 50,
                     alignItems: "center",
                     borderColor: "#8a92a1",
-            }}>
+                }}
+                onPress={toggleLanguage}
+            >
                 <Text
                     style={{
                         flex: 1,
@@ -28,21 +39,26 @@ const LanguageSettings = ({ onPress }) => {
                 >
                     Vietnamese
                 </Text>
-                <Ionicons
-                    style={{ paddingLeft: 5, paddingRight: 5 }}
-                    name="ios-checkmark"
-                    size={32}
-                    color="#8a92a1"
-                />
-            </View>
-            <View
+                {
+                    languageName == "vietnamese" &&
+                    <Ionicons
+                        style={{ paddingLeft: 5, paddingRight: 5 }}
+                        name="ios-checkmark"
+                        size={32}
+                        color="#8a92a1"
+                    />
+                }
+            </TouchableOpacity>
+            <TouchableOpacity
                 style={{
                     flexDirection: "row",
                     borderBottomWidth: 1,
                     height: 50,
                     alignItems: "center",
                     borderColor: "#8a92a1",
-            }}>
+                }}
+                onPress={toggleLanguage}
+            >
                 <Text
                     style={{
                         flex: 1,
@@ -53,13 +69,16 @@ const LanguageSettings = ({ onPress }) => {
                 >
                     English
                 </Text>
-                <Ionicons
-                    style={{ paddingLeft: 5, paddingRight: 5 }}
-                    name="ios-checkmark"
-                    size={32}
-                    color="#8a92a1"
-                />
-            </View>
+                {
+                    languageName == "english" &&
+                    <Ionicons
+                        style={{ paddingLeft: 5, paddingRight: 5 }}
+                        name="ios-checkmark"
+                        size={32}
+                        color="#8a92a1"
+                    />
+                }
+            </TouchableOpacity>
         </View>
 	);
 };

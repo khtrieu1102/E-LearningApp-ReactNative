@@ -21,6 +21,7 @@ import FullSkillTopic from "../cores/section-skills/full-skill-topic";
 
 import UserProfile from "./settings/profile.view";
 import LanguageSettings from "./settings/language-settings.view";
+import ThemeSettings from "./settings/theme-settings.view";
 
 import { useSelector, useDispatch } from "react-redux";
 
@@ -159,6 +160,7 @@ const MainTabNavigator = () => {
 			<SettingsStack.Navigator screenOptions={headerStyleOptions}>
 				<SettingsStack.Screen name="Settings/Dashboard" component={Settings} />
 				<SettingsStack.Screen name="Settings/UserProfile" component={UserProfile} />
+				<SettingsStack.Screen name="Settings/ThemeSettings" component={ThemeSettings} />
 				<SettingsStack.Screen name="Settings/LanguageSettings" component={LanguageSettings} />
 			</SettingsStack.Navigator>
 		);
