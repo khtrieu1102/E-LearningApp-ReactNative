@@ -1,18 +1,26 @@
 import actionTypes from "../action-types";
 import theme from "../../common/theme.data"
 
+const initialName = "light";
 const initialState = {
-	theme: theme["dark"],
+	themeName: initialName,
+	theme: theme[initialName],
 };
 
 const authorizationReducer = (state = initialState, action) => {
 	const { type, payload } = action;
 	switch (type) {
-		case actionTypes.authorization.SET_IS_AUTHENTICATED: {
-			if (payload === "light" || payload === "dark")
+		case actionTypes.appSettings.SET_THEME: {
+			var name;
+			switch (payload) {
+				case 1: name = "light"; break;
+				case 2: name = "dark"; break;
+				default:
+			}
 			return {
 				...state,
-				theme: theme[payload],
+				themeName: name,
+				theme: theme[name],
 			};
 		}
 		default:

@@ -19,6 +19,9 @@ import AuthorDetail from "../cores/author/author-detail"
 import SkillDetail from "../cores/section-skills/skill-detail";
 import FullSkillTopic from "../cores/section-skills/full-skill-topic";
 
+import UserProfile from "./settings/profile.view";
+import LanguageSettings from "./settings/language-settings.view";
+
 import { useSelector, useDispatch } from "react-redux";
 
 const MainTabNavigator = () => {
@@ -155,12 +158,14 @@ const MainTabNavigator = () => {
 		return (
 			<SettingsStack.Navigator screenOptions={headerStyleOptions}>
 				<SettingsStack.Screen name="Settings/Dashboard" component={Settings} />
+				<SettingsStack.Screen name="Settings/UserProfile" component={UserProfile} />
+				<SettingsStack.Screen name="Settings/LanguageSettings" component={LanguageSettings} />
 			</SettingsStack.Navigator>
 		);
 	};
 
     return (
-		<MainTab.Navigator initialRouteName="Home" 
+		<MainTab.Navigator initialRouteName="Settings" 
 			screenOptions={({ route }) => ({
 				tabBarIcon: ({ focused, color, size }) => {
 					let iconName;
