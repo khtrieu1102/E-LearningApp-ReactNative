@@ -45,7 +45,7 @@ const ThemeSettings = ({ onPress }) => {
                         style={{ paddingLeft: 5, paddingRight: 5 }}
                         name="ios-checkmark"
                         size={32}
-                        color="#8a92a1"
+                        color="black"
                     />
                 }
             </TouchableOpacity>
@@ -75,7 +75,7 @@ const ThemeSettings = ({ onPress }) => {
                         style={{ paddingLeft: 5, paddingRight: 5 }}
                         name="ios-checkmark"
                         size={32}
-                        color="#8a92a1"
+                        color="white"
                     />
                 }
             </TouchableOpacity>

@@ -5,16 +5,16 @@ import { Ionicons } from "@expo/vector-icons";
 
 import Creators from "../../../redux/action-creators";
 
-const LanguageSettings = ({ onPress }) => {
+const LanguageSettings = () => {
 	const dispatch = useDispatch();
 	const appSettingsReducer = useSelector((state) => state.appSettingsReducer);
     const { theme, languageName } = appSettingsReducer;
     
     const toggleLanguage = () => {
         if (languageName == "vietnamese") {
-            dispatch(Creators.appSettings.setTheme("english"));
+            dispatch(Creators.appSettings.setLanguage("english"));
         }
-        else dispatch(Creators.appSettings.setTheme("vietnamese"));
+        else dispatch(Creators.appSettings.setLanguage("vietnamese"));
     }
 	
 	return (
