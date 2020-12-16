@@ -18,7 +18,7 @@ const authorizationReducer = (state = initialState, action) => {
 			switch (payload) {
 				case "light": name = "light"; break;
 				case "dark": name = "dark"; break;
-				default:
+				default: name = "light";
 			}
 			return {
 				...state,
@@ -31,7 +31,7 @@ const authorizationReducer = (state = initialState, action) => {
 			switch (payload) {
 				case "vietnamese": name = "vietnamese"; break;
 				case "english": name = "english"; break;
-				default:
+				default: name = "vietnamese";
 			}
 			return {
 				...state,
