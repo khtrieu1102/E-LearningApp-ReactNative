@@ -7,6 +7,8 @@ import MainTabNavigation from "./src/components/main/mainNavigation"
 
 import { useSelector } from 'react-redux';
 
+import FlashMessage from "react-native-flash-message";
+
 export default function App() {
   const authorizationReducer = useSelector((state) => state.authorizationReducer);
   const appSettingsReducer = useSelector((state) => state.appSettingsReducer);
@@ -31,6 +33,7 @@ export default function App() {
             <MainTabNavigation />
           </View>
         }
+        <FlashMessage position="top" /> {/* <--- here as last component */}
       </NavigationContainer>
   );
 }
