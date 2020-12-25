@@ -1,27 +1,85 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, Image, TouchableOpacity } from "react-native";
+import { View, Text, TextInput, Image, TouchableOpacity, StyleSheet, ActivityIndicator } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from '@react-navigation/native';
 import { useSelector, useDispatch } from "react-redux";
 import actionCreators from '../../../redux/action-creators';
+import helpers from "../../../helpers";
+import apiMethods from "../../../http-client/api-methods";
 
 const Login = () => {	
     const appSettingsReducer = useSelector((state) => state.appSettingsReducer);
+	const authorizationReducer = useSelector((state) => state.authorizationReducer);
+	const { isLoading } = authorizationReducer;
 	const { theme } = appSettingsReducer;
 	const dispatch = useDispatch();
 
 	const navigation = useNavigation();
 	const [formData, setFormData] = useState({
-		email: "",
-		password: "",
+		email: "khactrieu98@gmail.com",
+		password: "12345678",
+	});	
+	const [formMessage, setFormMessage] = useState({
+		isError: false,
+		isSuccess: false,
+		errorMessage: "",
 	});
 
-	const onSubmit = () => {
-		if (formData.email && formData.password) {
-			console.log(formData.email, formData.password);
-			dispatch(actionCreators.authorization.setIsAuthenticated(true));
+	const onSubmit = async () => {
+		// Validate if there is any blank field
+		if (formData.email == "" || formData.password == "") {
+			setFormMessage({...formMessage, isError: true, errorMessage: "Please fill in all input fields to complete form!"});
+			return;
 		}
+		// Validate email is valid
+		const emailIsValid = helpers.validateEmail(formData.email);
+		if (emailIsValid == false) {
+			setFormMessage({...formMessage, isError: true, errorMessage: "Your email is invalid! Try again!"});
+			return;
+		}
+
+		// --- Everything seems okay, refresh error message then call api
+		setFormMessage({...formMessage, isError: false, errorMessage: ""});
+		dispatch(actionCreators.authorization.userLogin(formData.email, formData.password));
 	}
+
+	const styles = StyleSheet.create({
+		OtherOptionsStyle: {
+			alignItems: "center",
+			justifyContent: "center",
+			height: 40,
+			borderColor: theme.secondaryBackgroundColor,
+			borderWidth: 1,
+			borderRadius: 5,
+			marginBottom: 5,
+		},
+		MainSubmitButtonStyle: {
+			backgroundColor: theme.secondaryBackgroundColor,
+			alignItems: "center",
+			justifyContent: "center",
+			height: 40,
+			borderRadius: 5,
+			marginTop: 5,
+			marginBottom: 5,
+		},
+		PasswordInputStyle: {
+			flexDirection: "row",
+			borderWidth: formMessage.isError ? 2 : 1,
+			borderColor: formMessage.isError ? "red" : theme.primaryTextColor,
+			borderRadius: 5,
+			marginBottom: 5,
+		},
+		InputStyle: {
+			borderColor: formMessage.isError ? "red" : theme.primaryTextColor,
+			borderWidth: formMessage.isError ? 2 : 1,
+			borderRadius: 5,
+			height: 40,
+			color: theme.primaryTextColor,
+			marginBottom: 5,
+			paddingLeft: 5,
+		}
+	});
+
 	return (
 		<View style={{flex: 1, alignItems: "center", backgroundColor: theme.primaryBackgroundColor}}>
 			<View
@@ -40,27 +98,13 @@ const Login = () => {
 					/>
 				<Text style={{ color: theme.primaryTextColor }}>Email</Text>
 				<TextInput
-					style={{
-						borderColor: theme.primaryTextColor,
-						borderWidth: 1,
-						borderRadius: 5,
-						height: 40,
-						color: theme.primaryTextColor,
-						marginBottom: 5,
-						paddingLeft: 5,
-					}}
+					style={styles.InputStyle}
 					onChangeText={(text) => setFormData({...formData, email: text})}
 					defaultValue={formData.email}
 				/>
 				<Text style={{ color: theme.primaryTextColor }}>Password</Text>
 				<View
-					style={{
-						flexDirection: "row",
-						borderWidth: 1,
-						borderColor: theme.primaryTextColor,
-						borderRadius: 5,
-						marginBottom: 5,
-					}}
+					style={styles.PasswordInputStyle}
 				>
 					<Ionicons
 						style={{ justifyContent: "center", paddingLeft: 5, paddingRight: 5 }}
@@ -81,57 +125,28 @@ const Login = () => {
 						defaultValue={formData.password}
 					/>
 				</View>
+				{formMessage.isError && <Text style={{ color: "red", fontSize: 10 }}>{formMessage.errorMessage}</Text>}
 				<TouchableOpacity
-					style={{
-						backgroundColor: theme.secondaryBackgroundColor,
-						alignItems: "center",
-						justifyContent: "center",
-						height: 40,
-						borderRadius: 5,
-						marginTop: 5,
-						marginBottom: 5,
-					}}
-					onPress={() => onSubmit()}
+					style={styles.MainSubmitButtonStyle}
+					onPress={onSubmit}
 				>
-					<Text style={{ color: theme.primaryTextColor }}>Sign In</Text>
+					<Text style={{ color: theme.primaryTextColor }}>
+					    {isLoading ? <>Please wait... <ActivityIndicator /></> : "Sign In"}
+					</Text>
 				</TouchableOpacity>
 				<TouchableOpacity
-					style={{
-						alignItems: "center",
-						justifyContent: "center",
-						height: 40,
-						borderColor: theme.secondaryBackgroundColor,
-						borderWidth: 1,
-						borderRadius: 5,
-						marginBottom: 5,
-					}}
+					style={styles.OtherOptionsStyle}
 					onPress={() => {navigation.navigate("Authorization/Register")}}
 				>
 					<Text style={{ color: theme.secondaryTextColor }}>Register new account</Text>
 				</TouchableOpacity>
 				<TouchableOpacity
-					style={{
-						alignItems: "center",
-						justifyContent: "center",
-						height: 40,
-						borderColor: theme.secondaryBackgroundColor,
-						borderWidth: 1,
-						borderRadius: 5,
-						marginBottom: 5,
-					}}
+					style={styles.OtherOptionsStyle}
 				>
 					<Text style={{ color: theme.secondaryTextColor }}>Sign In with Google</Text>
 				</TouchableOpacity>
 				<TouchableOpacity
-					style={{
-						alignItems: "center",
-						justifyContent: "center",
-						height: 40,
-						borderColor: theme.secondaryBackgroundColor,
-						borderWidth: 1,
-						borderRadius: 5,
-						marginBottom: 5,
-					}}
+					style={styles.OtherOptionsStyle}
 					onPress={() => {navigation.navigate("Authorization/ForgotPassword")}}
 				>
 					<Text style={{ color: theme.secondaryTextColor }}>Forgot your password?</Text>

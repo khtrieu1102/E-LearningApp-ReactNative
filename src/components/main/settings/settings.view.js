@@ -3,9 +3,12 @@ import { View, TouchableOpacity, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 import FullWidthButton from "../../cores/material/full-width-button"
+import { useDispatch } from "react-redux";
+import actionCreators from "../../../redux/action-creators";
 
 const Settings = () => {
 	const navigation = useNavigation();
+	const dispatch = useDispatch();
 
 	return (
 		<View style={{flex: 1, flexDirection: "column"}}>
@@ -23,6 +26,7 @@ const Settings = () => {
 					borderRadius: 5,
 					marginTop: 5,
 				}}
+				onPress={() => { dispatch(actionCreators.authorization.userLogout()); }}
 			>
 				<Text style={{ color: "red" }}>LOG OUT</Text>
 			</TouchableOpacity>
