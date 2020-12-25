@@ -26,14 +26,18 @@ export default function App() {
         {
           isAuthenticated && 
           <View style={{
-              flex: 1,
-              backgroundColor: theme.primaryBackgroundColor,
+            flex: 1,
+            backgroundColor: theme.primaryBackgroundColor,
             }}
-          >
+            >
             <MainTabNavigation />
           </View>
         }
-        <FlashMessage position="top" /> {/* <--- here as last component */}
+        <FlashMessage 
+          position="top" 
+          autoHide={false}
+          style={{ paddingTop: "30" }}
+        /> {/* <--- here as last component */}
       </NavigationContainer>
   );
 }
