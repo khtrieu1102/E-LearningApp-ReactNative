@@ -40,7 +40,7 @@ const Register = () => {
 			return;
 		}
 		// Validate email is valid
-		const emailIsValid = helpers.validateEmail(formData.email);
+		const emailIsValid = helpers.Validation.validateEmail(formData.email);
 		if (emailIsValid == false) {
 			setFormMessage({...formMessage, isError: true, errorMessage: "Your email is invalid! Try again!"})
 			return;

@@ -32,7 +32,7 @@ const Login = () => {
 			return;
 		}
 		// Validate email is valid
-		const emailIsValid = helpers.validateEmail(formData.email);
+		const emailIsValid = helpers.Validation.validateEmail(formData.email);
 		if (emailIsValid == false) {
 			setFormMessage({...formMessage, isError: true, errorMessage: "Your email is invalid! Try again!"});
 			return;
@@ -130,8 +130,8 @@ const Login = () => {
 					style={styles.MainSubmitButtonStyle}
 					onPress={onSubmit}
 				>
-					<Text style={{ color: theme.primaryTextColor }}>
-					    {isLoading ? <>Please wait... <ActivityIndicator /></> : "Sign In"}
+					<Text style={{ color: "white" }}>
+					    {isLoading ? <span>Please wait... <ActivityIndicator /></span> : "Sign In"}
 					</Text>
 				</TouchableOpacity>
 				<TouchableOpacity

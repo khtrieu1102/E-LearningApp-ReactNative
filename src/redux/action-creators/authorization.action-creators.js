@@ -19,6 +19,10 @@ const logError = (value) => {
 	return createActionCreators(actionTypes.authorization.LOG_ERROR, value);
 }
 
+const userLoginSuccess = () => createActionCreators(actionTypes.authorization.HTTP_LOGIN_SUCCESS);
+
+const userLoginFailure = (errorMessage) => createActionCreators(actionTypes.authorization.HTTP_LOGIN_FAILURE, null, errorMessage);
+
 const userLogin = (email, password) => async (dispatch) => {
 	dispatch({ type: actionTypes.authorization.HTTP_LOGIN });
 	dispatch(setIsLoading());
@@ -26,15 +30,19 @@ const userLogin = (email, password) => async (dispatch) => {
 	await apiMethods.authorization
 		.userLogin(email, password)
 		.then(result => {
+			dispatch(userLoginSuccess())
 			dispatch(setIsAuthenticated(true));
 			dispatch(setToken(result?.data?.token));
 			dispatch(setUserInfo(result?.data?.userInfo));
-			helpers.showGlobalInfo("Welcome back!");
+			helpers.FlashMessageFunc.showGlobalInfo("Welcome back!");
 		})
 		.catch(error => {
+			console.log(error.response);
 			const message = error?.response?.data?.message;
-			dispatch(logError(message));
-			helpers.showGlobalError(message);
+			
+			dispatch(userLoginFailure(error?.response?.statusText));
+			// dispatch(logError(message));
+			// throw new Error("message");
 		});
 }
 
@@ -50,7 +58,6 @@ const emailResetPassword = (email) => async (dispatch) => {
 		.catch(error => {
 			const message = error?.response?.data?.message;
 			dispatch(logError(message));
-			helpers.showGlobalError(message);
 		});
 }
 

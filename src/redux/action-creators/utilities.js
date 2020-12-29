@@ -1,7 +1,7 @@
 export function createActionCreators(
 	type,
 	payload = undefined,
-	error = false,
+	error = null,
 	meta = null
 ) {
 	return { type, payload, error, meta };

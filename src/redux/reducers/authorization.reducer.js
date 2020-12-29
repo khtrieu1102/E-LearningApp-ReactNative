@@ -56,6 +56,18 @@ const authorizationReducer = (state = initialState, action) => {
 				...state,
 			};
 		}
+		case actionTypes.authorization.HTTP_LOGIN_SUCCESS: {
+			return {
+				...state,
+				isLoading: false,
+			}
+		}		
+		case actionTypes.authorization.HTTP_LOGIN_FAILURE: {
+			return {
+				...state,
+				isLoading: false,
+			}
+		}		
 		case actionTypes.authorization.LOG_ERROR: {
 			return {
 				...state,
