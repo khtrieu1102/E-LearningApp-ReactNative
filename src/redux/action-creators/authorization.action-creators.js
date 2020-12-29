@@ -1,7 +1,7 @@
 import actionTypes from "../action-types";
 import apiMethods from "../../http-client/api-methods"
+import helpers from "../../helpers";
 import { createActionCreators } from "./utilities";
-import { showMessage, hideMessage } from "react-native-flash-message";
 
 const setIsAuthenticated = (value) =>
 	createActionCreators(actionTypes.authorization.SET_IS_AUTHENTICATED, value);
@@ -15,10 +15,12 @@ const setUserInfo = (value) =>
 const setIsLoading = () => 
 	createActionCreators(actionTypes.authorization.SET_IS_LOADING);
 
-const logError = (value) => 
-	createActionCreators(actionTypes.authorization.LOG_ERROR, value);
+const logError = (value) => {
+	return createActionCreators(actionTypes.authorization.LOG_ERROR, value);
+}
 
 const userLogin = (email, password) => async (dispatch) => {
+	dispatch({ type: actionTypes.authorization.HTTP_LOGIN });
 	dispatch(setIsLoading());
 
 	await apiMethods.authorization
@@ -26,15 +28,29 @@ const userLogin = (email, password) => async (dispatch) => {
 		.then(result => {
 			dispatch(setIsAuthenticated(true));
 			dispatch(setToken(result?.data?.token));
-			dispatch(setUserInfo(result?.data?.userInfo));	
+			dispatch(setUserInfo(result?.data?.userInfo));
+			helpers.showGlobalInfo("Welcome back!");
 		})
 		.catch(error => {
-			dispatch(logError(error?.response?.data));
-			showMessage({
-				message: "ERROR!",
-				description: error?.response?.data?.message || "Something's wrong! Try again!",
-				type: "danger",
-			});
+			const message = error?.response?.data?.message;
+			dispatch(logError(message));
+			helpers.showGlobalError(message);
+		});
+}
+
+const emailResetPassword = (email) => async (dispatch) => {
+	dispatch({ type: actionTypes.authorization.HTTP_LOGIN });
+	dispatch(setIsLoading());
+
+	await apiMethods.email
+		.sendResetPasswordLink(email)
+		.then(result => {
+			console.log(result);
+		})
+		.catch(error => {
+			const message = error?.response?.data?.message;
+			dispatch(logError(message));
+			helpers.showGlobalError(message);
 		});
 }
 
@@ -44,7 +60,6 @@ const userLogout = () => (dispatch) => {
 	dispatch(setToken(""));
 	dispatch(setUserInfo({}));	
 }
-	
 
 export default {
 	setIsAuthenticated,
@@ -54,4 +69,5 @@ export default {
 	userLogin,
 	userLogout,
 	logError,
+	emailResetPassword
 };
