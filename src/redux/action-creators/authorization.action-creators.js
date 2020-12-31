@@ -2,6 +2,7 @@ import actionTypes from "../action-types";
 import apiMethods from "../../http-client/api-methods"
 import helpers from "../../helpers";
 import { createActionCreators } from "./utilities";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const setIsAuthenticated = (value) =>
 	createActionCreators(actionTypes.authorization.SET_IS_AUTHENTICATED, value);
@@ -34,30 +35,71 @@ const userLogin = (email, password) => async (dispatch) => {
 			dispatch(setIsAuthenticated(true));
 			dispatch(setToken(result?.data?.token));
 			dispatch(setUserInfo(result?.data?.userInfo));
+			AsyncStorage.setItem("token", result?.data?.token);
 			helpers.FlashMessageFunc.showGlobalInfo("Welcome back!");
 		})
 		.catch(error => {
-			console.log(error.response);
-			const message = error?.response?.data?.message;
-			
-			dispatch(userLoginFailure(error?.response?.statusText));
-			// dispatch(logError(message));
-			// throw new Error("message");
+			dispatch(userLoginFailure(error?.response?.data?.message || "Something's wrong, please try again!"));
 		});
 }
 
+const userRegisterSuccess = () => createActionCreators(actionTypes.authorization.HTTP_REGISTER_SUCCESS);
+
+const userRegisterFailure = (errorMessage) => createActionCreators(actionTypes.authorization.HTTP_REGISTER_FAILURE, null, errorMessage);
+
+const userRegister = (username, password, email, phone) => async (dispatch) => {
+	dispatch({ type: actionTypes.authorization.HTTP_REGISTER });
+	dispatch(setIsLoading());
+
+	await apiMethods.authorization
+		.userRegister(username, password, email, phone)
+		.then(result => {
+			dispatch(userRegisterSuccess());
+			helpers.FlashMessageFunc.showGlobalInfo("Register successfully! Check your email to activate!");
+		})
+		.catch(error => {
+			dispatch(userRegisterFailure(error?.response?.data?.message || "Something's wrong, please try again!"));
+		});
+}
+
+const emailForgotPasswordSuccess = () => createActionCreators(actionTypes.authorization.EMAIL_FORGOT_PASSWORD_SUCCESS);
+
+const emailForgotPasswordFailure = (errorMessage) => createActionCreators(actionTypes.authorization.EMAIL_FORGOT_PASSWORD_FAILURE, null, errorMessage);
+
 const emailResetPassword = (email) => async (dispatch) => {
-	dispatch({ type: actionTypes.authorization.HTTP_LOGIN });
+	dispatch({ type: actionTypes.authorization.EMAIL_FORGOT_PASSWORD });
 	dispatch(setIsLoading());
 
 	await apiMethods.email
 		.sendResetPasswordLink(email)
 		.then(result => {
-			console.log(result);
+			dispatch(emailForgotPasswordSuccess());
+			helpers.FlashMessageFunc.showGlobalInfo("Register successfully! Check your email to activate!");
 		})
 		.catch(error => {
-			const message = error?.response?.data?.message;
-			dispatch(logError(message));
+			dispatch(emailForgotPasswordFailure(error?.response?.data?.message || "Something's wrong, please try again!"));
+		});
+}
+
+const getUserAndVerifyTokenSuccess = () => createActionCreators(actionTypes.authorization.HTTP_GET_USER_VERIFY_TOKEN_SUCCESS);
+
+const getUserAndVerifyTokenFailure = (errorMessage) => createActionCreators(actionTypes.authorization.HTTP_GET_USER_VERIFY_TOKEN_FAILURE, null, errorMessage);
+
+const getUserAndVerifyToken = (token) => async (dispatch) => {
+	dispatch({ type: actionTypes.authorization.HTTP_GET_USER_VERIFY_TOKEN });
+	dispatch(setIsLoading());
+
+	await apiMethods.authorization
+		.getUserAndVerifyToken(token)
+		.then(result => {
+			dispatch(getUserAndVerifyTokenSuccess())
+			dispatch(setIsAuthenticated(true));
+			dispatch(setToken(token));
+			dispatch(setUserInfo(result?.data?.payload));
+		})
+		.catch(error => {
+			dispatch(getUserAndVerifyTokenFailure(error?.response?.data?.message || "Something's wrong, please try again!"));
+			dispatch(userLogout());
 		});
 }
 
@@ -66,6 +108,7 @@ const userLogout = () => (dispatch) => {
 	dispatch(setIsAuthenticated(false));
 	dispatch(setToken(""));
 	dispatch(setUserInfo({}));	
+	AsyncStorage.removeItem("token");
 }
 
 export default {
@@ -76,5 +119,7 @@ export default {
 	userLogin,
 	userLogout,
 	logError,
-	emailResetPassword
+	emailResetPassword,
+	userRegister,
+	getUserAndVerifyToken,
 };

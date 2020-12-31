@@ -68,12 +68,56 @@ const authorizationReducer = (state = initialState, action) => {
 				isLoading: false,
 			}
 		}		
-		case actionTypes.authorization.LOG_ERROR: {
+		case actionTypes.authorization.HTTP_REGISTER: {
+			return {
+				...state,
+			};
+		}
+		case actionTypes.authorization.HTTP_REGISTER_SUCCESS: {
 			return {
 				...state,
 				isLoading: false,
-				error: payload,
+			}
+		}		
+		case actionTypes.authorization.HTTP_REGISTER_FAILURE: {
+			return {
+				...state,
+				isLoading: false,
+			}
+		}		
+		case actionTypes.authorization.EMAIL_FORGOT_PASSWORD: {
+			return {
+				...state,
 			};
+		}
+		case actionTypes.authorization.EMAIL_FORGOT_PASSWORD_SUCCESS: {
+			return {
+				...state,
+				isLoading: false,
+			}
+		}		
+		case actionTypes.authorization.EMAIL_FORGOT_PASSWORD_FAILURE: {
+			return {
+				...state,
+				isLoading: false,
+			}
+		}
+		case actionTypes.authorization.EMAIL_SEND_ACTIVATE_ACCOUNT: {
+			return {
+				...state,
+			};
+		}
+		case actionTypes.authorization.EMAIL_SEND_ACTIVATE_ACCOUNT_SUCCESS: {
+			return {
+				...state,
+				isLoading: false,
+			}
+		}		
+		case actionTypes.authorization.EMAIL_SEND_ACTIVATE_ACCOUNT_FAILURE: {
+			return {
+				...state,
+				isLoading: false,
+			}
 		}
 		default:
 			return state;

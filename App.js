@@ -1,19 +1,35 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-
-import AuthorizationStack from "./src/components/authorization/authorizationStack"
-import MainTabNavigation from "./src/components/main/mainNavigation"
-
-import { useSelector } from 'react-redux';
-
+import AuthorizationStack from "./src/components/authorization/authorizationStack";
+import MainTabNavigation from "./src/components/main/mainNavigation";
+import { useSelector, useDispatch } from 'react-redux';
 import FlashMessage from "react-native-flash-message";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import actionCreators from "./src/redux/action-creators";
 
 export default function App() {
   const authorizationReducer = useSelector((state) => state.authorizationReducer);
   const appSettingsReducer = useSelector((state) => state.appSettingsReducer);
+  const dispatch = useDispatch();
   const { theme } = appSettingsReducer;
   const { isAuthenticated, role } = authorizationReducer;
+  let TokenFromAsyncStorage;
+
+  const _getTokenFromStorage = async () => {
+    await AsyncStorage.getItem("token", (error, result) => {
+      if (result != null) {
+        TokenFromAsyncStorage = result;
+        dispatch(actionCreators.authorization.getUserAndVerifyToken(result));
+        return;
+      }
+      dispatch(actionCreators.authorization.userLogout());
+    })
+  }
+  
+  useEffect(() => {
+    _getTokenFromStorage();
+  }, [TokenFromAsyncStorage])
 
   return (
       <NavigationContainer>
@@ -26,8 +42,8 @@ export default function App() {
         {
           isAuthenticated && 
           <View style={{
-            flex: 1,
-            backgroundColor: theme.primaryBackgroundColor,
+              flex: 1,
+              backgroundColor: theme.primaryBackgroundColor,
             }}
             >
             <MainTabNavigation />
@@ -37,7 +53,7 @@ export default function App() {
           position="top" 
           autoHide={false}
           style={{ paddingTop: "30" }}
-        /> {/* <--- here as last component */}
+        />
       </NavigationContainer>
   );
 }

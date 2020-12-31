@@ -18,7 +18,7 @@ const userLogin = (email, password) => {
         .catch((err) => Promise.reject(err));
 };
 
-const getRegisterCode = (email) => {
+const sendActivateEmail = (email) => {
     return httpClient
         .post('/user/send-activate-email', { email })
         .then((result) => {
@@ -27,8 +27,18 @@ const getRegisterCode = (email) => {
         .catch((err) => Promise.reject(err));
 };
 
+const getUserAndVerifyToken = (token) => {
+    return httpClient
+        .get("/user/me", { Authorization: `Bearer ${token}` })
+        .then((result) => {
+            return Promise.resolve(result);
+        })
+        .catch((err) => Promise.reject(err));
+}
+
 export default {
     userRegister,
     userLogin,
-    getRegisterCode
+    sendActivateEmail,
+    getUserAndVerifyToken
 };
