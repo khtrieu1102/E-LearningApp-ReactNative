@@ -1,7 +1,13 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 const authHeader = () => {
 	// return authorization header with jwt token
-	// let token = localStorage.getItem("accessToken");
-	let token = "accessToken";
+	let token = null;
+	AsyncStorage.getItem("token", (error, result) => {
+		if (result != null) {
+			token = result;
+		}
+	});
 
 	if (token) {
 		return { Authorization: `Bearer ${token}` };
