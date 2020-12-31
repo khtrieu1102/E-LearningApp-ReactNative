@@ -119,6 +119,23 @@ const authorizationReducer = (state = initialState, action) => {
 				isLoading: false,
 			}
 		}
+		case actionTypes.authorization.HTTP_UPDATE_ME_BASIC_INFO: {
+			return {
+				...state,
+			};
+		}
+		case actionTypes.authorization.HTTP_UPDATE_ME_BASIC_INFO_SUCCESS: {
+			return {
+				...state,
+				isLoading: false,
+			}
+		}		
+		case actionTypes.authorization.HTTP_UPDATE_ME_BASIC_INFO_FAILURE: {
+			return {
+				...state,
+				isLoading: false,
+			}
+		}
 		default:
 			return state;
 	}

@@ -16,10 +16,6 @@ const setUserInfo = (value) =>
 const setIsLoading = () => 
 	createActionCreators(actionTypes.authorization.SET_IS_LOADING);
 
-const logError = (value) => {
-	return createActionCreators(actionTypes.authorization.LOG_ERROR, value);
-}
-
 const userLoginSuccess = () => createActionCreators(actionTypes.authorization.HTTP_LOGIN_SUCCESS);
 
 const userLoginFailure = (errorMessage) => createActionCreators(actionTypes.authorization.HTTP_LOGIN_FAILURE, null, errorMessage);
@@ -122,6 +118,25 @@ const getUserAndVerifyToken = (token) => async (dispatch) => {
 		});
 }
 
+const updateMeBasicInfoSuccess = () => createActionCreators(actionTypes.authorization.HTTP_UPDATE_ME_BASIC_INFO_SUCCESS);
+
+const updateMeBasicInfoFailure = (errorMessage) => createActionCreators(actionTypes.authorization.HTTP_UPDATE_ME_BASIC_INFO_FAILURE, null, errorMessage);
+
+const updateMeBasicInfo = (name, phone, avatar) => async (dispatch) => {
+	dispatch({ type: actionTypes.authorization.HTTP_UPDATE_ME_BASIC_INFO });
+	dispatch(setIsLoading());
+
+	await apiMethods.user
+		.updateMeBasicInfo(name, phone, avatar)
+		.then(result => {
+			dispatch(updateMeBasicInfoSuccess())
+			dispatch(setUserInfo(result?.data?.payload));
+		})
+		.catch(error => {
+			dispatch(updateMeBasicInfoFailure(error?.response?.data?.message || "Something's wrong, please try again!"));
+		});
+}
+
 const userLogout = () => (dispatch) => {
 	dispatch(setIsLoading());
 	dispatch(setIsAuthenticated(false));
@@ -137,9 +152,9 @@ export default {
 	setIsLoading,
 	userLogin,
 	userLogout,
-	logError,
 	emailResetPassword,
 	emailSendActivateAccount,
 	userRegister,
 	getUserAndVerifyToken,
+	updateMeBasicInfo,
 };

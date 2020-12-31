@@ -1,17 +1,30 @@
 import React, { useState } from "react";
 import { Text, ScrollView, Image, View, Button, TextInput } from "react-native";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import actionCreators from "../../../redux/action-creators"
+import helpers from "../../../helpers"
 
 const UserProfile = ({ route }) => {
-	const appSettingsReducer = useSelector((state) => state.appSettingsReducer);
+    const appSettingsReducer = useSelector((state) => state.appSettingsReducer);
+    const dispatch = useDispatch();
+    const authorizationReducer = useSelector((state) => state.authorizationReducer);
+    const { userInfo } = authorizationReducer;
 	const { theme } = appSettingsReducer;
     const textColor = theme.primaryTextColor;
-    const [formVariables, setFormVariables] = useState({
-        userName: 'Nguyen Ngoc Khac Trieu',
-        phoneNumber: '0903020298',
-        email: 'khactrieu98@gmail.com'
+    const [formData, setFormData] = useState({
+        name: userInfo?.name || "",
+        phone: userInfo?.phone || "",
+        avatar: userInfo?.avatar || ""
     });
 
+    console.log("USER INFO: ", userInfo);
+
+    const onSubmit = () => {
+        if (formData.name == "" || formData.phone == "" || formData.avatar == "") {
+			return helpers.FlashMessageFunc.showSimpleError("Please fill in every form fields!");
+        }
+        dispatch(actionCreators.authorization.updateMeBasicInfo(formData.name, formData.phone, formData.avatar));
+    }
 
 	return (
 		<ScrollView
@@ -19,10 +32,7 @@ const UserProfile = ({ route }) => {
 		>
 			<View>
 				<Image
-					source={{
-						uri:
-							"https://cdn.yankodesign.com/images/design_news/2018/10/the-keyboard-like-youve-never-seen-it/fangyuan_mechanical_keyboard_layout.jpg",
-					}}
+					source={{ uri: userInfo.avatar }}
 					style={{ borderRadius: 50, width: 80, height: 80, alignSelf: "center", marginTop: 10 }}
 				/>
 				<Text
@@ -34,7 +44,7 @@ const UserProfile = ({ route }) => {
 						color: textColor
 					}}
 				>
-					Nguyen Ngoc Khac Trieu
+					{userInfo.name || userInfo.type}
 				</Text>
 				<Text
 					style={{
@@ -44,7 +54,7 @@ const UserProfile = ({ route }) => {
 						color: textColor
 					}}
 				>
-					User
+					{userInfo.type}
 				</Text>
                 <View style={{
                     flexDirection: "row",
@@ -71,10 +81,10 @@ const UserProfile = ({ route }) => {
                             maxWidth: "65%",
                             color: theme.primaryTextColor
                         }}
-                        placeholder="Search something..."
-                        value={formVariables.userName}
+                        placeholder="Type here..."
+                        value={formData.name}
                         onChange={(event) => {
-                            setFormVariables({ ...formVariables, userName: event.target.value });
+                            setFormData({ ...formData, name: event.target.value });
                         }}
                     />
                 </View>
@@ -103,10 +113,10 @@ const UserProfile = ({ route }) => {
                             maxWidth: "65%",
                             color: theme.primaryTextColor
                         }}
-                        placeholder="Search something..."
-                        value={formVariables.phoneNumber}
+                        placeholder="Type here..."
+                        value={formData.phone}
                         onChange={(event) => {
-                            setFormVariables({ ...formVariables, phoneNumber: event.target.value });
+                            setFormData({ ...formData, phone: event.target.value });
                         }}
                     />
                 </View>
@@ -123,7 +133,7 @@ const UserProfile = ({ route }) => {
                             width: "35%"
                         }}
                     >
-                        Email
+                        Avatar Link
                     </Text>                    
                     <TextInput 
                         style={{
@@ -135,10 +145,10 @@ const UserProfile = ({ route }) => {
                             maxWidth: "65%",
                             color: theme.primaryTextColor
                         }}
-                        placeholder="Search something..."
-                        value={formVariables.email}
+                        placeholder="Type here..."
+                        value={formData.avatar}
                         onChange={(event) => {
-                            setFormVariables({ ...formVariables, email: event.target.value });
+                            setFormData({ ...formData, avatar: event.target.value });
                         }}
                     />
                 </View>
@@ -150,7 +160,8 @@ const UserProfile = ({ route }) => {
 						width: 80,
 						backgroundColor: "blue",
 					}}
-					title="Save"
+                    title="Save"
+                    onPress={onSubmit}
 				/>
 			</View>
 		</ScrollView>
