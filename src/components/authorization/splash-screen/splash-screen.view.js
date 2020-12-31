@@ -20,7 +20,7 @@ const SplashScreen = () => {
         if (timer == 100) {
             clearInterval(interval);
             setTimeout(() => {
-                console.log("abc");
+                
             }, 1000)
             navigation.navigate("Authorization/AuthorizationHome");
         }

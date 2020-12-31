@@ -80,7 +80,6 @@ const FeatureCard = ({ title }) => {
 
 	const handlePress = () => {
 		navigation.navigate("VerticalSectionCourses", courses);
-		console.log("Feature Press");
 	};
 	return (
 		<ImageBackground

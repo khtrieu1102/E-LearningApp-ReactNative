@@ -46,7 +46,6 @@ const showGlobalInfo = (value) => {
 			autoHide: true,
 			duration: 2000,
 			onPress: () => {
-				console.log("Close!");
 			},
 			message: "IT'S COOL!",
 			description: 

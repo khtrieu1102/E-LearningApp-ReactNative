@@ -13,7 +13,6 @@ const CourseItemList = ({ courseDetails }) => {
 	const textColor = theme.primaryTextColor;
 
 	const handlePress = () => {
-		console.log("hello");
 		navigation.navigate("CourseDetail", { courseDetails: courseDetails });
 	};
 

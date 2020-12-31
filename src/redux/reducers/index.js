@@ -5,7 +5,6 @@ import helpers from "../../helpers"
 
 const errorMessage = (state = null, action) => {
 	const { type, error } = action;
-	console.log(action);
   
 	if (type === "RESET_ERROR_MESSAGE") {
 	  	return null;

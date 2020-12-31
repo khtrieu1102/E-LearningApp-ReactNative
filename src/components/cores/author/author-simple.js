@@ -11,7 +11,6 @@ const AuthorSimpleItem = ({ authorName }) => {
 	}
 
 	const handlePress = () => {
-		console.log("Go to author name");
 		navigation.navigate("AuthorDetail");
 	};
 

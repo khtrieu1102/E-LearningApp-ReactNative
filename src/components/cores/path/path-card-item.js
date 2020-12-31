@@ -11,7 +11,6 @@ const PathCardItem = (props) => {
 	const navigation = useNavigation();
 
 	const handlePress = () => {
-		// console.log(pathDetails);
 		navigation.navigate("PathDetail", { pathDetails: pathDetails });
 	};
 

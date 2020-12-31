@@ -32,7 +32,6 @@ const HorizontalSectionSkills = ({ header }) => {
 
 	const handleCardSkillPress = () => {
 		navigation.navigate("FullSkillTopic");
-		console.log("card");
 	};
 
 	return (

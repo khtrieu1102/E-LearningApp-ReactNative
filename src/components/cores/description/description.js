@@ -11,7 +11,6 @@ const Description = ({ description }) => {
 	const [lineToShow, setLineToShow] = useState(3);
 
 	const toggleDescription = () => {
-		console.log("toggle");
 		setIsShowFullDescription(!isShowFullDescription);
 		if (isShowFullDescription) setLineToShow(-1);
 		else setLineToShow(4);
