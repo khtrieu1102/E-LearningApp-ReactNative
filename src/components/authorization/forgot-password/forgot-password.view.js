@@ -1,10 +1,14 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, Image, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import actionCreators from "../../../redux/action-creators";
+import helpers from "../../../helpers";
 
 const ForgotPassword = () => {	
-    const appSettingsReducer = useSelector((state) => state.appSettingsReducer);
+	const appSettingsReducer = useSelector((state) => state.appSettingsReducer);
+	const dispatch = useDispatch();
+
 	const { theme } = appSettingsReducer;
 
 	const navigation = useNavigation();
@@ -12,9 +16,19 @@ const ForgotPassword = () => {
 	const [formData, setFormData] = useState({
 		email: ""
 	});
-	const textColor = "black";
+
 	const onSubmit = () => {
-		console.log(formData);
+		if (formData.email == "") {
+			return helpers.FlashMessageFunc.showSimpleError("Please type your email to get code for reset password!");
+		}
+		
+		const isValidEmail = helpers.Validation.validateEmail(formData.email);
+		if (isValidEmail != true) {
+			return helpers.FlashMessageFunc.showSimpleError("This email is not valid, please try again!");
+		}
+
+		// --- Calling api
+		dispatch(actionCreators.authorization.emailResetPassword(formData.email));
 	}
 	return (
 		<View style={{flex: 1, alignItems: "center", backgroundColor: theme.primaryBackgroundColor}}>
@@ -58,7 +72,7 @@ const ForgotPassword = () => {
 					}}
 					onPress={() => onSubmit()}
 				>
-					<Text style={{ color: theme.primaryTextColor }}>Get code to reset password</Text>
+					<Text style={{ color: "white" }}>Get code to reset password</Text>
 				</TouchableOpacity>
 				<TouchableOpacity
 					style={{

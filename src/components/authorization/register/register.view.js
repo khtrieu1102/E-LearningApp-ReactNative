@@ -2,23 +2,19 @@ import React, { useState } from "react";
 import { View, Text, TextInput, Image, TouchableOpacity, Alert } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native"
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import apiMethods from "../../../http-client/api-methods";
 import helpers from "../../../helpers";
-import axios from 'axios';
-import httpClient from "../../../http-client/config/http-client";
-
-import { showMessage, hideMessage } from "react-native-flash-message";
+import actionCreators from "../../../redux/action-creators";
 
 const Register = () => {
-    const appSettingsReducer = useSelector((state) => state.appSettingsReducer);
+	const appSettingsReducer = useSelector((state) => state.appSettingsReducer);
+	const dispatch = useDispatch();
 	const { theme } = appSettingsReducer;
 	const navigation = useNavigation();
 	const [formMessage, setFormMessage] = useState({
 		isError: false,
-		isSuccess: false,
-		errorMessage: "",
 	});
 	const [formData, setFormData] = useState({
 		username: "trieu",
@@ -29,51 +25,36 @@ const Register = () => {
 	});
 
 	const onSubmit = async () => {
+		// Validate if there is any blank field
+		if (formData.username == "" || formData.email == "" || formData.phone == "" || formData.password == "" || formData.retypePassword == "") {
+			setFormMessage({...formMessage, isError: true});
+			return helpers.FlashMessageFunc.showSimpleError("Please fill in all input fields to complete form!");
+		}
 		// Validate password fields
 		if (formData.password != formData.retypePassword) {
-			setFormMessage({...formMessage, isError: true, errorMessage: "Password and Password Retype are not match! Try again!"})
-			return;
-		}
-		// Validate if there is any blank field
-		if (formData.username == "" || formData.email == "" || formData.phone == "" || formData.password == "") {
-			setFormMessage({...formMessage, isError: true, errorMessage: "Please fill in all input fields to complete form!"})
-			return;
+			setFormMessage({...formMessage, isError: true});
+			return helpers.FlashMessageFunc.showSimpleError("Password and Password Retype are not match! Try again!");
 		}
 		// Validate email is valid
 		const emailIsValid = helpers.Validation.validateEmail(formData.email);
 		if (emailIsValid == false) {
-			setFormMessage({...formMessage, isError: true, errorMessage: "Your email is invalid! Try again!"})
-			return;
+			setFormMessage({...formMessage, isError: true});
+			return helpers.FlashMessageFunc.showSimpleError("Your email is invalid! Try again!");
 		}
 
 		// --- Everything seems okay, refresh error message then call api
-		setFormMessage({...formMessage, isError: false, errorMessage: ""});
-		await apiMethods.authorization
-			.userRegister(formData.username, formData.password, formData.email, formData.phone)
-			.then(result => console.log(result))
-			.catch(error => {
-				if (error.response && error.response.data) {
-					setFormMessage({...formMessage, isError: true, errorMessage: error.response.data.message});
-					showMessage({
-						message: "ERROR!",
-						description: error.response.data.message,
-						type: "danger",
-					});
-				}
-			});
+		dispatch(actionCreators.authorization.userRegister(formData.username, formData.password, formData.email, formData.phone))
 	}
-
 
 	const requestRegisterCode = async () => {
-		await apiMethods.authorization
-		.getRegisterCode(formData.email)
-		.then(result => console.log(result))
-		.catch(error => {
-			if (error.response && error.response.data) {
-				setFormMessage({...formMessage, isError: true, errorMessage: error.response.data.message});
-			}
-		});
-	}
+		const emailIsValid = helpers.Validation.validateEmail(formData.email);
+		if (emailIsValid == false || formData.email == "") {
+			setFormMessage({...formMessage, isError: true});
+			return helpers.FlashMessageFunc.showSimpleError("Your email is invalid! Try again!");
+		}
+
+		dispatch(actionCreators.authorization.emailSendActivateAccount(formData.email));
+	};
 
 	const styles = {
 		PasswordInputStyle: {
@@ -174,7 +155,6 @@ const Register = () => {
 						defaultValue={formData.retypePassword}
 					/>
 				</View>
-				{formMessage.isError && <Text style={{ color: "red", fontSize: 10 }}>{formMessage.errorMessage}</Text>}
 				<TouchableOpacity onPress={requestRegisterCode}>
 					<Text style={{ color: "blue", textDecorationLine: "underline", fontSize: 15 }}>Send verify code again!</Text>
 				</TouchableOpacity>
