@@ -29,6 +29,17 @@ const showGlobalError = (value) => {
 	});
 }
 
+const showSimpleError = (value) => {
+	showMessage({
+		hideOnPress: true,
+		autoHide: true,
+		description: value,
+		message: "ERROR!",
+		type: "danger",
+		icon: "danger",
+	});
+}
+
 const showGlobalInfo = (value) => {
 	if (typeof value == "string")
 		showMessage({
@@ -48,4 +59,4 @@ const showGlobalInfo = (value) => {
 		});
 }
 
-export default { showGlobalError, showGlobalInfo };
+export default { showGlobalError, showGlobalInfo, showSimpleError };
