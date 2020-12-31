@@ -1,5 +1,5 @@
 import React from "react";
-import { View } from "react-native";
+import { View, Image } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -27,6 +27,8 @@ import { useSelector, useDispatch } from "react-redux";
 
 const MainTabNavigator = () => {
     const appSettingsReducer = useSelector((state) => state.appSettingsReducer);
+	const authorizationReducer = useSelector((state) => state.authorizationReducer);
+	const { userInfo } = authorizationReducer;
 	const { theme } = appSettingsReducer;
 	const MainTab = createBottomTabNavigator();
 
@@ -44,12 +46,16 @@ const MainTabNavigator = () => {
 		headerTitleStyle: {
 			fontWeight: 'bold',
 		},
+		headerRight: () => <Image
+			source={{ uri: userInfo.avatar }}
+			style={{ borderRadius: 50, borderColor: "black", borderWidth: 1, height: 30, width:30, alignSelf: "center" }}
+		/>,
 		cardStyle: {
 			paddingLeft: "3%",
 			paddingBottom: "3%",
 			paddingRight: "3%",
 			backgroundColor: theme.primaryBackgroundColor,
-		}
+		},
 	}
 
 	const HomeStackScreens = () => {
