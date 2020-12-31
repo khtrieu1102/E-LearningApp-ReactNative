@@ -81,6 +81,25 @@ const emailResetPassword = (email) => async (dispatch) => {
 		});
 }
 
+const emailSendActivateAccountSuccess = () => createActionCreators(actionTypes.authorization.EMAIL_SEND_ACTIVATE_ACCOUNT_SUCCESS);
+
+const emailSendActivateAccountFailure = (errorMessage) => createActionCreators(actionTypes.authorization.EMAIL_SEND_ACTIVATE_ACCOUNT_FAILURE, null, errorMessage);
+
+const emailSendActivateAccount = (email) => async (dispatch) => {
+	dispatch({ type: actionTypes.authorization.EMAIL_SEND_ACTIVATE_ACCOUNT });
+	dispatch(setIsLoading());
+
+	await apiMethods.email
+		.sendActivateEmail(email)
+		.then(result => {
+			dispatch(emailSendActivateAccountSuccess());
+			helpers.FlashMessageFunc.showGlobalInfo("We sent activating code successfully! Check your email to activate!");
+		})
+		.catch(error => {
+			dispatch(emailSendActivateAccountFailure(error?.response?.data?.message || "Something's wrong, please try again!"));
+		});
+}
+
 const getUserAndVerifyTokenSuccess = () => createActionCreators(actionTypes.authorization.HTTP_GET_USER_VERIFY_TOKEN_SUCCESS);
 
 const getUserAndVerifyTokenFailure = (errorMessage) => createActionCreators(actionTypes.authorization.HTTP_GET_USER_VERIFY_TOKEN_FAILURE, null, errorMessage);
@@ -120,6 +139,7 @@ export default {
 	userLogout,
 	logError,
 	emailResetPassword,
+	emailSendActivateAccount,
 	userRegister,
 	getUserAndVerifyToken,
 };
