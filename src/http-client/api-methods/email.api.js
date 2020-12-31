@@ -1,6 +1,6 @@
 import httpClient from '../config/http-client';
 
-const getRegisterCode = (email) => {
+const sendActivateEmail = (email) => {
     return httpClient
         .post('/user/send-activate-email', { email })
         .then((result) => {
@@ -19,6 +19,6 @@ const sendResetPasswordLink = (email) => {
 };
 
 export default {
-    getRegisterCode,
+    sendActivateEmail,
     sendResetPasswordLink
 };
