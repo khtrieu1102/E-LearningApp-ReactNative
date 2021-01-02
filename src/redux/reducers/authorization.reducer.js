@@ -136,6 +136,41 @@ const authorizationReducer = (state = initialState, action) => {
 				isLoading: false,
 			}
 		}
+		case actionTypes.authorization.CHANGE_PASSWORD: {
+			return {
+				...state,
+			};
+		}
+		case actionTypes.authorization.CHANGE_PASSWORD_SUCCESS: {
+			return {
+				...state,
+				isLoading: false,
+			}
+		}		
+		case actionTypes.authorization.CHANGE_PASSWORD_FAILURE: {
+			return {
+				...state,
+				isLoading: false,
+			}
+		}
+		case actionTypes.authorization.UPDATE_EMAIL_INFO: {
+			return {
+				...state,
+			};
+		}
+		case actionTypes.authorization.UPDATE_EMAIL_INFO_SUCCESS: {
+			return {
+				...state,
+				isLoading: false,
+			}
+		}		
+		case actionTypes.authorization.UPDATE_EMAIL_INFO_FAILURE: {
+			return {
+				...state,
+				isLoading: false,
+			}
+		}
+
 		default:
 			return state;
 	}

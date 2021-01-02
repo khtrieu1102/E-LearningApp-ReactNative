@@ -137,6 +137,46 @@ const updateMeBasicInfo = (name, phone, avatar) => async (dispatch) => {
 		});
 }
 
+const changePasswordSuccess = () => createActionCreators(actionTypes.authorization.CHANGE_PASSWORD_SUCCESS);
+
+const changePasswordFailure = (errorMessage) => createActionCreators(actionTypes.authorization.CHANGE_PASSWORD_FAILURE, null, errorMessage);
+
+const changePassword = (id, oldPass, newPass) => async (dispatch) => {
+	dispatch({ type: actionTypes.authorization.CHANGE_PASSWORD });
+	dispatch(setIsLoading());
+
+	await apiMethods.user
+		.changePassword(id, oldPass, newPass)
+		.then(result => {
+			dispatch(changePasswordSuccess());
+			helpers.FlashMessageFunc.showGlobalInfo(result?.data?.message || "Changed successfully!");
+
+		})
+		.catch(error => {
+			dispatch(changePasswordFailure(error?.response?.data?.message || "Something's wrong, please try again!"));
+		});
+}
+
+const updateEmailInfoSuccess = () => createActionCreators(actionTypes.authorization.UPDATE_EMAIL_INFO_SUCCESS);
+
+const updateEmailInfoFailure = (errorMessage) => createActionCreators(actionTypes.authorization.UPDATE_EMAIL_INFO_FAILURE, null, errorMessage);
+
+const updateEmailInfo = (email) => async (dispatch) => {
+	dispatch({ type: actionTypes.authorization.UPDATE_EMAIL_INFO });
+	dispatch(setIsLoading());
+
+	await apiMethods.user
+		.updateEmailInfo(email)
+		.then(result => {
+			dispatch(updateEmailInfoSuccess());
+			helpers.FlashMessageFunc.showGlobalInfo(result?.data?.message || "Changed successfully!");
+		})
+		.catch(error => {
+			dispatch(updateEmailInfoFailure(error?.response?.data?.message || "Something's wrong, please try again!"));
+		});
+}
+
+
 const userLogout = () => (dispatch) => {
 	dispatch(setIsLoading());
 	dispatch(setIsAuthenticated(false));
@@ -157,4 +197,6 @@ export default {
 	userRegister,
 	getUserAndVerifyToken,
 	updateMeBasicInfo,
+	changePassword,
+	updateEmailInfo
 };

@@ -22,6 +22,8 @@ import FullSkillTopic from "../cores/section-skills/full-skill-topic";
 import UserProfile from "./settings/profile.view";
 import LanguageSettings from "./settings/language-settings.view";
 import ThemeSettings from "./settings/theme-settings.view";
+import PasswordUpdateForm from "./settings/password-update-form.view";
+import EmailUpdateForm from "./settings/email-update-form.view";
 
 import { useSelector, useDispatch } from "react-redux";
 
@@ -168,6 +170,8 @@ const MainTabNavigator = () => {
 				<SettingsStack.Screen name="Settings/UserProfile" component={UserProfile} />
 				<SettingsStack.Screen name="Settings/ThemeSettings" component={ThemeSettings} />
 				<SettingsStack.Screen name="Settings/LanguageSettings" component={LanguageSettings} />
+				<SettingsStack.Screen name="Settings/EmailUpdateForm" component={EmailUpdateForm} />
+				<SettingsStack.Screen name="Settings/PasswordUpdateForm" component={PasswordUpdateForm} />
 			</SettingsStack.Navigator>
 		);
 	};
