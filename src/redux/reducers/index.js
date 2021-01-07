@@ -1,6 +1,7 @@
 import { combineReducers } from "redux";
 import authorizationReducer from "./authorization.reducer";
 import appSettingsReducer from "./app-settings.reducer"
+import applicationReducer from "./application.reducer"
 import helpers from "../../helpers"
 
 const errorMessage = (state = null, action) => {
@@ -19,5 +20,6 @@ const errorMessage = (state = null, action) => {
 export default combineReducers({
 	authorizationReducer,
 	appSettingsReducer,
+	applicationReducer,
 	errorMessage,
 });

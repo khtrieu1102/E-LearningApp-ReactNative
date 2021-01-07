@@ -28,6 +28,7 @@ const sendActivateEmail = (email) => {
 };
 
 const getUserAndVerifyToken = (token) => {
+    // token from client, make sure consistence
     return httpClient
         .get("/user/me", { Authorization: `Bearer ${token}` })
         .then((result) => {
