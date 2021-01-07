@@ -36,7 +36,6 @@ const SplashScreen = () => {
 				flexDirection: "column",
 				justifyContent: "center",
 				alignItems: "center",
-				maxWidth: 500,
                 height: "100%",
                 backgroundColor: theme.primaryBackgroundColor
 			}}
