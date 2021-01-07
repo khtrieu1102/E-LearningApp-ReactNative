@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { View, ScrollView, Button } from "react-native";
+import { View, ScrollView, Button, ActivityIndicator } from "react-native";
 
 import HorizontalSectionCourses from "../../cores/section-courses/horizontal-section-courses"
 import HorizontalSectionPaths from "../../cores/section-paths/horizontal-section-paths"
@@ -9,23 +9,20 @@ import apiMethods from "../../../http-client/api-methods";
 
 const Home = (props) => {
 	const applicationReducer = useSelector((state) => state.applicationReducer);
-	const { topNewCourses } = applicationReducer;
+	const { isLoading, topNewCourses, topRateCourses, topSellCourses } = applicationReducer;
     const [shouldLoadData, setShouldLoadData] = useState(true);
 	const dispatch = useDispatch();
 
 	console.log("LOAD DATA: ", shouldLoadData);
-	const _getNewCourses = async () => {
-		await setShouldLoadData(false);
-		// apiMethods.application.httpGetNewCourses().then(
-		// 	result => console.log(result.data.payload)
-		// ).catch(err => console.log(error));
-		
+	const _getSomeCourses = async () => {
 		await dispatch(actionCreators.application.httpGetNewCourses());
+		await dispatch(actionCreators.application.httpGetTopRateCourses());
+		await dispatch(actionCreators.application.httpGetTopSellCourses());
 	}	
 
 	useEffect(() => {		
         if (shouldLoadData) {
-			_getNewCourses();
+			_getSomeCourses();
 		}
         setShouldLoadData(false);
 	}, []);
@@ -37,11 +34,12 @@ const Home = (props) => {
 				backgroundColor: 'transparent',
 			}}
 		>
-			<Button onPress={_getNewCourses} title="RELOAD" />
-			<HorizontalSectionCourses header="Continue Learning" />
-			<HorizontalSectionCourses header="Top new" courses={topNewCourses}/>
+			<Button onPress={_getSomeCourses} title="RELOAD" />
+			<HorizontalSectionCourses header="My courses" />
+			<HorizontalSectionCourses header="Top new" courses={topNewCourses} isLoading={isLoading}/>
+			<HorizontalSectionCourses header="Top rate" courses={topSellCourses} isLoading={isLoading}/>
+			<HorizontalSectionCourses header="Recommend for you" courses={topRateCourses} isLoading={isLoading}/>
 			<HorizontalSectionPaths header="Paths" />
-			<HorizontalSectionCourses header="Bookmarks" />
 		</ScrollView>
 	);
 };
