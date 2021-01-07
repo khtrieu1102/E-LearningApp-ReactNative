@@ -3,6 +3,8 @@ import actionTypes from "../action-types";
 const initialState = {
 	isLoading: false,
 	topNewCourses: [],
+	topRateCourses: [],
+	topSellCourses: [],
 };
 
 const ApplicationReducer = (state = initialState, action) => {
@@ -12,6 +14,18 @@ const ApplicationReducer = (state = initialState, action) => {
 			return {
 				...state,
 				topNewCourses: payload,
+			};
+		}
+		case actionTypes.application.SET_TOP_RATE_COURSES: {
+			return {
+				...state,
+				topRateCourses: payload,
+			};
+		}
+		case actionTypes.application.SET_TOP_SELL_COURSES: {
+			return {
+				...state,
+				topSellCourses: payload,
 			};
 		}
 		case actionTypes.application.SET_IS_LOADING_APPLICATION: {
@@ -32,6 +46,40 @@ const ApplicationReducer = (state = initialState, action) => {
 			}
 		}
 		case actionTypes.application.HTTP_GET_NEW_COURSES_FAILURE: {
+			return {
+				...state,
+				isLoading: false,
+			}
+		}
+		case actionTypes.application.HTTP_GET_TOP_RATE_COURSES: {
+			return {
+				...state,
+			};
+		}
+		case actionTypes.application.HTTP_GET_TOP_RATE_COURSES_SUCCESS: {
+			return {
+				...state,
+				isLoading: false,
+			}
+		}
+		case actionTypes.application.HTTP_GET_TOP_RATE_COURSES_FAILURE: {
+			return {
+				...state,
+				isLoading: false,
+			}
+		}
+		case actionTypes.application.HTTP_GET_TOP_SELL_COURSES: {
+			return {
+				...state,
+			};
+		}
+		case actionTypes.application.HTTP_GET_TOP_SELL_COURSES_SUCCESS: {
+			return {
+				...state,
+				isLoading: false,
+			}
+		}
+		case actionTypes.application.HTTP_GET_TOP_SELL_COURSES_FAILURE: {
 			return {
 				...state,
 				isLoading: false,
