@@ -1,7 +1,10 @@
 import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import { View, Text, TouchableOpacity, Image } from "react-native";
-import { useSelector } from "react-redux"
+import { useSelector } from "react-redux";
+import { Ionicons } from "@expo/vector-icons";
+import RatingStarBox from "./rating-star-box";
+
 
 const CourseItemCard = (props) => {
 	const appSettingsReducer = useSelector((state) => state.appSettingsReducer);
@@ -11,12 +14,14 @@ const CourseItemCard = (props) => {
 	const { courseDetails } = props;
 	const {
 		title,
-		author,
 		level,
-		released,
-		duration,
+		createdAt,
 		description,
+		totalHours,
+		imageUrl,
+		presentationPoint
 	} = courseDetails;
+	const author = courseDetails["instructor.user.name"] || "Author";
 
 	const handlePress = () => {
 		navigation.navigate("CourseDetail", { courseDetails: courseDetails });
@@ -25,7 +30,7 @@ const CourseItemCard = (props) => {
 	return (
 		<TouchableOpacity
 			style={{
-				marginRight: 20,
+				margin: 10,
 				height: 220,
 				width: 220,
 				backgroundColor: theme.courseItemColor,
@@ -41,18 +46,18 @@ const CourseItemCard = (props) => {
 		>
 			<Image
 				source={{
-					uri:
-						"https://cdn.yankodesign.com/images/design_news/2018/10/the-keyboard-like-youve-never-seen-it/fangyuan_mechanical_keyboard_layout.jpg",
+					uri: imageUrl || "https://cdn.yankodesign.com/images/design_news/2018/10/the-keyboard-like-youve-never-seen-it/fangyuan_mechanical_keyboard_layout.jpg",
 				}}
-				style={{ height: 100 }}
+				style={{ height: "50%" }}
 			/>
-			<View style={{ marginTop: 10, marginLeft: 10 }}>
+			<View style={{ margin: 10, height: "30%" }}>
 				<Text style={{ fontWeight: "bold" }}>{title}</Text>
 				<Text>{author}</Text>
-				<Text>
-					{level} - {released} - {duration}
+				<Text> 
+					{new Date(createdAt).toDateString()} - {Number((totalHours*1).toFixed(2))}h
 				</Text>
 			</View>
+			<RatingStarBox StarPoint={presentationPoint || 0} />
 		</TouchableOpacity>
 	);
 };
