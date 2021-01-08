@@ -23,7 +23,7 @@ const CourseItemList = ({ courseDetails }) => {
 	const textColor = theme.primaryTextColor;
 
 	const handlePress = () => {
-		navigation.navigate("CourseDetail", { courseDetails: courseDetails });
+		navigation.navigate("CourseDetail", { courseId: courseDetails.id });
 	};
 
 	return (
@@ -60,8 +60,8 @@ const CourseItemList = ({ courseDetails }) => {
 						>
 							{title}
 						</Text>
-						<Text>{author}</Text>
-						<Text style={{ paddingBottom: 5 }}> 
+						<Text style={{ color: textColor }}>{author}</Text>
+						<Text style={{ paddingBottom: 5, color: textColor }}> 
 							{new Date(createdAt).toDateString()} - {Number((totalHours*1).toFixed(2))}h
 						</Text>
 						<RatingStarBox StarPoint={presentationPoint || 0} />

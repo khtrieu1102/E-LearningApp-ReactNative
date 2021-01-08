@@ -5,7 +5,6 @@ import { useSelector } from "react-redux";
 import { Ionicons } from "@expo/vector-icons";
 import RatingStarBox from "./rating-star-box";
 
-
 const CourseItemCard = (props) => {
 	const appSettingsReducer = useSelector((state) => state.appSettingsReducer);
 	const { theme } = appSettingsReducer;
@@ -24,7 +23,7 @@ const CourseItemCard = (props) => {
 	const author = courseDetails["instructor.user.name"] || "Author";
 
 	const handlePress = () => {
-		navigation.navigate("CourseDetail", { courseDetails: courseDetails });
+		navigation.navigate("CourseDetail", { courseId: courseDetails?.id });
 	};
 
 	return (
