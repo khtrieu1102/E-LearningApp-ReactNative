@@ -6,16 +6,20 @@ import HorizontalSectionPaths from "../../cores/section-paths/horizontal-section
 import HorizontalSectionAuthors from "../../cores/section-authors/horizontal-section-authors"
 import FeatureCard from "../../cores/feature/feature-card";
 import HorizontalSectionSkills from "../../cores/section-skills/horizontal-section-skills";
+import { useSelector, useDispatch } from "react-redux";
 
 const Browse = (props) => {
+	const applicationReducer = useSelector((state) => state.applicationReducer);
+	const { topNewCourses, topRateCourses, topSellCourses } = applicationReducer;
+
 	return (
 		<ScrollView
 			style={{
 				flex: 1,
 			}}
 		>
-			<FeatureCard title="NEW" />
-			<FeatureCard title="RECOMMEND FOR YOU" />
+			<FeatureCard title="NEW" courses={topNewCourses} />
+			<FeatureCard title="RECOMMEND FOR YOU" courses={topRateCourses} />
 			<HorizontalSectionSkills header="Popular skills" />
 			<HorizontalSectionPaths header="ABC" />
 			<HorizontalSectionAuthors header="Author" />

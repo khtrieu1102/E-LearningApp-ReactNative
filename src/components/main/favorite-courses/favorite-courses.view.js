@@ -11,7 +11,7 @@ const FavoriteCourses = (props) => {
 				flex: 1,
 			}}
 		>
-			<VerticalSectionCourses header="Your favorite courses" />
+			<VerticalSectionCourses />
 		</View>
 	);
 };

@@ -9,12 +9,10 @@ import { useSelector } from "react-redux";
 const HorizontalSectionCourses = ({ header, courses, isLoading }) => {    
 	const appSettingsReducer = useSelector((state) => state.appSettingsReducer);
 	const { theme } = appSettingsReducer;
-	console.log("THEME: ", theme)
-
 	const navigation = useNavigation();
 
 	const onSeeAll = () => {
-		navigation.navigate("VerticalSectionCourses", {header, courses});
+		navigation.navigate("VerticalSectionCourses", { header, courses });
 	};
 
 	return (

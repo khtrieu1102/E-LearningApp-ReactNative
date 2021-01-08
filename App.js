@@ -16,6 +16,8 @@ export default function App() {
   const { isAuthenticated, role } = authorizationReducer;
   let TokenFromAsyncStorage;
 
+  console.log("APP RE_RENDER")
+
   const _getTokenFromStorage = async () => {
     await AsyncStorage.getItem("token", (error, result) => {
       if (result != null) {

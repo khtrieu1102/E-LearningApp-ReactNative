@@ -11,21 +11,26 @@ const Home = (props) => {
 	const applicationReducer = useSelector((state) => state.applicationReducer);
 	const { isLoading, topNewCourses, topRateCourses, topSellCourses } = applicationReducer;
     const [shouldLoadData, setShouldLoadData] = useState(true);
-	const dispatch = useDispatch();
+	const dispatch = useDispatch();    const mountedRef = useRef(true);
+
 
 	console.log("LOAD DATA: ", shouldLoadData);
 	const _getSomeCourses = async () => {
+		
+        await setShouldLoadData(false);
 		await dispatch(actionCreators.application.httpGetNewCourses());
 		await dispatch(actionCreators.application.httpGetTopRateCourses());
 		await dispatch(actionCreators.application.httpGetTopSellCourses());
 	}	
 
-	useEffect(() => {		
-        if (shouldLoadData) {
-			_getSomeCourses();
-		}
-        setShouldLoadData(false);
-	}, []);
+	useEffect(() => {
+		if (!mountedRef.current) return;
+		
+		_getSomeCourses();
+        return () => {
+            mountedRef.current = false;
+        };
+    }, []);
 
 	return (
 		<ScrollView
