@@ -36,8 +36,19 @@ const httpGetTopSellCourses = (limit = 10, page = 1) => {
         .catch((err) => Promise.reject(err));
 }
 
+const httpGetCourseFullDetail = (courseId) => {
+    return httpClient
+        .get(`/course/get-course-detail/${courseId}/null`)
+        .then((result) => {
+            return Promise.resolve(result);
+        })
+        .catch((err) => Promise.reject(err));
+}
+
+
 export default {
     httpGetNewCourses,
     httpGetTopRateCourses,
     httpGetTopSellCourses,
+    httpGetCourseFullDetail,
 };
