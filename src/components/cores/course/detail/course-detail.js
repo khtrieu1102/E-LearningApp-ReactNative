@@ -1,11 +1,12 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { Fragment, useCallback, useEffect, useState } from "react";
 import {
 	Text,
 	ScrollView,
 	ImageBackground,
 	View,
 	TouchableOpacity,
-	Button
+	Button,
+	ActivityIndicator,
 } from "react-native";
 import { Video } from "expo-av";
 
@@ -15,74 +16,99 @@ import { useSelector } from "react-redux";
 import AuthorSimpleItem from "../../author/author-simple"
 import Actions from "./action-buttons";
 import Details from "./content-and-transcript";
+import RatingStarBox from "../rating-star-box";
+import apiMethods from "../../../../http-client/api-methods";
+import helper from "../../../../helpers";
 
-const CourseDetail = ({}) => {
+import Course from "../../../../models/course.model";
+
+const CourseDetail = () => {
 	const appSettingsReducer = useSelector((state) => state.appSettingsReducer);
 	const { theme } = appSettingsReducer;
 	const textColor = theme.primaryTextColor;
+	const [courseDetails, setCourseDetails] = useState(new Course({}));
+	const [isLoading, setIsLoading] = useState(false);
 
 	const route = useRoute();
-	const {
-		id,
-		title,
-		author,
-		level,
-		released,
-		duration,
-		description,
-	} = route.params.courseDetails;
 	const [isPlaying, setIsPlaying] = useState(false);
 
-	useEffect(() => {
+	const _getCourseDetail = async () => {
+		if (!route?.params?.courseId) return;
+		setIsLoading(true);
+		await apiMethods.application.httpGetCourseFullDetail(route?.params?.courseId)
+			.then(result => result.data.payload)
+			.then(result => {
+				const data = new Course(result);
+				setCourseDetails(data);
+				setIsLoading(false);
+			})
+			.catch(error => {
+				console.log(error.response);
+				helper.FlashMessageFunc.showGlobalError(error?.response?.data?.message);
+				setIsLoading(false);
+			});
+	}
 
+	useEffect(() => {
+		_getCourseDetail();
 		return () => {
 			setIsPlaying(false);
 		}
-	}, [])
+	}, []);
 
 	return (
-		<View
-			style={{
-				flex: 1,
-			}}
-		>
-			
-			<Video
-					source={{
-						uri: "http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4",
-					}}
-					rate={1.0}
-					volume={1.0}
-					isMuted={false}
-					resizeMode="cover"
-					playing={isPlaying}
-					isLooping
-					style={{ height: 200 }}
-					useNativeControls={true}
-				/>
-			<ScrollView style={{ paddingLeft: 10, paddingRight: 10 }}>
-				<Text
+		<Fragment>
+			{courseDetails.id && 
+				<View
 					style={{
-						fontWeight: "bold",
-						marginBottom: 5,
-						fontSize: 28,
-						color: textColor
+						flex: 1,
 					}}
-					numberOfLines={3}
 				>
-					{title}
-				</Text>
-				<AuthorSimpleItem authorName={author} />
-				<Text style={{ color: "#979ba1", fontSize: 14, paddingTop: 3 }}>
-					{level} - {released} - {duration}
-				</Text>
-				<Actions
-					description={description}
-					courseIsInFavorite={false}
-				/>
-				<Details />
-			</ScrollView>
-		</View>
+					<Video
+							source={{
+								uri: courseDetails.promoVidUrl || "http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4",
+							}}
+							rate={1.0}
+							volume={1.0}
+							isMuted={false}
+							resizeMode="cover"
+							playing={isPlaying}
+							isLooping
+							style={{ height: 200 }}
+							useNativeControls={true}
+						/>
+					<ScrollView style={{ paddingLeft: 10, paddingRight: 10 }}>
+						<Text
+							style={{
+								fontWeight: "bold",
+								marginBottom: 5,
+								fontSize: 28,
+								color: textColor
+							}}
+							numberOfLines={3}
+						>
+							{courseDetails.title}
+						</Text>
+						<AuthorSimpleItem authorName={courseDetails.instructor.name} />
+						<Text style={{ color: "#979ba1", fontSize: 14, paddingTop: 3 }}>
+							{new Date(courseDetails.createdAt).toDateString()} - {Number((courseDetails.totalHours*1).toFixed(2))}h
+						</Text>
+						<RatingStarBox StarPoint={4.3} />
+						<Actions
+							description={courseDetails.description}
+							courseIsInFavorite={false}
+						/>
+						<Details />
+					</ScrollView>
+				</View>
+			}
+			{!courseDetails.id && !isLoading && <View style={{ height: 220, justifyContent: "center", alignSelf: "center" }}>
+				<Text style={{ color: theme.primaryTextColor }}>Không lấy được data của khoá học, thử lại sau nhé!</Text>
+			</View>}
+			{!courseDetails.id && isLoading && <View style={{ height: 220, justifyContent: "center", alignSelf: "center" }}>
+				<ActivityIndicator />
+			</View>}
+		</Fragment>
 	);
 };
 
