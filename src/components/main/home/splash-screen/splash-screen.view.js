@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 
 import { useSelector, useDispatch } from 'react-redux';
 
-const SplashScreen = ({  }) => {	
+const HomeSplashScreen = ({  }) => {	
     const appSettingsReducer = useSelector((state) => state.appSettingsReducer);
     const authorizationReducer = useSelector((state) => state.authorizationReducer);
     const { isAuthenticated } = authorizationReducer;
@@ -24,7 +24,7 @@ const SplashScreen = ({  }) => {
             setTimeout(() => {
                 
             }, 1000);
-            navigation.navigate("Authorization/AuthorizationHome");
+            navigation.navigate("Home/Dashboard");
         }
 
         return () => {
@@ -44,11 +44,10 @@ const SplashScreen = ({  }) => {
 		>
             <Image
                 style={{ height: "50px", paddingBottom: 100 }}
-                source={require("../assets/fit-hcmus-logo.png")}
             />
 			<Text style={{ color: theme.primaryTextColor }}>{title}</Text>
 		</View>
 	);
 };
 
-export default SplashScreen;
+export default HomeSplashScreen;

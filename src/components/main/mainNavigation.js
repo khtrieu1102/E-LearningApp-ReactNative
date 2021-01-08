@@ -10,6 +10,7 @@ import VerticalSectionCourses from "../cores/section-courses/vertical-section-co
 import CourseDetail from "../cores/course/detail/course-detail";
 import PathDetail from "../cores/path/path-detail"
 import VerticalSectionPaths from '../cores/section-paths/vertical-section-paths';
+import HomeSplashScreen from "./home/splash-screen/splash-screen.view";
 
 import Browse from "./browse/browse.view";
 import Settings from "./settings/settings.view"
@@ -24,6 +25,7 @@ import LanguageSettings from "./settings/language-settings.view";
 import ThemeSettings from "./settings/theme-settings.view";
 import PasswordUpdateForm from "./settings/password-update-form.view";
 import EmailUpdateForm from "./settings/email-update-form.view";
+
 
 import { useSelector, useDispatch } from "react-redux";
 
@@ -64,6 +66,8 @@ const MainTabNavigator = () => {
 		return (
 			
 			<HomeStack.Navigator screenOptions={headerStyleOptions}>
+				
+				<HomeStack.Screen name="Home/SplashScreen" component={HomeSplashScreen} options={{ headerShown: false }} />
 				<HomeStack.Screen name="Home/Dashboard" component={Home} />
 				<HomeStack.Screen
 					name="VerticalSectionCourses"
@@ -113,7 +117,7 @@ const MainTabNavigator = () => {
 				<BrowseStack.Screen name="Browse/Dashboard" component={Browse} />
 				<BrowseStack.Screen
 					name="VerticalSectionCourses"
-					component={() => <VerticalSectionCourses />}
+					component={VerticalSectionCourses}
 				/>
 				<BrowseStack.Screen 
 					name="CourseDetail" 
@@ -177,11 +181,10 @@ const MainTabNavigator = () => {
 	};
 
     return (
-		<MainTab.Navigator initialRouteName="Settings" 
+		<MainTab.Navigator 
 			screenOptions={({ route }) => ({
 				tabBarIcon: ({ focused, color, size }) => {
 					let iconName;
-		
 					switch (route.name) {
 						case 'Home': {
 							iconName = focused
