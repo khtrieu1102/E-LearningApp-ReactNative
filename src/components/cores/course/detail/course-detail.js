@@ -24,7 +24,9 @@ import Course from "../../../../models/course.model";
 
 const CourseDetail = () => {
 	const appSettingsReducer = useSelector((state) => state.appSettingsReducer);
+	const applicationReducer = useSelector((state) => state.applicationReducer);
 	const { theme } = appSettingsReducer;
+	const { favoriteCourses } = applicationReducer;
 	const textColor = theme.primaryTextColor;
 	const [courseDetails, setCourseDetails] = useState(new Course({}));
 	const [isLoading, setIsLoading] = useState(false);
@@ -71,10 +73,10 @@ const CourseDetail = () => {
 							rate={1.0}
 							volume={1.0}
 							isMuted={false}
-							resizeMode="cover"
+							resizeMode="contain"
 							playing={isPlaying}
 							isLooping
-							style={{ height: 200 }}
+							style={{ height: "40%" }}
 							useNativeControls={true}
 						/>
 					<ScrollView style={{ paddingLeft: 10, paddingRight: 10 }}>
@@ -96,7 +98,8 @@ const CourseDetail = () => {
 						<RatingStarBox StarPoint={4.3} />
 						<Actions
 							description={courseDetails.description}
-							courseIsInFavorite={false}
+							courseIsInFavorite={favoriteCourses.findIndex(t => t.id == courseDetails.id) !== -1}
+							courseId={courseDetails.id}
 						/>
 						<Details />
 					</ScrollView>
