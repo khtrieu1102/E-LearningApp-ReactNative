@@ -14,9 +14,8 @@ export default function App() {
   const dispatch = useDispatch();
   const { theme } = appSettingsReducer;
   const { isAuthenticated, role } = authorizationReducer;
+  const backgroundColor = theme.primaryBackgroundColor;
   let TokenFromAsyncStorage;
-
-  console.log("APP RE_RENDER")
 
   const _getTokenFromStorage = async () => {
     await AsyncStorage.getItem("token", (error, result) => {
@@ -36,7 +35,7 @@ export default function App() {
   return (
       <NavigationContainer>
         { !isAuthenticated && 
-          <View style={{ flex: 1, backgroundColor: theme.primaryBackgroundColor }}>
+          <View style={{ flex: 1, backgroundColor: backgroundColor }}>
             <AuthorizationStack />
           </View>
         }
@@ -45,7 +44,7 @@ export default function App() {
           isAuthenticated && 
           <View style={{
               flex: 1,
-              backgroundColor: theme.primaryBackgroundColor,
+              backgroundColor: backgroundColor,
             }}
             >
             <MainTabNavigation />
