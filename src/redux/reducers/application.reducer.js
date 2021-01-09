@@ -5,6 +5,7 @@ const initialState = {
 	topNewCourses: [],
 	topRateCourses: [],
 	topSellCourses: [],
+	favoriteCourses: [],
 };
 
 const ApplicationReducer = (state = initialState, action) => {
@@ -26,6 +27,12 @@ const ApplicationReducer = (state = initialState, action) => {
 			return {
 				...state,
 				topSellCourses: payload,
+			};
+		}
+		case actionTypes.application.SET_FAVORITE_COURSES: {
+			return {
+				...state,
+				favoriteCourses: payload,
 			};
 		}
 		case actionTypes.application.SET_IS_LOADING_APPLICATION: {
@@ -80,6 +87,23 @@ const ApplicationReducer = (state = initialState, action) => {
 			}
 		}
 		case actionTypes.application.HTTP_GET_TOP_SELL_COURSES_FAILURE: {
+			return {
+				...state,
+				isLoading: false,
+			}
+		}
+		case actionTypes.application.HTTP_GET_FAVORITE_COURSES: {
+			return {
+				...state,
+			};
+		}
+		case actionTypes.application.HTTP_GET_FAVORITE_COURSES_SUCCESS: {
+			return {
+				...state,
+				isLoading: false,
+			}
+		}
+		case actionTypes.application.HTTP_GET_FAVORITE_COURSES_FAILURE: {
 			return {
 				...state,
 				isLoading: false,

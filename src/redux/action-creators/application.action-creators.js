@@ -16,6 +16,9 @@ const setTopRateCourses = (courses) =>
 const setTopSellCourses = (courses) => 
 createActionCreators(actionTypes.application.SET_TOP_SELL_COURSES, courses);
 
+const setFavoriteCourses = (courses) => 
+	createActionCreators(actionTypes.application.SET_FAVORITE_COURSES, courses);
+
 const httpGetNewCoursesSuccess = () => createActionCreators(actionTypes.application.HTTP_GET_NEW_COURSES_SUCCESS);
 
 const httpGetNewCoursesFailure = (errorMessage) => createActionCreators(actionTypes.application.HTTP_GET_NEW_COURSES_FAILURE, null, errorMessage);
@@ -76,8 +79,30 @@ const httpGetTopSellCourses = () => async (dispatch) => {
 		});
 }
 
+const httpGetFavoriteCoursesSuccess = () => createActionCreators(actionTypes.application.HTTP_GET_FAVORITE_COURSES_SUCCESS);
+
+const httpGetFavoriteCoursesFailure = (errorMessage) => createActionCreators(actionTypes.application.HTTP_GET_FAVORITE_COURSES_FAILURE, null, errorMessage);
+
+const httpGetFavoriteCourses = () => async (dispatch) => {
+	dispatch({ type: actionTypes.application.HTTP_GET_FAVORITE_COURSES });
+	dispatch(setIsLoading());
+
+	await apiMethods.application
+		.httpGetFavoriteCourses()
+		.then(result => result?.data?.payload)
+		.then(result => {
+			dispatch(setFavoriteCourses(result));
+			dispatch(httpGetFavoriteCoursesSuccess());
+		})
+		.catch(error => {
+			dispatch(httpGetFavoriteCoursesFailure(error?.response?.data?.message || "Something's wrong, please try again!"));
+		});
+}
+
+
 export default {
 	httpGetNewCourses,
 	httpGetTopRateCourses,
 	httpGetTopSellCourses,
+	httpGetFavoriteCourses,
 };

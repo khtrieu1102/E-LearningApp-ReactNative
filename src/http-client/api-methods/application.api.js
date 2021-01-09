@@ -45,10 +45,29 @@ const httpGetCourseFullDetail = (courseId) => {
         .catch((err) => Promise.reject(err));
 }
 
+const httpGetFavoriteCourses = () => {
+    return httpClient
+        .get("/user/get-favorite-courses")
+        .then((result) => {
+            return Promise.resolve(result);
+        })
+        .catch((err) => Promise.reject(err));
+}
+
+const httpLikeCourse = (id) => {
+    return httpClient
+        .post("/user/like-course", { courseId: id })
+        .then((result) => {
+            return Promise.resolve(result);
+        })
+        .catch((err) => Promise.reject(err));
+}
 
 export default {
     httpGetNewCourses,
     httpGetTopRateCourses,
     httpGetTopSellCourses,
     httpGetCourseFullDetail,
+    httpGetFavoriteCourses,
+    httpLikeCourse
 };

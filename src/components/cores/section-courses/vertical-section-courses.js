@@ -12,6 +12,7 @@ const VerticalSectionCourses = (props) => {
 	const { header, courses } = props;
 	const route = useRoute();
 	const tempCourses = courses || route?.params?.courses;
+	console.log(courses, route?.params?.courses)
 	
 	return (
 		<ScrollView>

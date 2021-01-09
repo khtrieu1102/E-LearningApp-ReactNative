@@ -21,6 +21,7 @@ const Home = (props) => {
 		await dispatch(actionCreators.application.httpGetNewCourses());
 		await dispatch(actionCreators.application.httpGetTopRateCourses());
 		await dispatch(actionCreators.application.httpGetTopSellCourses());
+		await dispatch(actionCreators.application.httpGetFavoriteCourses());
 	}	
 
 	useEffect(() => {
