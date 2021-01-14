@@ -13,6 +13,7 @@ import VerticalSectionPaths from '../cores/section-paths/vertical-section-paths'
 import HomeSplashScreen from "./home/splash-screen/splash-screen.view";
 
 import Browse from "./browse/browse.view";
+import VerticalSectionAuthors from "../cores/section-authors/vertical-section-authors";
 import Settings from "./settings/settings.view"
 import Search from "./search/search.view"
 
@@ -124,6 +125,10 @@ const MainTabNavigator = () => {
 					component={CourseDetail} 
 				/>
 				<BrowseStack.Screen 
+					name="VerticalSectionAuthors"
+					component={VerticalSectionAuthors}
+				/>
+				<BrowseStack.Screen 
 					name="PathDetail" 
 					component={PathDetail} 
 				/>
@@ -154,6 +159,10 @@ const MainTabNavigator = () => {
 				<SearchStack.Screen
 					name="VerticalSectionCourses"
 					component={VerticalSectionCourses}
+				/>
+				<BrowseStack.Screen 
+					name="VerticalSectionAuthors"
+					component={VerticalSectionAuthors}
 				/>
 				<SearchStack.Screen 
 					name="CourseDetail" 
@@ -219,7 +228,7 @@ const MainTabNavigator = () => {
 				activeTintColor: 'tomato',
 				inactiveTintColor: 'gray',
 			}}
-			initialRouteName="Search"
+			initialRouteName="FavoriteCourse"
 		>
 			<MainTab.Screen name="Home" component={HomeStackScreens} />
 			<MainTab.Screen name="FavoriteCourse" component={FavoriteStackScreens} />

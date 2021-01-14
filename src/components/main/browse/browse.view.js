@@ -15,6 +15,7 @@ const Browse = (props) => {
 	const { topNewCourses, topRateCourses } = applicationReducer;
 	const [ isLoading, setIsLoading ] = useState(false);
 	const [ paths, setPaths ] = useState([]);
+	const [ instructors, setInstructors ] = useState([]);
 
 	const _getAllCategories = async () => {
 		setIsLoading(true);
@@ -31,8 +32,25 @@ const Browse = (props) => {
 			});
 	}
 
+	const _getAllInstructors = async () => {
+		setIsLoading(true);
+		await apiMethods.application.httpGetAllInstructors()
+			.then(result => result.data.payload)
+			.then(result => {
+				console.log(result);
+				setInstructors(result);
+				setIsLoading(false);
+			})
+			.catch(error => {
+				helper.FlashMessageFunc.showGlobalError(error?.response?.data?.message);
+				setIsLoading(false);
+			});
+	}
+
+
 	useEffect(() => {
 		_getAllCategories();
+		_getAllInstructors();
 		return () => {
 		}
 	}, []);
@@ -47,7 +65,7 @@ const Browse = (props) => {
 			<FeatureCard title="RECOMMEND FOR YOU" courses={topRateCourses} />
 			<HorizontalSectionSkills header="Popular skills" />
 			<HorizontalSectionPaths header="ABC" paths={paths} isLoading={isLoading} />
-			<HorizontalSectionAuthors header="Author" />
+			<HorizontalSectionAuthors header="Author" authors={instructors} isLoading={isLoading} />
 		</ScrollView>
 	);
 };
