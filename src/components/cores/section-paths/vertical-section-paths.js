@@ -1,51 +1,34 @@
 import React from "react";
-import { View, FlatList, ScrollView } from "react-native";
-
-
+import { View, FlatList, Text } from "react-native";
 import SectionPathsHeader from "./section-paths-header";
 import PathListItem from "../path/path-list-item";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { useRoute } from "@react-navigation/native";
+import { useSelector } from "react-redux";
 
-const VerticalSectionPaths = ({ header }) => {
-	const navigation = useNavigation();
+const VerticalSectionPaths = ({ header, paths }) => {
+	const appSettingsReducer = useSelector(state => state.appSettingsReducer);
+	const { theme } = appSettingsReducer;
 	const route = useRoute();
-	const tempPaths =
-		route && route.params.paths
-			? route.params.paths
-			: [
-					{
-						id: 1,
-						pathName: "React",
-						amount: 12,
-					},
-					{
-						id: 2,
-						pathName: "Leadership and Management for: Project Managers",
-						amount: 44,
-					},
-					{
-						id: 3,
-						pathName: "Android and Android simulator",
-						amount: 10,
-					},
-					{
-						id: 3,
-						pathName: "Advanced Website application development",
-						amount: 15,
-					},
-			  ];
+	const tempPaths = paths || route?.params?.paths;
 
 	return (
-		<ScrollView>
-			<SectionPathsHeader header={header} showButtonSeeAll={false}/>
-			<FlatList
-				data={tempPaths}
-				renderItem={({ item }) => (
-					<PathListItem pathDetails={item} />
-				)}
-				keyExtractor={(item) => item.id + ""} // expect key as a string.
-			/>
-		</ScrollView>
+		<View>
+			{header && <SectionPathsHeader header={header} showButtonSeeAll={false} />}
+			{tempPaths && 
+				<FlatList
+					data={tempPaths}
+					renderItem={({ item }) => (
+						<PathListItem pathDetails={item} />
+					)}
+					keyExtractor={(item) => item.id + ""} // expect key as a string.
+				/>
+			}
+			{!tempPaths && 
+				<View style={{ height: 220, justifyContent: "center", alignSelf: "center" }}>
+					<Text style={{ color: theme.primaryTextColor }}>Hiện chưa có khoá học nào ở mục này</Text>
+				</View>
+			}
+		</View>
 	);
 };
 

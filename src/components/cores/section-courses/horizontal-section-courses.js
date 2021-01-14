@@ -19,7 +19,6 @@ const HorizontalSectionCourses = ({ header, courses, isLoading }) => {
 		<View>
 			<SectionCoursesHeader
 				header={header}
-				textColor={theme.primaryTextColor}
 				showButtonSeeAll={courses?.length > 0 ? true : false}
 				onSeeAll={onSeeAll}
 			/>

@@ -76,7 +76,7 @@ const VerticalSectionAuthors = ({ header }) => {
 	const navigation = useNavigation();
 
 	return (
-		<ScrollView>
+		<View>
 			<SectionAuthorsHeader header={header} />
 			<FlatList
 				data={authors}
@@ -85,7 +85,7 @@ const VerticalSectionAuthors = ({ header }) => {
 				)}
 				keyExtractor={(item) => item.id + ""} // expect key as a string.
 			/>
-		</ScrollView>
+		</View>
 	);
 };
 

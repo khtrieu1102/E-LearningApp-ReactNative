@@ -14,7 +14,7 @@ const SectionCoursesHeader = ({ header, onSeeAll, showButtonSeeAll }) => {
 				flexDirection: "row",
 				justifyContent: "space-between",
 				alignItems: "center",
-				marginTop: 10
+				marginTop: 10,
 			}}
 		>
 			<Text style={{ fontSize: 18, fontWeight: "bold", color: theme.primaryTextColor }}>{header}</Text>
@@ -23,6 +23,7 @@ const SectionCoursesHeader = ({ header, onSeeAll, showButtonSeeAll }) => {
 					backgroundColor: "#dedede",
 					flexDirection: "row",
 					borderRadius: 20,
+					width: "20%",
 				}}
 				onPress={onSeeAll}
 			>
