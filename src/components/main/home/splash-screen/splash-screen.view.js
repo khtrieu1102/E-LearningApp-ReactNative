@@ -43,7 +43,7 @@ const HomeSplashScreen = ({  }) => {
 			}}
 		>
             <Image
-                style={{ height: "50px", paddingBottom: 100 }}
+                style={{ height: 50, paddingBottom: 100 }}
             />
 			<Text style={{ color: theme.primaryTextColor }}>{title}</Text>
 		</View>

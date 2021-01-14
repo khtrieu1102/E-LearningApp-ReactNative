@@ -93,7 +93,7 @@ const Login = () => {
 				}}
 			>
 				<Image
-						style={{ height: "50px", paddingBottom: 100 }}
+						style={{ height: 50, paddingBottom: 100 }}
 						source={require("../assets/fit-hcmus-logo.png")}
 					/>
 				<Text style={{ color: theme.primaryTextColor }}>Email</Text>
@@ -131,7 +131,8 @@ const Login = () => {
 					onPress={onSubmit}
 				>
 					<Text style={{ color: "white" }}>
-					    {isLoading ? <span>Please wait... <ActivityIndicator /></span> : "Sign In"}
+					    {/* {isLoading ? <span>Please wait... <ActivityIndicator /></span> : "Sign In"} */}
+						Sign In
 					</Text>
 				</TouchableOpacity>
 				<TouchableOpacity

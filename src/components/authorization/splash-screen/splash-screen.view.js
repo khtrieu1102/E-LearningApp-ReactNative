@@ -43,7 +43,7 @@ const SplashScreen = ({  }) => {
 			}}
 		>
             <Image
-                style={{ height: "50px", paddingBottom: 100 }}
+                style={{ height: 50, paddingBottom: 100 }}
                 source={require("../assets/fit-hcmus-logo.png")}
             />
 			<Text style={{ color: theme.primaryTextColor }}>{title}</Text>
