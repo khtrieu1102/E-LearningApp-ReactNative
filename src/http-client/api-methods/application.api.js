@@ -63,11 +63,48 @@ const httpLikeCourse = (id) => {
         .catch((err) => Promise.reject(err));
 }
 
+const httpGetAllCategories = () => {
+    return httpClient
+        .get("/category/all")
+        .then((result) => {
+            return Promise.resolve(result);
+        })
+        .catch((err) => Promise.reject(err));
+}
+
+const httpGetCoursesFromCategory = (categoryId) => {
+    return httpClient
+        .post(`/course/search`, {
+            keyword: "",
+            limit:12,
+            offset: 0,
+            opt: {
+                category: [categoryId]
+            }
+        })
+        .then((result) => {
+            return Promise.resolve(result);
+        })
+        .catch((err) => Promise.reject(err));
+}
+
+const httpGetCourseFavoriteStatus = (courseId) => {
+    return httpClient
+        .get(`/user/get-course-like-status/${courseId}`)
+        .then((result) => {
+            return Promise.resolve(result);
+        })
+        .catch((err) => Promise.reject(err));
+}
+
 export default {
     httpGetNewCourses,
     httpGetTopRateCourses,
     httpGetTopSellCourses,
     httpGetCourseFullDetail,
     httpGetFavoriteCourses,
-    httpLikeCourse
+    httpLikeCourse,
+    httpGetAllCategories,
+    httpGetCoursesFromCategory,
+    httpGetCourseFavoriteStatus
 };

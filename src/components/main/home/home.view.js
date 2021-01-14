@@ -11,27 +11,28 @@ const Home = (props) => {
 	const applicationReducer = useSelector((state) => state.applicationReducer);
 	const { isLoading, topNewCourses, topRateCourses, topSellCourses } = applicationReducer;
     const [shouldLoadData, setShouldLoadData] = useState(true);
-	const dispatch = useDispatch();    const mountedRef = useRef(true);
+	const dispatch = useDispatch();    
+	const mountedRef = useRef(true);
 
 
 	console.log("LOAD DATA: ", shouldLoadData);
-	const _getSomeCourses = async () => {
-		
-        await setShouldLoadData(false);
-		await dispatch(actionCreators.application.httpGetNewCourses());
-		await dispatch(actionCreators.application.httpGetTopRateCourses());
-		await dispatch(actionCreators.application.httpGetTopSellCourses());
-		await dispatch(actionCreators.application.httpGetFavoriteCourses());
-	}	
 
 	useEffect(() => {
 		if (!mountedRef.current) return;
+		
+		const _getSomeCourses = async () => {
+			
+			await setShouldLoadData(false);
+			await dispatch(actionCreators.application.httpGetNewCourses());
+			await dispatch(actionCreators.application.httpGetTopRateCourses());
+			await dispatch(actionCreators.application.httpGetTopSellCourses());
+		}	
 		
 		_getSomeCourses();
         return () => {
             mountedRef.current = false;
         };
-    }, []);
+    }, [shouldLoadData]);
 
 	return (
 		<ScrollView
@@ -40,12 +41,10 @@ const Home = (props) => {
 				backgroundColor: 'transparent',
 			}}
 		>
-			<Button onPress={_getSomeCourses} title="RELOAD" />
 			<HorizontalSectionCourses header="My courses" />
 			<HorizontalSectionCourses header="Top new" courses={topNewCourses} isLoading={isLoading}/>
 			<HorizontalSectionCourses header="Top rate" courses={topSellCourses} isLoading={isLoading}/>
 			<HorizontalSectionCourses header="Recommend for you" courses={topRateCourses} isLoading={isLoading}/>
-			<HorizontalSectionPaths header="Paths" />
 		</ScrollView>
 	);
 };
