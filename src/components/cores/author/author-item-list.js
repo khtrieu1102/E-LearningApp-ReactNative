@@ -7,7 +7,6 @@ import { useSelector } from "react-redux";
 const AuthorItemList = ({ authorDetails }) => {
 	const appSettingsReducer = useSelector((state) => state.appSettingsReducer);
 	const { theme } = appSettingsReducer;
-	const { id, authorName, amount } = authorDetails;
 	const navigation = useNavigation();
 
 	const handlePress = () => {
@@ -34,7 +33,7 @@ const AuthorItemList = ({ authorDetails }) => {
 					<Image
 						source={{
 							uri:
-								"https://cdn.yankodesign.com/images/design_news/2018/10/the-keyboard-like-youve-never-seen-it/fangyuan_mechanical_keyboard_layout.jpg",
+								authorDetails["user.avatar"] || "https://cdn.yankodesign.com/images/design_news/2018/10/the-keyboard-like-youve-never-seen-it/fangyuan_mechanical_keyboard_layout.jpg",
 						}}
 						style={{ width: 80, height: 80, maxWidth: "30%", borderRadius: 50 }}
 					/>
@@ -46,10 +45,10 @@ const AuthorItemList = ({ authorDetails }) => {
 								color: theme.primaryTextColor
 							}}
 						>
-							{authorName}
+							{authorDetails["user.name"]}
 						</Text>
 						<Text style={{ color: "#979ba1", fontSize: 11, paddingTop: 3 }}>
-							{amount} courses
+							{authorDetails["major"]}
 						</Text>
 					</View>
 				</TouchableOpacity>
