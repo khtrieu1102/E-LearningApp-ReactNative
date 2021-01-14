@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { authHeader } from './auth-header';
+import authHeader from './auth-header';
 
 // heroku no-cors url and API url
 const CORS_URL = 'https://sleepy-river-85284.herokuapp.com/';
@@ -10,8 +10,10 @@ const httpClient = axios.create();
 
 httpClient.defaults.baseURL = `${API_URL}`;
 httpClient.defaults.headers.post['Content-Type'] = 'application/json';
-httpClient.interceptors.request.use(function (config) {
-    config.headers.Authorization = authHeader().Authorization;
+httpClient.interceptors.request.use(async function (config) {
+    await authHeader().then(result => {
+        config.headers.Authorization = result;
+    });
     return config;
 });
 
