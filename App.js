@@ -13,12 +13,12 @@ export default function App() {
   const appSettingsReducer = useSelector((state) => state.appSettingsReducer);
   const dispatch = useDispatch();
   const { theme } = appSettingsReducer;
-  const { isAuthenticated, role } = authorizationReducer;
+  const { isAuthenticated, token } = authorizationReducer;
   const backgroundColor = theme.primaryBackgroundColor;
   let TokenFromAsyncStorage;
 
   const _getTokenFromStorage = async () => {
-    await AsyncStorage.getItem("token", (error, result) => {
+    await AsyncStorage.getItem("token").then((result) => {
       if (result != null) {
         TokenFromAsyncStorage = result;
         dispatch(actionCreators.authorization.getUserAndVerifyToken(result));
@@ -50,11 +50,11 @@ export default function App() {
             <MainTabNavigation />
           </View>
         }
-        <FlashMessage 
+        {/* <FlashMessage 
           position="top" 
           autoHide={false}
           style={{ paddingTop: "30" }}
-        />
+        /> */}
       </NavigationContainer>
   );
 }
