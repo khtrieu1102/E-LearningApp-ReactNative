@@ -98,7 +98,7 @@ const CourseDetail = () => {
 							description={courseDetails.description}
 							courseId={courseDetails.id}
 						/>
-						<Details />
+						<Details section={courseDetails.section} />
 					</ScrollView>
 				</View>
 			}

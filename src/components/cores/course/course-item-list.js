@@ -14,7 +14,7 @@ const CourseItemList = ({ courseDetails }) => {
 		title,
 		level,
 		createdAt,
-		description,
+		price,
 		totalHours,
 		imageUrl,
 		presentationPoint
@@ -50,7 +50,7 @@ const CourseItemList = ({ courseDetails }) => {
 						}}
 						style={{ width: 80, height: 60, maxWidth: "30%" }}
 					/>
-					<View style={{ paddingLeft: 10, maxWidth: "70%", paddingRight: 10 }}>
+					<View style={{ paddingLeft: 10, maxWidth: "70%", paddingRight: 10, color: textColor }}>
 						<Text
 							style={{
 								fontWeight: "bold",
@@ -61,8 +61,11 @@ const CourseItemList = ({ courseDetails }) => {
 							{title}
 						</Text>
 						<Text style={{ color: textColor }}>{author}</Text>
-						<Text style={{ paddingBottom: 5, color: textColor }}> 
+						<Text style={{ color: textColor }}> 
 							{new Date(createdAt).toDateString()} - {Number((totalHours*1).toFixed(2))}h
+						</Text>
+						<Text style={{ color: textColor }}> 
+							Price: {price} VND
 						</Text>
 						<RatingStarBox StarPoint={presentationPoint || 0} />
 					</View>	

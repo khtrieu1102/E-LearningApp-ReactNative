@@ -15,7 +15,7 @@ const CourseItemCard = (props) => {
 		title,
 		level,
 		createdAt,
-		description,
+		price,
 		totalHours,
 		imageUrl,
 		presentationPoint
@@ -50,10 +50,13 @@ const CourseItemCard = (props) => {
 				style={{ height: "50%" }}
 			/>
 			<View style={{ margin: 10, height: "30%" }}>
-				<Text style={{ fontWeight: "bold" }}>{title}</Text>
-				<Text>{author}</Text>
+				<Text style={{ fontWeight: "bold" }}>{title} - <Text style={{ fontWeight: "normal" }}>{author}</Text> </Text>
+				
 				<Text> 
 					{new Date(createdAt).toDateString()} - {Number((totalHours*1).toFixed(2))}h
+				</Text>
+				<Text> 
+					Price: {price} VND
 				</Text>
 			</View>
 			<RatingStarBox StarPoint={presentationPoint || 0} />
