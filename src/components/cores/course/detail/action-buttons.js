@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useSelector, useDispatch } from "react-redux";
@@ -18,22 +18,42 @@ const Actions = (props) => {
 	const backgroundColor = theme.primaryBackgroundColor;
 
 	const navigation = useNavigation();
-	const { description, courseId, courseIsInFavorite } = props;
+	const { description, courseId,  } = props;
+
+	const [ courseIsInFavorite, setCourseIsInFavorite ] = useState(false);
 	const handlePress = () => {
 		console.log("Go to author name");
 		// navigation.navigate("AuthorDetail", { authorDetails: authorDetails });
 	};
 
+	const _checkCourseIsInFavorite = async () => {
+		await apiMethods.application.httpGetCourseFavoriteStatus(courseId)
+			.then(result => result?.data?.likeStatus)
+			.then(result => {
+				setCourseIsInFavorite(result);
+			}).catch(error => {
+				console.log(error);
+			})
+	}
+
 	const onInteractWithFavorite = async () => {
 		await apiMethods.application
 			.httpLikeCourse(courseId)
 			.then(async (result) => {
-				await dispatch(actionCreators.application.httpGetFavoriteCourses());
+				_checkCourseIsInFavorite();
 			})
 			.catch(error => {
 				helpers.FlashMessageFunc.showSimpleError("Không thể hoàn thành tác vụ, hãy thử lại sau!");
 			});
 	}
+
+	useEffect(() => {
+		_checkCourseIsInFavorite();
+
+		return () => {
+
+		}
+	}, [])
 	
 	return (
 		<>
@@ -46,7 +66,7 @@ const Actions = (props) => {
 				}}
 			>
 				<CircleButton 
-					handlePress={onInteractWithFavorite} 
+					handlePress={() => onInteractWithFavorite()} 
 					iconName="ios-heart" 
 					iconColor={courseIsInFavorite ? "red" : "#8a92a1"}
 					buttonName={courseIsInFavorite ? "Unlike" : "Like"}
@@ -67,7 +87,6 @@ const Actions = (props) => {
 					textColor={textColor}
 				/>
 			</View>
-			<hr />
 			<Description description={description} />
 			<View
 				style={{

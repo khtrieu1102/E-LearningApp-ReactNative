@@ -24,9 +24,7 @@ import Course from "../../../../models/course.model";
 
 const CourseDetail = () => {
 	const appSettingsReducer = useSelector((state) => state.appSettingsReducer);
-	const applicationReducer = useSelector((state) => state.applicationReducer);
 	const { theme } = appSettingsReducer;
-	const { favoriteCourses } = applicationReducer;
 	const textColor = theme.primaryTextColor;
 	const [courseDetails, setCourseDetails] = useState(new Course({}));
 	const [isLoading, setIsLoading] = useState(false);
@@ -98,7 +96,6 @@ const CourseDetail = () => {
 						<RatingStarBox StarPoint={4.3} />
 						<Actions
 							description={courseDetails.description}
-							courseIsInFavorite={favoriteCourses.findIndex(t => t.id == courseDetails.id) !== -1}
 							courseId={courseDetails.id}
 						/>
 						<Details />

@@ -12,14 +12,14 @@ const Description = ({ description }) => {
 
 	const toggleDescription = () => {
 		setIsShowFullDescription(!isShowFullDescription);
-		if (isShowFullDescription) setLineToShow(-1);
-		else setLineToShow(4);
+		if (isShowFullDescription) setLineToShow(10);
+		else setLineToShow(3);
 	};
 
 	return (
 		<View style={{ paddingTop: 10 }}>
 			<Text numberOfLines={lineToShow} style={{ fontSize: 16, color: textColor }}>
-				{description}
+				{description || "Đây là môt lĩnh vực được phát triển bởi team LetStudy"}
 				{"\n"}
 			</Text>
 			<Text style={{ color: "blue" }} as="button" onPress={toggleDescription}>
