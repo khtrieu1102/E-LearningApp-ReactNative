@@ -97,6 +97,28 @@ const httpGetCourseFavoriteStatus = (courseId) => {
         .catch((err) => Promise.reject(err));
 }
 
+const httpSearchV2 = (token, keyword) => {
+    return httpClient
+        .post(`/course/searchV2`, {
+            token: token,
+            keyword: keyword,
+        })
+        .then((result) => {
+            return Promise.resolve(result);
+        })
+        .catch((err) => Promise.reject(err));
+}
+
+const httpGetAllInstructors = () => {
+    return httpClient
+        .get(`/instructor`)
+        .then((result) => {
+            return Promise.resolve(result);
+        })
+        .catch((err) => Promise.reject(err));
+}
+
+
 export default {
     httpGetNewCourses,
     httpGetTopRateCourses,
@@ -106,5 +128,7 @@ export default {
     httpLikeCourse,
     httpGetAllCategories,
     httpGetCoursesFromCategory,
-    httpGetCourseFavoriteStatus
+    httpGetCourseFavoriteStatus,
+    httpSearchV2,
+    httpGetAllInstructors,
 };
