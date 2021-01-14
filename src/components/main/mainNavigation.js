@@ -68,27 +68,27 @@ const MainTabNavigator = () => {
 			<HomeStack.Navigator screenOptions={headerStyleOptions}>
 				
 				<HomeStack.Screen name="Home/SplashScreen" component={HomeSplashScreen} options={{ headerShown: false }} />
-				<HomeStack.Screen name="Home/Dashboard" component={Home} />
+				<HomeStack.Screen name="Home/Dashboard" component={Home} options={{ headerLeft:null }} />
 				<HomeStack.Screen
 					name="VerticalSectionCourses"
-					component={() => <VerticalSectionCourses />}
+					component={VerticalSectionCourses}
 					options={({ route }) => ({ title: route.params.header })}
 				/>
 				<HomeStack.Screen 
 					name="CourseDetail" 
-					component={() => <CourseDetail />} 
+					component={CourseDetail} 
 				/>
 				<HomeStack.Screen 
 					name="AuthorDetail" 
-					component={() => <AuthorDetail />} 
+					component={AuthorDetail} 
 				/>
 				<HomeStack.Screen 
 					name="PathDetail" 
-					component={() => <PathDetail />} 
+					component={PathDetail} 
 				/>
 				<HomeStack.Screen 
 					name="VerticalSectionPaths" 
-					component={() => <VerticalSectionPaths />} 
+					component={VerticalSectionPaths} 
 				/>
 			
 			</HomeStack.Navigator>
@@ -101,11 +101,11 @@ const MainTabNavigator = () => {
 				<FavoriteStack.Screen name="FavoriteCourse/Dashboard" component={FavoriteCourse} />
 				<FavoriteStack.Screen 
 					name="CourseDetail" 
-					component={() => <CourseDetail />} 
+					component={CourseDetail} 
 				/>
 				<HomeStack.Screen 
 					name="AuthorDetail" 
-					component={() => <AuthorDetail />} 
+					component={AuthorDetail} 
 				/>
 			</FavoriteStack.Navigator>
 		);
@@ -121,27 +121,27 @@ const MainTabNavigator = () => {
 				/>
 				<BrowseStack.Screen 
 					name="CourseDetail" 
-					component={() => <CourseDetail />} 
+					component={CourseDetail} 
 				/>
 				<BrowseStack.Screen 
 					name="PathDetail" 
-					component={() => <PathDetail />} 
+					component={PathDetail} 
 				/>
 				<BrowseStack.Screen 
 					name="VerticalSectionPaths" 
-					component={() => <VerticalSectionPaths />} 
+					component={VerticalSectionPaths} 
 				/>
 				<BrowseStack.Screen 
 					name="AuthorDetail" 
-					component={() => <AuthorDetail />} 
+					component={AuthorDetail} 
 				/>
 				<BrowseStack.Screen 
 					name="FullSkillTopic" 
-					component={() => <FullSkillTopic />} 
+					component={FullSkillTopic} 
 				/>
 				<BrowseStack.Screen 
 					name="SkillDetail" 
-					component={() => <SkillDetail />} 
+					component={SkillDetail} 
 				/>
 			</BrowseStack.Navigator>
 		);
@@ -153,15 +153,15 @@ const MainTabNavigator = () => {
 				<SearchStack.Screen name="Search/Dashboard" component={Search} />
 				<SearchStack.Screen
 					name="VerticalSectionCourses"
-					component={() => <VerticalSectionCourses />}
+					component={VerticalSectionCourses}
 				/>
 				<SearchStack.Screen 
 					name="CourseDetail" 
-					component={() => <CourseDetail />} 
+					component={CourseDetail} 
 				/>
 				<SearchStack.Screen 
 					name="AuthorDetail" 
-					component={() => <AuthorDetail />} 
+					component={AuthorDetail} 
 				/>
 			</SearchStack.Navigator>
 		);
@@ -219,6 +219,7 @@ const MainTabNavigator = () => {
 				activeTintColor: 'tomato',
 				inactiveTintColor: 'gray',
 			}}
+			initialRouteName="Search"
 		>
 			<MainTab.Screen name="Home" component={HomeStackScreens} />
 			<MainTab.Screen name="FavoriteCourse" component={FavoriteStackScreens} />
