@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { View, ScrollView } from "react-native";
 
 import HorizontalSectionCourses from "../../cores/section-courses/horizontal-section-courses"
@@ -7,10 +7,35 @@ import HorizontalSectionAuthors from "../../cores/section-authors/horizontal-sec
 import FeatureCard from "../../cores/feature/feature-card";
 import HorizontalSectionSkills from "../../cores/section-skills/horizontal-section-skills";
 import { useSelector, useDispatch } from "react-redux";
+import apiMethods from "../../../http-client/api-methods";
+import helper from "../../../helpers"
 
 const Browse = (props) => {
 	const applicationReducer = useSelector((state) => state.applicationReducer);
-	const { topNewCourses, topRateCourses, topSellCourses } = applicationReducer;
+	const { topNewCourses, topRateCourses } = applicationReducer;
+	const [ isLoading, setIsLoading ] = useState(false);
+	const [ paths, setPaths ] = useState([]);
+
+	const _getAllCategories = async () => {
+		setIsLoading(true);
+		await apiMethods.application.httpGetAllCategories()
+			.then(result => result.data.payload)
+			.then(result => {
+				console.log(result);
+				setPaths(result);
+				setIsLoading(false);
+			})
+			.catch(error => {
+				helper.FlashMessageFunc.showGlobalError(error?.response?.data?.message);
+				setIsLoading(false);
+			});
+	}
+
+	useEffect(() => {
+		_getAllCategories();
+		return () => {
+		}
+	}, []);
 
 	return (
 		<ScrollView
@@ -21,7 +46,7 @@ const Browse = (props) => {
 			<FeatureCard title="NEW" courses={topNewCourses} />
 			<FeatureCard title="RECOMMEND FOR YOU" courses={topRateCourses} />
 			<HorizontalSectionSkills header="Popular skills" />
-			<HorizontalSectionPaths header="ABC" />
+			<HorizontalSectionPaths header="ABC" paths={paths} isLoading={isLoading} />
 			<HorizontalSectionAuthors header="Author" />
 		</ScrollView>
 	);
