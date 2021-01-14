@@ -7,7 +7,7 @@ const PathCardItem = (props) => {
 	const appSettingsReducer = useSelector((state) => state.appSettingsReducer);
 	const { theme } = appSettingsReducer;
 	const { pathDetails } = props;
-	const { id, pathName, amount, description, duration } = pathDetails;
+	const { id, name } = pathDetails;
 	const navigation = useNavigation();
 
 	const handlePress = () => {
@@ -39,8 +39,7 @@ const PathCardItem = (props) => {
 				style={{ height: 100 }}
 			/>
 			<View style={{ marginTop: 10, marginLeft: 10 }}>
-				<Text style={{ fontWeight: "bold" }}>{pathName}</Text>
-				<Text>{amount} courses</Text>
+				<Text style={{ fontWeight: "bold" }}>{name}</Text>
 			</View>
 		</TouchableOpacity>
 	);

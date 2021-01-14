@@ -9,7 +9,7 @@ const PathListItem = ({ pathDetails }) => {
 	const { theme } = appSettingsReducer;
 	const textColor = theme.primaryTextColor;
 
-	const { id, pathName, amount } = pathDetails;
+	const { id, name, amount } = pathDetails;
 	const navigation = useNavigation();
 
 	const handlePress = () => {
@@ -50,11 +50,11 @@ const PathListItem = ({ pathDetails }) => {
 								color: textColor,
 							}}
 						>
-							{pathName}
+							{name}
 						</Text>
-						<Text style={{ color: "#979ba1", fontSize: 11, paddingTop: 3 }}>
+						{/* <Text style={{ color: "#979ba1", fontSize: 11, paddingTop: 3 }}>
 							{amount} courses
-						</Text>
+						</Text> */}
 						{/* <Text style={{ color: "#979ba1", fontSize: 11, paddingTop: 3 }}>
 							{level} - {released} - {duration}
 						</Text> */}

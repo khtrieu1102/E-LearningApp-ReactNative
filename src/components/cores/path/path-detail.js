@@ -1,180 +1,47 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Text, ScrollView, Image, View, TouchableOpacity } from "react-native";
-
 import VerticalSectionCourses from "../section-courses/vertical-section-courses";
 import Description from "../description/description";
-import { useNavigation, useRoute } from "@react-navigation/native";
-import { useSelector } from "react-redux"
+import { useRoute } from "@react-navigation/native";
+import { useSelector } from "react-redux";
+import apiMethods from "../../../http-client/api-methods";
+import helper from "../../../helpers";
 
 const PathDetail = ({ }) => {
 	const appSettingsReducer = useSelector((state) => state.appSettingsReducer);
 	const { theme } = appSettingsReducer;
 	const textColor = theme.primaryTextColor;
 	const backgroundColor = theme.primaryBackgroundColor;
+	const [ isLoading, setIsLoading ] = useState(false);
+	const [ data, setData ] = useState(null);
 	
 	const route = useRoute();
 	const {
 		id,
-		pathName,
-		amount,
-		description,
-		duration,
-	} = route.params.pathDetails;
-	const courses = [
-		{
-			id: 1,
-			title: "React: The Big Picture",
-			author: "Tom Rivett-Carnac",
-			level: "Advance",
-			released: "May 6, 2020",
-			duration: "2h",
-		},
-		{
-			id: 2,
-			title: "What's missing from the American immigrant narrative",
-			author: "Elizabeth Camarillo Gutierrez",
-			level: "Beginner",
-			released: "May 15, 2020",
-			duration: "59m",
-		},
-		{
-			id: 3,
-			title: "The next outbreak? We’re not ready",
-			author: "Bill Gates",
-			level: "Advance",
-			released: "June 1, 2020",
-			duration: "1h30m",
-		},
-		{
-			id: 4,
-			title: "The first 20 hours -- how to learn anything",
-			author: "Josh Kaufman",
-			level: "Beginner",
-			released: "April 21, 2020",
-			duration: "1h",
-		},
-		{
-			id: 5,
-			title: "How to Get Your Brain to Focus",
-			author: "Chris Bailey",
-			level: "Immediate",
-			released: "March 1, 2020",
-			duration: "38m",
-		},
-		{
-			id: 6,
-			title: "Inside the mind of a master procrastinator",
-			author: "Tim Urban",
-			level: "Beginner",
-			released: "May 1, 2020",
-			duration: "2h",
-		},
-		{
-			id: 7,
-			title: "How to motivate yourself to change your behavior",
-			author: "Tali Sharot",
-			level: "Advance",
-			released: "June 2, 2020",
-			duration: "3h",
-		},
-		{
-			id: 8,
-			title: "How to Achieve Your Most Ambitious Goals",
-			author: "Stephen Duneier",
-			level: "Beginner",
-			released: "January 1, 2020",
-			duration: "2h",
-		},
-		{
-			id: 9,
-			title: "The first 20 hours -- how to learn anything",
-			author: "Josh Kaufman",
-			level: "Beginner",
-			released: "April 21, 2020",
-			duration: "1h",
-		},
-		{
-			id: 10,
-			title: "How to Get Your Brain to Focus",
-			author: "Chris Bailey",
-			level: "Immediate",
-			released: "March 1, 2020",
-			duration: "38m",
-		},
-		{
-			id: 11,
-			title: "Inside the mind of a master procrastinator",
-			author: "Tim Urban",
-			level: "Beginner",
-			released: "May 1, 2020",
-			duration: "2h",
-		},
-		{
-			id: 12,
-			title: "How to motivate yourself to change your behavior",
-			author: "Tali Sharot",
-			level: "Advance",
-			released: "June 2, 2020",
-			duration: "3h",
-		},
-		{
-			id: 13,
-			title: "How to Achieve Your Most Ambitious Goals",
-			author: "Stephen Duneier",
-			level: "Beginner",
-			released: "January 1, 2020",
-			duration: "2h",
-		},
-		{
-			id: 14,
-			title: "The first 20 hours -- how to learn anything",
-			author: "Josh Kaufman",
-			level: "Beginner",
-			released: "April 21, 2020",
-			duration: "1h",
-		},
-		{
-			id: 15,
-			title: "How to Get Your Brain to Focus",
-			author: "Chris Bailey",
-			level: "Immediate",
-			released: "March 1, 2020",
-			duration: "38m",
-		},
-		{
-			id: 16,
-			title: "Inside the mind of a master procrastinator",
-			author: "Tim Urban",
-			level: "Beginner",
-			released: "May 1, 2020",
-			duration: "2h",
-		},
-		{
-			id: 17,
-			title: "How to motivate yourself to change your behavior",
-			author: "Tali Sharot",
-			level: "Advance",
-			released: "June 2, 2020",
-			duration: "3h",
-		},
-		{
-			id: 18,
-			title: "How to Achieve Your Most Ambitious Goals",
-			author: "Stephen Duneier",
-			level: "Beginner",
-			released: "January 1, 2020",
-			duration: "2h",
-		},
-		{
-			id: 19,
-			title: "The first 20 hours -- how to learn anything",
-			author: "Josh Kaufman",
-			level: "Beginner",
-			released: "April 21, 2020",
-			duration: "1h",
-		},
-	];
-	const navigation = useNavigation();
+		name,
+	} = route?.params?.pathDetails;
+
+	const _getAllCourses = async () => {
+		setIsLoading(true);
+		await apiMethods.application.httpGetCoursesFromCategory(id)
+			.then(result => result?.data?.payload)
+			.then(result => {
+				console.log(result);
+				setData(result);
+				setIsLoading(false);
+			})
+			.catch(error => {
+				helper.FlashMessageFunc.showGlobalError(error?.response?.data?.message);
+				setIsLoading(false);
+			});
+	}
+
+	useEffect(() => {
+		_getAllCourses();
+		return () => {
+		}
+	}, []);
+
 
 	return (
 		<ScrollView
@@ -207,21 +74,21 @@ const PathDetail = ({ }) => {
 							style={{
 								fontWeight: "bold",
 								marginBottom: 5,
-								fontSize: 30,
+								fontSize: 20,
 								color: textColor
 							}}
-							numberOfLines={1}
+							numberOfLines={2}
 						>
-							{pathName}
+							{name}
 						</Text>
 						<Text style={{ color: "#979ba1", fontSize: 14, paddingTop: 3 }}>
-							{amount} courses - {duration} hours
+							 {data && data.count} courses
 						</Text>
 					</View>
 				</View>
 			</View>
-			<Description description={description} />
-			<VerticalSectionCourses />
+			{data && <Description />}
+			<VerticalSectionCourses courses={data && data.rows} />
 		</ScrollView>
 	);
 };
