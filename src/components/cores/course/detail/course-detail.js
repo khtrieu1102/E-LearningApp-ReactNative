@@ -106,7 +106,7 @@ const CourseDetail = () => {
 				<Text style={{ color: theme.primaryTextColor }}>Không lấy được data của khoá học, thử lại sau nhé!</Text>
 			</View>}
 			{!courseDetails.id && isLoading && <View style={{ height: 220, justifyContent: "center", alignSelf: "center" }}>
-				<ActivityIndicator />
+				<ActivityIndicator color={theme.primaryTextColor} />
 			</View>}
 		</Fragment>
 	);

@@ -23,7 +23,7 @@ const HorizontalSectionCourses = ({ header, courses, isLoading }) => {
 				onSeeAll={onSeeAll}
 			/>
 
-			{isLoading && <ActivityIndicator /> }
+			{isLoading && <ActivityIndicator color={theme.primaryTextColor} /> }
 
 			{!isLoading && 
 				<View>

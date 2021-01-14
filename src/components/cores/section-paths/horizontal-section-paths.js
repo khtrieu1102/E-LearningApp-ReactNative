@@ -1,7 +1,6 @@
 import React from "react";
 import { View, ScrollView, Text, ActivityIndicator } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-
 import SectionPathsHeader from "./section-paths-header";
 import PathCardItem from "../path/path-card-item";
 import { useSelector } from "react-redux";
@@ -20,7 +19,7 @@ const HorizontalSectionPaths = ({ header, paths, isLoading}) => {
 		<View>
 			<SectionPathsHeader header={header} onSeeAll={onSeeAll} showButtonSeeAll={true}/>
 
-			{isLoading && <ActivityIndicator /> }
+			{isLoading && <ActivityIndicator color={theme.primaryTextColor} /> }
 			{!isLoading && 
 				<View>
 					{
