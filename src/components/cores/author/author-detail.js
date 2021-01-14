@@ -174,7 +174,7 @@ const AuthorDetail = ({ route }) => {
 	];
 
 	return (
-		<ScrollView
+		<View
 			style={{ flex: 1}}
 		>
 			<View
@@ -238,7 +238,7 @@ const AuthorDetail = ({ route }) => {
 			</View>
 			<Description description={authorDetails.description} />
 			<VerticalSectionCourses />
-		</ScrollView>
+		</View>
 	);
 };
 

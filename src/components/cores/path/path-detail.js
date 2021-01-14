@@ -44,7 +44,7 @@ const PathDetail = ({ }) => {
 
 
 	return (
-		<ScrollView
+		<View
 			style={{ flex: 1 }}
 		>
 			<View
@@ -89,7 +89,7 @@ const PathDetail = ({ }) => {
 			</View>
 			{data && <Description />}
 			<VerticalSectionCourses courses={data && data.rows} />
-		</ScrollView>
+		</View>
 	);
 };
 
