@@ -57,8 +57,8 @@ const EmailUpdateForm = ({ route }) => {
                         }}
                         placeholder="Type here..."
                         value={formData.email}
-                        onChange={(event) => {
-                            setFormData({ ...formData, email: event.target.value });
+                        onChangeText={(text) => {
+                            setFormData({ ...formData, email: text });
                         }}
                     />
                 </View>

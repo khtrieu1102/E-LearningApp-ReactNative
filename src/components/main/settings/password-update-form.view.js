@@ -63,8 +63,8 @@ const PasswordUpdateForm = ({ route }) => {
                         placeholder="Type here..."
                         secureTextEntry={true}
                         value={formData.oldPassword}
-                        onChange={(event) => {
-                            setFormData({ ...formData, oldPassword: event.target.value });
+                        onChangeText={(text) => {
+                            setFormData({ ...formData, oldPassword: text });
                         }}
                     />
                 </View>
@@ -96,8 +96,8 @@ const PasswordUpdateForm = ({ route }) => {
                         placeholder="Type here..."
                         secureTextEntry={true}
                         value={formData.newPassword}
-                        onChange={(event) => {
-                            setFormData({ ...formData, newPassword: event.target.value });
+                        onChangeText={(text) => {
+                            setFormData({ ...formData, newPassword: text });
                         }}
                     />
                 </View>
@@ -129,8 +129,8 @@ const PasswordUpdateForm = ({ route }) => {
                         placeholder="Type here..."
                         secureTextEntry={true}
                         value={formData.retypeNewPassword}
-                        onChange={(event) => {
-                            setFormData({ ...formData, retypeNewPassword: event.target.value });
+                        onChangeText={(text) => {
+                            setFormData({ ...formData, retypeNewPassword: text });
                         }}
                     />
                 </View>

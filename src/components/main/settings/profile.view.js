@@ -83,8 +83,8 @@ const UserProfile = ({ route }) => {
                         }}
                         placeholder="Type here..."
                         value={formData.name}
-                        onChange={(event) => {
-                            setFormData({ ...formData, name: event.target.value });
+                        onChangeText={(text) => {
+                            setFormData({ ...formData, name: text });
                         }}
                     />
                 </View>
@@ -115,8 +115,8 @@ const UserProfile = ({ route }) => {
                         }}
                         placeholder="Type here..."
                         value={formData.phone}
-                        onChange={(event) => {
-                            setFormData({ ...formData, phone: event.target.value });
+                        onChangeText={(text) => {
+                            setFormData({ ...formData, phone: text });
                         }}
                     />
                 </View>
@@ -147,8 +147,8 @@ const UserProfile = ({ route }) => {
                         }}
                         placeholder="Type here..."
                         value={formData.avatar}
-                        onChange={(event) => {
-                            setFormData({ ...formData, avatar: event.target.value });
+                        onChangeText={(text) => {
+                            setFormData({ ...formData, avatar: text });
                         }}
                     />
                 </View>
