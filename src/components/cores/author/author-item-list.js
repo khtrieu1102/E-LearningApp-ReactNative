@@ -10,7 +10,7 @@ const AuthorItemList = ({ authorDetails }) => {
 	const navigation = useNavigation();
 
 	const handlePress = () => {
-		navigation.navigate("AuthorDetail", { authorDetails });
+		navigation.navigate("AuthorDetail", { authorId: authorDetails.id });
 	};
 
 	return (

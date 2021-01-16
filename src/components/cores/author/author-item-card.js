@@ -8,7 +8,7 @@ const AuthorItemCard = ({ authorDetails }) => {
 	const { theme } = appSettingsReducer;
 	const navigation = useNavigation();
 	const handlePress = () => {
-		navigation.navigate("AuthorDetail", { authorDetails: authorDetails });
+		navigation.navigate("AuthorDetail", { authorId: authorDetails.id });
 	};
 
 	return (

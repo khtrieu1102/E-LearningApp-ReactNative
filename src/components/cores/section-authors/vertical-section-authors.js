@@ -14,7 +14,7 @@ const VerticalSectionAuthors = ({ header, authors }) => {
 	return (
 		<View>
 			{header && <SectionCoursesHeader header={header} showButtonSeeAll={false} />}
-			{tempAuthors && 
+			{tempAuthors?.length > 0 && 
 				<FlatList
 					data={tempAuthors}
 					renderItem={({ item }) => (
@@ -23,7 +23,7 @@ const VerticalSectionAuthors = ({ header, authors }) => {
 					keyExtractor={(item) => item.id + ""} // expect key as a string.
 				/>
 			}
-			{!tempAuthors && 
+			{!tempAuthors?.length && 
 				<View style={{ height: 220, justifyContent: "center", alignSelf: "center" }}>
 					<Text style={{ color: theme.primaryTextColor }}>Hiện chưa có giảng viên nào ở mục này</Text>
 				</View>

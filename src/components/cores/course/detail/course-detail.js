@@ -89,7 +89,7 @@ const CourseDetail = () => {
 						>
 							{courseDetails.title}
 						</Text>
-						<AuthorSimpleItem authorName={courseDetails.instructor.name} />
+						<AuthorSimpleItem authorDetails={courseDetails.instructor} />
 						<Text style={{ color: "#979ba1", fontSize: 14, paddingTop: 3 }}>
 							{new Date(courseDetails.createdAt).toDateString()} - {Number((courseDetails.totalHours*1).toFixed(2))}h
 						</Text>
