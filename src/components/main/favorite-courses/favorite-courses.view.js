@@ -18,7 +18,6 @@ const FavoriteCourses = (props) => {
 		await apiMethods.application.httpGetFavoriteCourses()
 			.then(result => result?.data?.payload)
 			.then(result => {
-				console.log(result);
 				setData(result);
 				setShouldLoadData(false);
 			}).catch(error => {
@@ -27,16 +26,13 @@ const FavoriteCourses = (props) => {
 	}
 
 	useEffect(() => {
-		
 		if (!mountedRef.current) return;
-		if (shouldLoadData == false) return;
 		_getFavoriteCourses();
 
 		return () => {
-			setShouldLoadData(false);
             mountedRef.current = false;
 		}
-	}, [shouldLoadData])
+	}, [])
 
 	return (
 		<View>

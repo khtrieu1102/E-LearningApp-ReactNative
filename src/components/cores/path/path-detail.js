@@ -26,7 +26,6 @@ const PathDetail = ({ }) => {
 		await apiMethods.application.httpGetCoursesFromCategory(id)
 			.then(result => result?.data?.payload)
 			.then(result => {
-				console.log(result);
 				setData(result);
 				setIsLoading(false);
 			})

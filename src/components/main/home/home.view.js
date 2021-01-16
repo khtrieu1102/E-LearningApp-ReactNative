@@ -14,9 +14,6 @@ const Home = (props) => {
 	const dispatch = useDispatch();    
 	const mountedRef = useRef(true);
 
-
-	console.log("LOAD DATA: ", shouldLoadData);
-
 	useEffect(() => {
 		if (!mountedRef.current) return;
 		
@@ -41,7 +38,7 @@ const Home = (props) => {
 				backgroundColor: 'transparent',
 			}}
 		>
-			<HorizontalSectionCourses header="My courses" />
+			<HorizontalSectionCourses header="My in-process courses" />
 			<HorizontalSectionCourses header="Top new" courses={topNewCourses} isLoading={isLoading}/>
 			<HorizontalSectionCourses header="Top rate" courses={topSellCourses} isLoading={isLoading}/>
 			<HorizontalSectionCourses header="Recommend for you" courses={topRateCourses} isLoading={isLoading}/>

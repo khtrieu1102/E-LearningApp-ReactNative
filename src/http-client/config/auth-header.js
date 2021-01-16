@@ -8,8 +8,6 @@ const authHeader = async () => {
 			return result;
 		}
 	});
-	console.log(token);
-	// return { Authorization: `Bearer ${token}` };
 	return `Bearer ${token}`;
 };
 

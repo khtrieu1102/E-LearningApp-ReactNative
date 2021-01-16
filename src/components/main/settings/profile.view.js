@@ -17,8 +17,6 @@ const UserProfile = ({ route }) => {
         avatar: userInfo?.avatar || ""
     });
 
-    console.log("USER INFO: ", userInfo);
-
     const onSubmit = () => {
         if (formData.name == "" || formData.phone == "" || formData.avatar == "") {
 			return helpers.FlashMessageFunc.showSimpleError("Please fill in every form fields!");

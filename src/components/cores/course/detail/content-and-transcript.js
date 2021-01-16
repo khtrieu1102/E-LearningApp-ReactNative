@@ -11,7 +11,6 @@ const Detail = (props) => {
 	const SectionsData = props.section.map((item, index) => {
 		return { section: item, data: item.lesson }
 	});		
-	console.log("SectionsData ", SectionsData);
 
 	const ExercisesData = [
 		{ title: "Course Overview", data: ["Course overview"] },
