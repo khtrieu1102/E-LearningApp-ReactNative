@@ -12,6 +12,15 @@ const httpGetNewCourses = (limit = 10, page = 1) => {
         .catch((err) => Promise.reject(err));
 }
 
+const httpGetProcessCourses = () => {
+    return httpClient
+        .get("/user/get-process-courses")
+        .then((result) => {
+            return Promise.resolve(result);
+        })
+        .catch((err) => Promise.reject(err));
+}
+
 const httpGetTopRateCourses = (limit = 10, page = 1) => {
     return httpClient
         .post("/course/top-rate", {
@@ -109,6 +118,15 @@ const httpSearchV2 = (token, keyword) => {
         .catch((err) => Promise.reject(err));
 }
 
+const httpGetSearchHistory = () => {
+    return httpClient
+        .get(`/course/search-history`)
+        .then((result) => {
+            return Promise.resolve(result);
+        })
+        .catch((err) => Promise.reject(err));
+}
+
 const httpGetAllInstructors = () => {
     return httpClient
         .get(`/instructor`)
@@ -118,8 +136,27 @@ const httpGetAllInstructors = () => {
         .catch((err) => Promise.reject(err));
 }
 
+const httpGetSpecificInstructor = (instructorId) => {
+    return httpClient
+        .get(`/instructor/detail/${instructorId}`)
+        .then((result) => {
+            return Promise.resolve(result);
+        })
+        .catch((err) => Promise.reject(err));
+}
+
+const httpDeleteSearchHistory = (searchResultId) => {
+    return httpClient
+        .delete(`/course/delete-search-history/${searchResultId}`)
+        .then((result) => {
+            return Promise.resolve(result);
+        })
+        .catch((err) => Promise.reject(err));
+}
+
 
 export default {
+    httpGetProcessCourses,
     httpGetNewCourses,
     httpGetTopRateCourses,
     httpGetTopSellCourses,
@@ -131,4 +168,7 @@ export default {
     httpGetCourseFavoriteStatus,
     httpSearchV2,
     httpGetAllInstructors,
+    httpGetSearchHistory,
+    httpGetSpecificInstructor,
+    httpDeleteSearchHistory,
 };

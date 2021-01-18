@@ -53,13 +53,15 @@ const CourseItemCard = (props) => {
 				<Text style={{ fontWeight: "bold" }}>{title} - <Text style={{ fontWeight: "normal" }}>{author}</Text> </Text>
 				
 				<Text> 
-					{new Date(createdAt).toDateString()} - {Number((totalHours*1).toFixed(2))}h
+					{ createdAt ? 
+						`${new Date(createdAt).toDateString()} - ${Number((totalHours*1).toFixed(2))}h` :
+						`Process: ${courseDetails?.process}%`}
 				</Text>
 				<Text> 
-					Price: {price} VND
+					{ courseDetails.learnLesson === undefined ? `Price: ${price} VND` : `Learnt ${courseDetails?.learnLesson}/${courseDetails?.total} lessons` }
 				</Text>
 			</View>
-			<RatingStarBox StarPoint={presentationPoint || 0} />
+			{ presentationPoint !== undefined && <RatingStarBox StarPoint={presentationPoint || 0} /> }
 		</TouchableOpacity>
 	);
 };

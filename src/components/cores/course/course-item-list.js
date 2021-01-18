@@ -62,12 +62,14 @@ const CourseItemList = ({ courseDetails }) => {
 						</Text>
 						<Text style={{ color: textColor }}>{author}</Text>
 						<Text style={{ color: textColor }}> 
-							{new Date(createdAt).toDateString()} - {Number((totalHours*1).toFixed(2))}h
+							{ createdAt ? 
+								`${new Date(createdAt).toDateString()} - ${Number((totalHours*1).toFixed(2))}h` :
+								`Process: ${courseDetails?.process}%`}
 						</Text>
 						<Text style={{ color: textColor }}> 
-							Price: {price} VND
+							{ courseDetails.learnLesson === undefined ? `Price: ${price} VND` : `Learnt ${courseDetails?.learnLesson}/${courseDetails?.total} lessons` }
 						</Text>
-						<RatingStarBox StarPoint={presentationPoint || 0} />
+						{ !Number.isNaN(presentationPoint) && <RatingStarBox StarPoint={presentationPoint || 0} /> }
 					</View>	
 				</TouchableOpacity>
 
