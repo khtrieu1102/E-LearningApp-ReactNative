@@ -2,11 +2,13 @@ import React from "react";
 import { useNavigation } from "@react-navigation/native";
 import { TouchableOpacity, Text } from "react-native";
 
-const SimpleSkillItem = ({ skillDetails }) => {
+const SimpleSkillItem = ({ skillDetails, onPress }) => {
 	const navigation = useNavigation();
 	
 	const handleSimpleSkillPress = () => {
-		navigation.navigate("SkillDetail");
+		if (onPress) {
+			onPress();
+		}
 	};
 
 	return (
@@ -16,6 +18,7 @@ const SimpleSkillItem = ({ skillDetails }) => {
 				flexDirection: "row",
 				borderRadius: 20,
 				marginRight: 5,
+				height: 30
 			}}
 			onPress={handleSimpleSkillPress}
 		>
@@ -31,7 +34,7 @@ const SimpleSkillItem = ({ skillDetails }) => {
 					paddingRight: 10,
 				}}
 			>
-				{skillDetails.skillName}
+				{skillDetails.content}
 			</Text>
 		</TouchableOpacity>
 	);

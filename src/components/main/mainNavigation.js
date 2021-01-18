@@ -104,6 +104,10 @@ const MainTabNavigator = () => {
 					name="CourseDetail" 
 					component={CourseDetail} 
 				/>
+				<SearchStack.Screen
+					name="VerticalSectionCourses"
+					component={VerticalSectionCourses}
+				/>
 				<HomeStack.Screen 
 					name="AuthorDetail" 
 					component={AuthorDetail} 

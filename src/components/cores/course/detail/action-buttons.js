@@ -18,13 +18,17 @@ const Actions = (props) => {
 	const backgroundColor = theme.primaryBackgroundColor;
 
 	const navigation = useNavigation();
-	const { description, courseId,  } = props;
+	const { description, courseId, coursesLikeCategory } = props;
 
 	const [ courseIsInFavorite, setCourseIsInFavorite ] = useState(false);
 	const handlePress = () => {
 		console.log("Go to author name");
 		// navigation.navigate("AuthorDetail", { authorDetails: authorDetails });
 	};
+
+	const showRelevantCourses = () => {
+		navigation.navigate("VerticalSectionCourses", { courses: coursesLikeCategory })
+	}
 
 	const _checkCourseIsInFavorite = async () => {
 		await apiMethods.application.httpGetCourseFavoriteStatus(courseId)
@@ -96,7 +100,7 @@ const Actions = (props) => {
 			>
 				<FullButton
 					buttonName="Related paths & courses"
-					handlePress={handlePress}
+					handlePress={showRelevantCourses}
 				/>
 				<FullButton
 					buttonName="Take a learning check"

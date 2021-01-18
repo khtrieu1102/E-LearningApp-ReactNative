@@ -48,6 +48,7 @@ const CourseDetail = () => {
 				setIsLoading(false);
 			});
 	}
+	console.log(courseDetails);
 
 	useEffect(() => {
 		_getCourseDetail();
@@ -93,10 +94,11 @@ const CourseDetail = () => {
 						<Text style={{ color: "#979ba1", fontSize: 14, paddingTop: 3 }}>
 							{new Date(courseDetails.createdAt).toDateString()} - {Number((courseDetails.totalHours*1).toFixed(2))}h
 						</Text>
-						<RatingStarBox StarPoint={4.3} />
+						<RatingStarBox StarPoint={courseDetails.presentationPoint} />
 						<Actions
 							description={courseDetails.description}
 							courseId={courseDetails.id}
+							coursesLikeCategory={courseDetails.coursesLikeCategory}
 						/>
 						<Details section={courseDetails.section} />
 					</ScrollView>

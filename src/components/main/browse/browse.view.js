@@ -22,7 +22,6 @@ const Browse = (props) => {
 		await apiMethods.application.httpGetAllCategories()
 			.then(result => result.data.payload)
 			.then(result => {
-				console.log(result);
 				setPaths(result);
 				setIsLoading(false);
 			})
@@ -37,7 +36,6 @@ const Browse = (props) => {
 		await apiMethods.application.httpGetAllInstructors()
 			.then(result => result.data.payload)
 			.then(result => {
-				console.log(result);
 				setInstructors(result);
 				setIsLoading(false);
 			})

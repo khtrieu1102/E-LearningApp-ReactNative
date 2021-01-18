@@ -28,6 +28,10 @@ function Course(entity) {
     this.typeUploadVideoLesson = entity.typeUploadVideoLesson;
     this.updatedAt = entity.updatedAt;
     this.videoNumber = entity.videoNumber;
+    this.process = entity.process;
+    this.learnLesson = entity.learnLesson;
+    this.total = entity.total;
+    this["instructor.user.name"] = entity["instructor.user.name"];
 }
 
 export default Course;

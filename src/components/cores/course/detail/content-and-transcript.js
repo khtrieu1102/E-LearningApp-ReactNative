@@ -51,11 +51,13 @@ const Detail = (props) => {
 
 	const [index, setIndex] = React.useState(0);
 	const [routes] = React.useState([
-	  { key: 'first', title: 'Exercises' },
+	  { key: 'first', title: 'Section' },
+	  { key: 'second', title: 'Exercises' },
 	]);
    
 	const renderScene = SceneMap({
 	  first: ExercisesComponent,
+	  second: ExercisesComponent,
 	});
 
 	return (
