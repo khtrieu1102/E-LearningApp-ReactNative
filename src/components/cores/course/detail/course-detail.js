@@ -9,28 +9,30 @@ import {
 	ActivityIndicator,
 } from "react-native";
 import { Video } from "expo-av";
-
+import FullButton from "../detail/full-button";
 import { useRoute } from "@react-navigation/native";
-import { useSelector } from "react-redux";
-
+import { useSelector, useDispatch } from "react-redux";
 import AuthorSimpleItem from "../../author/author-simple"
 import Actions from "./action-buttons";
 import Details from "./content-and-transcript";
 import RatingStarBox from "../rating-star-box";
 import apiMethods from "../../../../http-client/api-methods";
 import helper from "../../../../helpers";
-
 import Course from "../../../../models/course.model";
+import actionCreators from "../../../../redux/action-creators";
 
 const CourseDetail = () => {
 	const appSettingsReducer = useSelector((state) => state.appSettingsReducer);
+	const applicationReducer = useSelector((state) => state.applicationReducer);
+	const { processCourses } = applicationReducer;
 	const { theme } = appSettingsReducer;
 	const textColor = theme.primaryTextColor;
 	const [courseDetails, setCourseDetails] = useState(new Course({}));
 	const [isLoading, setIsLoading] = useState(false);
-
 	const route = useRoute();
 	const [isPlaying, setIsPlaying] = useState(false);
+	const [isInProcessCourses, setIsInProcessCourses] = useState(false);
+	const dispatch = useDispatch();
 
 	const _getCourseDetail = async () => {
 		if (!route?.params?.courseId) return;
@@ -41,14 +43,34 @@ const CourseDetail = () => {
 				const data = new Course(result);
 				setCourseDetails(data);
 				setIsLoading(false);
+				const checkInProcess = processCourses.findIndex(t => t.id == route?.params?.courseId);
+				if (checkInProcess != -1) {
+					setIsInProcessCourses(true);
+				}
 			})
 			.catch(error => {
-				console.log(error.response);
 				helper.FlashMessageFunc.showGlobalError(error?.response?.data?.message);
 				setIsLoading(false);
 			});
+	};
+	
+	const buyCourse = async () => {
+		if (courseDetails.price == 0) {
+			await apiMethods.application.httpRegisterFreeCourse(courseDetails.id)
+				.then(result => result?.data)
+				.then(result => {
+					if (result?.messsage == "OK") {
+						setIsInProcessCourses(true);
+					}
+				})
+				.catch();
+			}
+			else {
+				console.log("Too expensive");
+			}
+		await dispatch(actionCreators.application.httpGetProcessCourses());
+		await _getCourseDetail();
 	}
-	console.log(courseDetails);
 
 	useEffect(() => {
 		_getCourseDetail();
@@ -100,7 +122,14 @@ const CourseDetail = () => {
 							courseId={courseDetails.id}
 							coursesLikeCategory={courseDetails.coursesLikeCategory}
 						/>
-						<Details section={courseDetails.section} />
+						{ isInProcessCourses && <Details section={courseDetails.section} /> }
+						{ !isInProcessCourses && 
+							<FullButton 
+								buttonName={`Get this course now with ${courseDetails.price} VND!`} 
+								handlePress={buyCourse}
+							/>
+						}
+						{ courseDetails.ratings && console.log(courseDetails.ratings) }
 					</ScrollView>
 				</View>
 			}

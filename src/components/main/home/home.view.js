@@ -11,46 +11,27 @@ import Course from "../../../models/course.model";
 
 const Home = (props) => {
 	const applicationReducer = useSelector((state) => state.applicationReducer);
-	const { isLoading, topNewCourses, topRateCourses, topSellCourses } = applicationReducer;
+	const { isLoading, processCourses, topNewCourses, topRateCourses, topSellCourses } = applicationReducer;
     const [shouldLoadData, setShouldLoadData] = useState(true);
-    const [processCourses, setProcessCourses] = useState([]);
 	const dispatch = useDispatch();    
 	const mountedRef = useRef(true);
 
+	const _getInitialCourses = async () => {
+		
+		await dispatch(actionCreators.application.httpGetNewCourses());
+		await dispatch(actionCreators.application.httpGetTopRateCourses());
+		await dispatch(actionCreators.application.httpGetTopSellCourses());
+		await dispatch(actionCreators.application.httpGetProcessCourses());
+	}	
+	
 	useEffect(() => {
 		if (!mountedRef.current) return;
 		
-		const _getSomeCourses = async () => {
-			
-			await setShouldLoadData(false);
-			await dispatch(actionCreators.application.httpGetNewCourses());
-			await dispatch(actionCreators.application.httpGetTopRateCourses());
-			await dispatch(actionCreators.application.httpGetTopSellCourses());
-			await apiMethods.application.httpGetProcessCourses()
-				.then(result => result?.data?.payload)
-				.then(result => {
-					const data = result.map((item, index) => {
-						return new Course({
-							...item,
-							title: item.courseTitle,
-							imageUrl: item.courseImage,
-							"instructor.user.name": item.instructorName,
-							process: item.process,
-							learnLesson: item.learnLesson,
-							total: item.total,			
-						});
-					});
-					console.log(data);
-					setProcessCourses(data);
-				})
-				.catch(error => helpers.FlashMessageFunc.showSimpleError("Cannot get process course"));
-		}	
-		
-		_getSomeCourses();
+		_getInitialCourses();
         return () => {
             mountedRef.current = false;
         };
-    }, [shouldLoadData]);
+    }, []);
 
 	return (
 		<ScrollView
@@ -59,6 +40,7 @@ const Home = (props) => {
 				backgroundColor: 'transparent',
 			}}
 		>
+			<Button onPress={() => _getInitialCourses()} title="RELOAD" />
 			<HorizontalSectionCourses header="My in-process courses" courses={processCourses} isLoading={isLoading} />
 			<HorizontalSectionCourses header="Top new" courses={topNewCourses} isLoading={isLoading}/>
 			<HorizontalSectionCourses header="Top rate" courses={topSellCourses} isLoading={isLoading}/>

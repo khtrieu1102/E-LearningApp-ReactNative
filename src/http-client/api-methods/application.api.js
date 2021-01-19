@@ -154,6 +154,14 @@ const httpDeleteSearchHistory = (searchResultId) => {
         .catch((err) => Promise.reject(err));
 }
 
+const httpRegisterFreeCourse = (courseId) => {
+    return httpClient
+        .post(`/payment/get-free-courses`, { courseId: courseId })
+        .then((result) => {
+            return Promise.resolve(result);
+        })
+        .catch((err) => Promise.reject(err));
+}
 
 export default {
     httpGetProcessCourses,
@@ -171,4 +179,5 @@ export default {
     httpGetSearchHistory,
     httpGetSpecificInstructor,
     httpDeleteSearchHistory,
+    httpRegisterFreeCourse
 };
