@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, Image } from "react-native";
+import { View, Text, Image, Button } from "react-native";
 import { useNavigation } from '@react-navigation/native';
 
 import { useSelector, useDispatch } from 'react-redux';
@@ -45,6 +45,7 @@ const HomeSplashScreen = ({  }) => {
             <Image
                 style={{ height: 50, paddingBottom: 100 }}
             />
+            <Button onPress={() => navigation.navigate("Home/Dashboard")} title="Go to homepage" />
 			<Text style={{ color: theme.primaryTextColor }}>{title}</Text>
 		</View>
 	);
