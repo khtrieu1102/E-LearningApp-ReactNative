@@ -12,7 +12,7 @@ const VerticalSectionAuthors = ({ header, authors }) => {
 	const tempAuthors = authors || route?.params?.authors;
 
 	return (
-		<View>
+		<View style={{padding: 10}}>
 			{header && <SectionCoursesHeader header={header} showButtonSeeAll={false} />}
 			{tempAuthors?.length > 0 && 
 				<FlatList
