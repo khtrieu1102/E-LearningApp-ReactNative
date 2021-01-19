@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Text, ScrollView, Image, View, Button } from "react-native";
+import { Text, Image, View, Button, ScrollView } from "react-native";
 import { useSelector } from "react-redux"
 import { useRoute } from "@react-navigation/native";
 import VerticalSectionCourses from "../section-courses/vertical-section-courses";
@@ -38,14 +38,12 @@ const AuthorDetail = (props) => {
 
 	return (
 		<View>
-			{ authorDetails && <View
-				style={{ flex: 1}}
-			>
+			{ authorDetails && 
+			<ScrollView>
 				<View
 					style={{
 						alignItems: "center",
 						alignContent: "center",
-						justifyContent: "center",
 					}}
 				>
 					<Image
@@ -97,12 +95,11 @@ const AuthorDetail = (props) => {
 							color: textColor
 						}}
 					>
-						Follow to be notified when new courses are published
+						Follow to be notified when new courses are publisheddđ
 					</Text>
 				</View>
-				<Description description={authorDetails["intro"]} />
 				<VerticalSectionCourses header="In-charge Courses" courses={authorDetails["courses"]} />
-			</View> }
+			</ScrollView> }
 		</View>
 	);
 };
