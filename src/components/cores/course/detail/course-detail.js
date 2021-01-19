@@ -20,6 +20,7 @@ import apiMethods from "../../../../http-client/api-methods";
 import helper from "../../../../helpers";
 import Course from "../../../../models/course.model";
 import actionCreators from "../../../../redux/action-creators";
+import Ratings from "../../ratings/ratings";
 
 const CourseDetail = () => {
 	const appSettingsReducer = useSelector((state) => state.appSettingsReducer);
@@ -129,7 +130,7 @@ const CourseDetail = () => {
 								handlePress={buyCourse}
 							/>
 						}
-						{ courseDetails.ratings && console.log(courseDetails.ratings) }
+						<Ratings ratings={courseDetails.ratings} />
 					</ScrollView>
 				</View>
 			}
