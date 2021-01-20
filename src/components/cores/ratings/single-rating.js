@@ -7,7 +7,6 @@ import RatingStarBox from "../course/rating-star-box";
 const SingleRating = ({ ratingDetails }) => {
 	const appSettingsReducer = useSelector((state) => state.appSettingsReducer);
 	const { theme } = appSettingsReducer;
-	console.log(ratingDetails);
 
 	const {
 		user,

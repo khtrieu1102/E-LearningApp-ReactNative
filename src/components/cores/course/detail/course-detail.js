@@ -130,7 +130,7 @@ const CourseDetail = () => {
 								handlePress={buyCourse}
 							/>
 						}
-						<Ratings ratings={courseDetails.ratings} />
+						<Ratings courseId={courseDetails.id} ratings={courseDetails.ratings} isInProcessCourses={isInProcessCourses} />
 					</ScrollView>
 				</View>
 			}

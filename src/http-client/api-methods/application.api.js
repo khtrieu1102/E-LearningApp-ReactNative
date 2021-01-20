@@ -163,6 +163,21 @@ const httpRegisterFreeCourse = (courseId) => {
         .catch((err) => Promise.reject(err));
 }
 
+const httpRateAndReviewCourse = (courseId, content, formalityPoint, presentationPoint, contentPoint) => {
+    return httpClient
+        .post(`/course/rating-course`, {
+            courseId: courseId,
+            content: content,
+            formalityPoint: Number.parseFloat(formalityPoint),
+            presentationPoint: Number.parseFloat(presentationPoint),
+            contentPoint: Number.parseFloat(contentPoint)
+        })
+        .then((result) => {
+            return Promise.resolve(result);
+        })
+        .catch((err) => Promise.reject(err));
+}
+
 export default {
     httpGetProcessCourses,
     httpGetNewCourses,
@@ -179,5 +194,6 @@ export default {
     httpGetSearchHistory,
     httpGetSpecificInstructor,
     httpDeleteSearchHistory,
-    httpRegisterFreeCourse
+    httpRegisterFreeCourse,
+    httpRateAndReviewCourse,
 };
