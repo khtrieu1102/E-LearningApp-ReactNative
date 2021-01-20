@@ -9,7 +9,7 @@ const EmailUpdateForm = ({ route }) => {
     const dispatch = useDispatch();
     const authorizationReducer = useSelector((state) => state.authorizationReducer);
     const { userInfo } = authorizationReducer;
-	const { theme } = appSettingsReducer;
+	const { theme, languageName } = appSettingsReducer;
     const textColor = theme.primaryTextColor;
     const [formData, setFormData] = useState({
         email: userInfo?.email || "",
@@ -18,7 +18,7 @@ const EmailUpdateForm = ({ route }) => {
     const onSubmit = () => {
         const emailIsValid = helpers.Validation.validateEmail(formData.email);
 		if (emailIsValid == false || formData.email == "") {
-			return helpers.FlashMessageFunc.showSimpleError("Your email is invalid! Try again!");
+			return helpers.FlashMessageFunc.showSimpleError(languageName == "vietnamese" ? "Email không hợp lệ!" : "Your email is invalid! Try again!");
 		}
 
         dispatch(actionCreators.authorization.updateEmailInfo(formData.email));
@@ -55,7 +55,6 @@ const EmailUpdateForm = ({ route }) => {
                             maxWidth: "65%",
                             color: theme.primaryTextColor
                         }}
-                        placeholder="Type here..."
                         value={formData.email}
                         onChangeText={(text) => {
                             setFormData({ ...formData, email: text });
@@ -70,7 +69,7 @@ const EmailUpdateForm = ({ route }) => {
 						width: 80,
 						backgroundColor: "blue",
 					}}
-                    title="Update"
+                    title={languageName == "vietnamese" ? "Cập nhật" : "Update"}
                     onPress={onSubmit}
 				/>
 			</View>

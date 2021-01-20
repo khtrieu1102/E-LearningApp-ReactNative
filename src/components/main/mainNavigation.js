@@ -232,7 +232,7 @@ const MainTabNavigator = () => {
 				activeTintColor: 'tomato',
 				inactiveTintColor: 'gray',
 			}}
-			initialRouteName="FavoriteCourse"
+			initialRouteName="Home"
 		>
 			<MainTab.Screen name="Home" component={HomeStackScreens} />
 			<MainTab.Screen name="FavoriteCourse" component={FavoriteStackScreens} />

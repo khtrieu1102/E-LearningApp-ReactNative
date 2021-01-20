@@ -12,6 +12,8 @@ import helper from "../../../helpers"
 
 const Browse = (props) => {
 	const applicationReducer = useSelector((state) => state.applicationReducer);
+	const appSettingsReducer = useSelector((state) => state.appSettingsReducer);
+	const { languageName } = appSettingsReducer;
 	const { topNewCourses, topRateCourses } = applicationReducer;
 	const [ isLoading, setIsLoading ] = useState(false);
 	const [ paths, setPaths ] = useState([]);
@@ -59,11 +61,10 @@ const Browse = (props) => {
 				flex: 1,
 			}}
 		>
-			<FeatureCard title="NEW" courses={topNewCourses} />
-			<FeatureCard title="RECOMMEND FOR YOU" courses={topRateCourses} />
-			<HorizontalSectionSkills header="Popular skills" />
-			<HorizontalSectionPaths header="ABC" paths={paths} isLoading={isLoading} />
-			<HorizontalSectionAuthors header="Author" authors={instructors} isLoading={isLoading} />
+			<FeatureCard title={ languageName == "vietnamese" ? "MỚI NHẤT" : "NEW" } courses={topNewCourses} />
+			<FeatureCard title={ languageName == "vietnamese" ? "GỢI Ý CHO BẠN" : "RECOMMEND FOR YOU" } courses={topRateCourses} />
+			<HorizontalSectionPaths header={languageName == "vietnamese" ? "Danh mục" : "Categories"} paths={paths} isLoading={isLoading} />
+			<HorizontalSectionAuthors header={languageName == "vietnamese" ? "Giảng viên" : "Instructors"} authors={instructors} isLoading={isLoading} />
 		</ScrollView>
 	);
 };

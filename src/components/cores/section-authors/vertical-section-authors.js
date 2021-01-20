@@ -7,7 +7,7 @@ import SectionCoursesHeader from "../section-courses/section-courses-header";
 
 const VerticalSectionAuthors = ({ header, authors }) => {
 	const appSettingsReducer = useSelector(state => state.appSettingsReducer);
-	const { theme } = appSettingsReducer;
+	const { theme, languageName } = appSettingsReducer;
 	const route = useRoute();
 	const tempAuthors = authors || route?.params?.authors;
 
@@ -25,7 +25,9 @@ const VerticalSectionAuthors = ({ header, authors }) => {
 			}
 			{!tempAuthors?.length && 
 				<View style={{ height: 220, justifyContent: "center", alignSelf: "center" }}>
-					<Text style={{ color: theme.primaryTextColor }}>Hiện chưa có giảng viên nào ở mục này</Text>
+					<Text style={{ color: theme.primaryTextColor }}>
+						{languageName == "vietnamese" ? "Hiện chưa có giảng viên nào ở mục này." : "There's no instructor in this section."}
+					</Text>
 				</View>
 			}
 		</View>

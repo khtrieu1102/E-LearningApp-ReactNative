@@ -8,7 +8,7 @@ const HomeSplashScreen = ({  }) => {
     const appSettingsReducer = useSelector((state) => state.appSettingsReducer);
     const authorizationReducer = useSelector((state) => state.authorizationReducer);
     const { isAuthenticated } = authorizationReducer;
-    const { theme } = appSettingsReducer;
+    const { theme, languageName } = appSettingsReducer;
 
     const navigation = useNavigation();
     const [timer, setTimer] = useState(90);
@@ -17,7 +17,7 @@ const HomeSplashScreen = ({  }) => {
     useEffect(() => {
         const interval = setInterval(() => {
             setTimer(c => c + 1);
-            setTitle(`Loading ${timer}%...`);
+            setTitle(`${languageName == "vietnamese" ? "Đang tải" : "Loading"} ${timer}%...`);
         }, 50);
         if (timer == 100) {
             clearInterval(interval);
@@ -45,7 +45,7 @@ const HomeSplashScreen = ({  }) => {
             <Image
                 style={{ height: 50, paddingBottom: 100 }}
             />
-            <Button onPress={() => navigation.navigate("Home/Dashboard")} title="Go to homepage" />
+            <Button onPress={() => navigation.navigate("Home/Dashboard")} title={languageName == "vietnamese" ? "Về trang chủ" : "Go to homepage"} />
 			<Text style={{ color: theme.primaryTextColor }}>{title}</Text>
 		</View>
 	);

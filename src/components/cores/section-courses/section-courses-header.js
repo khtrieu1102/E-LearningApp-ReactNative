@@ -6,7 +6,7 @@ import { useSelector } from "react-redux"
 
 const SectionCoursesHeader = ({ header, onSeeAll, showButtonSeeAll }) => {
 	const appSettingsReducer = useSelector((state) => state.appSettingsReducer);
-	const { theme } = appSettingsReducer;
+	const { theme, languageName } = appSettingsReducer;
 
 	return (
 		<View
@@ -23,7 +23,7 @@ const SectionCoursesHeader = ({ header, onSeeAll, showButtonSeeAll }) => {
 					backgroundColor: "#dedede",
 					flexDirection: "row",
 					borderRadius: 20,
-					width: "20%",
+					width: "30%",
 				}}
 				onPress={onSeeAll}
 			>
@@ -36,7 +36,7 @@ const SectionCoursesHeader = ({ header, onSeeAll, showButtonSeeAll }) => {
 						paddingLeft: 5,
 					}}
 				>
-					See all
+					{languageName == "vietnamese" ? "Xem hết" : "See all"}
 				</Text>
 				<Ionicons
 					style={{ paddingLeft: 5, paddingRight: 5 }}

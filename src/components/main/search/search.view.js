@@ -9,7 +9,7 @@ import SimpleSkillItem from "../../cores/skill/simple-skill-item"
 const Search = () => {
 	const appSettingsReducer = useSelector((state) => state.appSettingsReducer);
 	const authorizationReducer = useSelector((state) => state.authorizationReducer);
-	const { theme } = appSettingsReducer;
+	const { theme, languageName } = appSettingsReducer;
 	const { token } = authorizationReducer;
 	const [searchText, setSearchText] = useState("");
 	const [data, setData] = useState();
@@ -80,7 +80,7 @@ const Search = () => {
 							height: "100%",
 							color: theme.primaryTextColor
 						}}
-						placeholder="Search something..."
+						placeholder={ languageName == "vietnamese" ? "Tìm kiếm..." : "Search something..." }
 						value={searchText}
 						onChangeText={(event) => {
 							setSearchText(event);
@@ -102,7 +102,7 @@ const Search = () => {
 			</ScrollView>
 			}
 			{ searchHistoryItems?.length > 0 && <TouchableOpacity onPress={onDelete}>
-				<Text style={{ color: "blue", textDecorationLine: "underline" }}>Delete search history</Text>
+				<Text style={{ color: "blue", textDecorationLine: "underline" }}>{languageName == "vietnamese" ? "Xoá lịch sử tìm kiếm" : "Delete search history" }</Text>
 			</TouchableOpacity> }
 
 

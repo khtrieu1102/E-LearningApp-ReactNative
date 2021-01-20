@@ -5,7 +5,7 @@ import { useSelector } from "react-redux"
 
 const Detail = (props) => {
 	const appSettingsReducer = useSelector((state) => state.appSettingsReducer);
-	const { theme } = appSettingsReducer;
+	const { theme, languageName } = appSettingsReducer;
 	const textColor = theme.primaryTextColor;
 	const backgroundColor = theme.primaryBackgroundColor;
 	const SectionsData = props.section.map((item, index) => {
@@ -51,8 +51,8 @@ const Detail = (props) => {
 
 	const [index, setIndex] = React.useState(0);
 	const [routes] = React.useState([
-	  { key: 'first', title: 'Section' },
-	  { key: 'second', title: 'Exercises' },
+	  { key: 'first', title: languageName ? 'Bài học' : 'Sections' },
+	  { key: 'second', title: languageName ? 'Bài tập' : 'Exercises' },
 	]);
    
 	const renderScene = SceneMap({

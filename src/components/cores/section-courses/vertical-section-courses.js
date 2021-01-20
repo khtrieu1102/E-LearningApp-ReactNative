@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 
 const VerticalSectionCourses = (props) => {
 	const appSettingsReducer = useSelector(state => state.appSettingsReducer);
-	const { theme } = appSettingsReducer;
+	const { theme, languageName } = appSettingsReducer;
 	const { header, courses } = props;
 	const route = useRoute();
 	const tempCourses = courses || route?.params?.courses;
@@ -26,7 +26,9 @@ const VerticalSectionCourses = (props) => {
 			}
 			{!tempCourses && 
 				<View style={{ height: 220, justifyContent: "center", alignSelf: "center" }}>
-					<Text style={{ color: theme.primaryTextColor }}>Hiện chưa có khoá học nào ở mục này</Text>
+					<Text style={{ color: theme.primaryTextColor }}>
+						{languageName == "vietnamese" ? "Hiện chưa có khoá học nào ở mục này." : "There's no course in this section."}
+					</Text>
 				</View>
 			}
 		</View>

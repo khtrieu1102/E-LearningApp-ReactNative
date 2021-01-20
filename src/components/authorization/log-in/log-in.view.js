@@ -11,7 +11,7 @@ const Login = () => {
     const appSettingsReducer = useSelector((state) => state.appSettingsReducer);
 	const authorizationReducer = useSelector((state) => state.authorizationReducer);
 	const { isLoading } = authorizationReducer;
-	const { theme } = appSettingsReducer;
+	const { theme, languageName } = appSettingsReducer;
 	const dispatch = useDispatch();
 
 	const navigation = useNavigation();
@@ -28,13 +28,13 @@ const Login = () => {
 	const onSubmit = async () => {
 		// Validate if there is any blank field
 		if (formData.email == "" || formData.password == "") {
-			setFormMessage({...formMessage, isError: true, errorMessage: "Please fill in all input fields to complete form!"});
+			setFormMessage({...formMessage, isError: true, errorMessage: languageName == "vietnamese" ? "Hãy điền vào các ô nhập liệu!" : "Please fill in all input fields to complete form!"});
 			return;
 		}
 		// Validate email is valid
 		const emailIsValid = helpers.Validation.validateEmail(formData.email);
 		if (emailIsValid == false) {
-			setFormMessage({...formMessage, isError: true, errorMessage: "Your email is invalid! Try again!"});
+			setFormMessage({...formMessage, isError: true, errorMessage: languageName == "vietnamese" ? "Email không hợp lệ, hãy thử lại!" : "Your email is invalid! Try again!"});
 			return;
 		}
 
@@ -132,25 +132,29 @@ const Login = () => {
 				>
 					<Text style={{ color: "white" }}>
 					    {/* {isLoading ? <span>Please wait... <ActivityIndicator /></span> : "Sign In"} */}
-						Sign In
+						{ languageName == "vietnamese" ? "Đăng nhập" : "Sign In" }
 					</Text>
 				</TouchableOpacity>
 				<TouchableOpacity
 					style={styles.OtherOptionsStyle}
 					onPress={() => {navigation.navigate("Authorization/Register")}}
 				>
-					<Text style={{ color: theme.secondaryTextColor }}>Register new account</Text>
+					<Text style={{ color: theme.secondaryTextColor }}>
+						{ languageName == "vietnamese" ? "Đăng ký tài khoản" : "Register new account" }
+					</Text>
 				</TouchableOpacity>
 				<TouchableOpacity
 					style={styles.OtherOptionsStyle}
 				>
-					<Text style={{ color: theme.secondaryTextColor }}>Sign In with Google</Text>
+					<Text style={{ color: theme.secondaryTextColor }}>
+						{ languageName == "vietnamese" ? "Đăng nhập với Google" : "Sign in with Google" }
+					</Text>
 				</TouchableOpacity>
 				<TouchableOpacity
 					style={styles.OtherOptionsStyle}
 					onPress={() => {navigation.navigate("Authorization/ForgotPassword")}}
 				>
-					<Text style={{ color: theme.secondaryTextColor }}>Forgot your password?</Text>
+					<Text style={{ color: theme.secondaryTextColor }}>{ languageName == "vietnamese" ? "Quên mật khẩu?" : "Forgot your password" }</Text>
 				</TouchableOpacity>
 			</View>
 		</View>

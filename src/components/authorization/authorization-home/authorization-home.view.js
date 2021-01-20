@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 
 const AuthorizationHome = () => {
     const appSettingsReducer = useSelector((state) => state.appSettingsReducer);
-	const { theme } = appSettingsReducer;
+	const { theme, languageName } = appSettingsReducer;
 	
 	const navigation = useNavigation();
 	return (
@@ -36,7 +36,9 @@ const AuthorizationHome = () => {
 					}}
 					onPress={() => {navigation.navigate("Authorization/LogIn")}}
 				>
-					<Text style={{ color: "white" }}>Sign In</Text>
+					<Text style={{ color: "white" }}>
+						{ languageName == "vietnamese" ? "Đăng nhập" : "Sign In" }
+					</Text>				
 				</TouchableOpacity>
 				<TouchableOpacity
 					style={{
@@ -50,7 +52,9 @@ const AuthorizationHome = () => {
 					}}
 					onPress={() => {navigation.navigate("Authorization/Register")}}
 				>
-					<Text style={{ color: theme.secondaryTextColor }}>Register new account</Text>
+					<Text style={{ color: theme.secondaryTextColor }}>
+						{ languageName == "vietnamese" ? "Đăng ký tài khoản" : "Register new account" }
+					</Text>
 				</TouchableOpacity>
 				<TouchableOpacity
 					style={{
@@ -63,7 +67,9 @@ const AuthorizationHome = () => {
 						marginBottom: 5,
 					}}
 				>
-					<Text style={{ color: theme.secondaryTextColor }}>Sign In with Google</Text>
+					<Text style={{ color: theme.secondaryTextColor }}>
+						{ languageName == "vietnamese" ? "Đăng nhập với Google" : "Sign in with Google" }
+					</Text>
 				</TouchableOpacity>
 				<TouchableOpacity
 					style={{
@@ -77,7 +83,9 @@ const AuthorizationHome = () => {
 					}}
 					onPress={() => {navigation.navigate("Authorization/ForgotPassword")}}
 				>
-					<Text style={{ color: theme.secondaryTextColor }}>Forgot your password</Text>
+					<Text style={{ color: theme.secondaryTextColor }}>
+						{ languageName == "vietnamese" ? "Quên mật khẩu?" : "Forgot your password?" }
+					</Text>
 				</TouchableOpacity>
 			</View>
 		</View>

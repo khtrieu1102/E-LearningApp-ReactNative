@@ -8,7 +8,7 @@ import SectionCoursesHeader from "../section-courses/section-courses-header"
 
 const HorizontalSectionAuthors = ({ header, authors, isLoading}) => {
 	const appSettingsReducer = useSelector((state) => state.appSettingsReducer);
-	const { theme } = appSettingsReducer;
+	const { theme, languageName } = appSettingsReducer;
 	const navigation = useNavigation();
 
 	const onSeeAll = () => {
@@ -32,7 +32,9 @@ const HorizontalSectionAuthors = ({ header, authors, isLoading}) => {
 							))}
 						</ScrollView> : 
 						<View style={{ height: 100, justifyContent: "center", alignSelf: "center" }}>
-							<Text style={{ color: theme.primaryTextColor }}>Hiện chưa có giảng viên nào ở đây</Text>
+							<Text style={{ color: theme.primaryTextColor }}>
+								{languageName == "vietnamese" ? "Hiện chưa có giảng viên nào ở mục này." : "There's no instructor in this section."}
+							</Text>
 						</View>
 					}
 				</View>

@@ -70,14 +70,6 @@ const FavoriteCourseItemList = ({ courseDetails }) => {
 					/>
 				</TouchableOpacity>
 			</View>
-
-			<View
-				style={{
-					backgroundColor: "#cccccc",
-					height: 1,
-					alignSelf: "stretch",
-				}}
-			/>
 		</View>
 	);
 };

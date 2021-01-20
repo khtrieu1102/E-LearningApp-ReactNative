@@ -11,7 +11,7 @@ import Course from "../../../../models/course.model";
 
 const SearchedResult = ({ searchedResult, isLoading }) => {
 	const appSettingsReducer = useSelector((state) => state.appSettingsReducer);
-	const { theme } = appSettingsReducer;
+	const { theme, languageName } = appSettingsReducer;
 	const courses = searchedResult?.courses?.data.map((item, index) => {
 		return new Course({
 			...item,
@@ -23,8 +23,8 @@ const SearchedResult = ({ searchedResult, isLoading }) => {
 
 	const TabAllResult = () => (
         <View>
-            <HorizontalSectionCourses header="Courses results" courses={courses} isLoading={isLoading} />
-            <HorizontalSectionAuthors header="Authors results" authors={authors} isLoading={isLoading} />
+            <HorizontalSectionCourses header={languageName == "vietnamese" ? "Kết quả khoá học" : "Courses Results "} courses={courses} isLoading={isLoading} />
+            <HorizontalSectionAuthors header={languageName == "vietnamese" ? "Kết quả giảng viên" : "Instructors Results" } authors={authors} isLoading={isLoading} />
         </View>
 	);
 
@@ -38,9 +38,9 @@ const SearchedResult = ({ searchedResult, isLoading }) => {
 
 	const [index, setIndex] = useState(0);
 	const [routes] = useState([
-	  { key: 'first', title: 'All' },
-	  { key: 'second', title: 'Courses' },
-	  { key: 'third', title: 'Authors' },
+	  { key: 'first', title: languageName == "vietnamese" ? "Tất cả" : 'All' },
+	  { key: 'second', title: languageName == "vietnamese" ? "Khoá học" : 'Courses' },
+	  { key: 'third', title: languageName == "vietnamese" ? "Giảng viên" : 'Instructors' },
 	]);
    
 	const renderScene = SceneMap({

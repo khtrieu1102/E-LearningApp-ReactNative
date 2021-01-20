@@ -7,7 +7,7 @@ import RatingStarBox from "./rating-star-box";
 
 const CourseItemCard = (props) => {
 	const appSettingsReducer = useSelector((state) => state.appSettingsReducer);
-	const { theme } = appSettingsReducer;
+	const { theme, languageName } = appSettingsReducer;
 
 	const navigation = useNavigation();
 	const { courseDetails } = props;
@@ -55,10 +55,11 @@ const CourseItemCard = (props) => {
 				<Text> 
 					{ createdAt ? 
 						`${new Date(createdAt).toDateString()} - ${Number((totalHours*1).toFixed(2))}h` :
-						`Process: ${courseDetails?.process}%`}
+						`${languageName == "vietnamese" ? "Quá trình học: " : "Process: "}: ${courseDetails?.process}%`}
 				</Text>
 				<Text> 
-					{ courseDetails.learnLesson === undefined ? `Price: ${price} VND` : `Learnt ${courseDetails?.learnLesson}/${courseDetails?.total} lessons` }
+					{ courseDetails.learnLesson === undefined ? `${languageName == "vietnamese" ? "Giá" : "Price"}: ${price} VND` : 
+					`${languageName == "vietnamese" ? "Số bài đã học: " : "Lessons learnt: "} ${courseDetails?.learnLesson}/${courseDetails?.total}` }
 				</Text>
 			</View>
 			{ presentationPoint !== undefined && <RatingStarBox StarPoint={presentationPoint || 0} /> }

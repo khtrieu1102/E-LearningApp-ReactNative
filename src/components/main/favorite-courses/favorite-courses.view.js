@@ -8,7 +8,7 @@ import apiMethods from "../../../http-client/api-methods"
 
 const FavoriteCourses = (props) => {
 	const appSettingsReducer = useSelector((state) => state.appSettingsReducer);
-	const { theme } = appSettingsReducer;
+	const { theme, languageName } = appSettingsReducer;
 	const [ data, setData ] = useState(null);
 	const [ shouldLoadData, setShouldLoadData ] = useState(true);
 	const mountedRef = useRef(true);
@@ -36,7 +36,7 @@ const FavoriteCourses = (props) => {
 
 	return (
 		<View>
-			<Button title="Reload" onPress={() => _getFavoriteCourses()}></Button>
+			<Button title={languageName == "vietnamese" ? "Tải lại" : "Reload"} onPress={() => _getFavoriteCourses()}></Button>
 			{data && 
 				<FlatList
 					data={data}
@@ -48,7 +48,9 @@ const FavoriteCourses = (props) => {
 			}
 			{!data && 
 				<View style={{ height: 220, justifyContent: "center", alignSelf: "center" }}>
-					<Text style={{ color: theme.primaryTextColor }}>Hiện chưa có khoá học nào ở mục này</Text>
+					<Text style={{ color: theme.primaryTextColor }}>
+						{languageName == "vietnamese" ? "Hiện chưa có khoá học nào ở mục này." : "There's no course in this section."}
+					</Text>
 				</View>
 			}
 		</View>

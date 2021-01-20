@@ -133,7 +133,7 @@ const RatingInputFields = ({ courseId }) => {
 					}}
 				/>
 			</View>
-			<Button title="Send" onPress={onSendRating} />
+			<Button title={ languageName == "vietnamese" ? "Gửi" : "Send"} onPress={onSendRating} />
 		</View>
 	);
 };

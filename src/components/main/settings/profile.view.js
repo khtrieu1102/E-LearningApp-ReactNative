@@ -9,7 +9,7 @@ const UserProfile = ({ route }) => {
     const dispatch = useDispatch();
     const authorizationReducer = useSelector((state) => state.authorizationReducer);
     const { userInfo } = authorizationReducer;
-	const { theme } = appSettingsReducer;
+	const { theme, languageName } = appSettingsReducer;
     const textColor = theme.primaryTextColor;
     const [formData, setFormData] = useState({
         name: userInfo?.name || "",
@@ -19,7 +19,7 @@ const UserProfile = ({ route }) => {
 
     const onSubmit = () => {
         if (formData.name == "" || formData.phone == "" || formData.avatar == "") {
-			return helpers.FlashMessageFunc.showSimpleError("Please fill in every form fields!");
+			return helpers.FlashMessageFunc.showSimpleError(languageName == "vietnamese" ? "Hãy điền hết các ô nhập liệu" : "Please fill in every form fields!");
         }
         dispatch(actionCreators.authorization.updateMeBasicInfo(formData.name, formData.phone, formData.avatar));
     }
@@ -67,7 +67,7 @@ const UserProfile = ({ route }) => {
                             width: "35%"
                         }}
                     >
-                        Name
+                        { languageName == "vietnamese" ? "Tên" : "Name"}
                     </Text>                    
                     <TextInput 
                         style={{
@@ -79,7 +79,6 @@ const UserProfile = ({ route }) => {
                             maxWidth: "65%",
                             color: theme.primaryTextColor
                         }}
-                        placeholder="Type here..."
                         value={formData.name}
                         onChangeText={(text) => {
                             setFormData({ ...formData, name: text });
@@ -99,7 +98,7 @@ const UserProfile = ({ route }) => {
                             width: "35%"
                         }}
                     >
-                        Phone number
+                        { languageName == "vietnamese" ? "Số điện thoại" : "Phone number"}
                     </Text>                    
                     <TextInput 
                         style={{
@@ -131,7 +130,7 @@ const UserProfile = ({ route }) => {
                             width: "35%"
                         }}
                     >
-                        Avatar Link
+                        { languageName == "vietnamese" ? "Ảnh đại diện (link)" : "Avatar Link"}
                     </Text>                    
                     <TextInput 
                         style={{
@@ -158,7 +157,7 @@ const UserProfile = ({ route }) => {
 						width: 80,
 						backgroundColor: "blue",
 					}}
-                    title="Save"
+                    title={ languageName == "vietnamese" ? "Lưu" : "Save"}
                     onPress={onSubmit}
 				/>
 			</View>

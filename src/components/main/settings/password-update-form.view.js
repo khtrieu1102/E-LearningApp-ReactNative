@@ -9,7 +9,7 @@ const PasswordUpdateForm = ({ route }) => {
     const dispatch = useDispatch();
     const authorizationReducer = useSelector((state) => state.authorizationReducer);
     const { userInfo } = authorizationReducer;
-	const { theme } = appSettingsReducer;
+	const { theme, languageName } = appSettingsReducer;
     const textColor = theme.primaryTextColor;
     const [formData, setFormData] = useState({
         oldPassword: "",
@@ -48,7 +48,7 @@ const PasswordUpdateForm = ({ route }) => {
                             width: "35%"
                         }}
                     >
-                        Old password
+                        {languageName == "vietnamese" ? "Mật khẩu cũ" : "Old password"}
                     </Text>                    
                     <TextInput 
                         style={{
@@ -60,7 +60,7 @@ const PasswordUpdateForm = ({ route }) => {
                             maxWidth: "65%",
                             color: theme.primaryTextColor
                         }}
-                        placeholder="Type here..."
+                        placeholder={languageName == "vietnamese" ? "Điền ở đây" : "Type here..."}
                         secureTextEntry={true}
                         value={formData.oldPassword}
                         onChangeText={(text) => {
@@ -81,7 +81,7 @@ const PasswordUpdateForm = ({ route }) => {
                             width: "35%"
                         }}
                     >
-                        New password
+                        {languageName == "vietnamese" ? "Mật khẩu mới" : "New password"}
                     </Text>                    
                     <TextInput 
                         style={{
@@ -93,7 +93,7 @@ const PasswordUpdateForm = ({ route }) => {
                             maxWidth: "65%",
                             color: theme.primaryTextColor
                         }}
-                        placeholder="Type here..."
+                        placeholder={languageName == "vietnamese" ? "Điền ở đây" : "Type here..."}
                         secureTextEntry={true}
                         value={formData.newPassword}
                         onChangeText={(text) => {
@@ -114,7 +114,7 @@ const PasswordUpdateForm = ({ route }) => {
                             width: "35%"
                         }}
                     >
-                        Retype new password
+                        {languageName == "vietnamese" ? "Nhập lại mật khẩu mới" : "Retype new password"}
                     </Text>                    
                     <TextInput 
                         style={{
@@ -126,7 +126,7 @@ const PasswordUpdateForm = ({ route }) => {
                             maxWidth: "65%",
                             color: theme.primaryTextColor
                         }}
-                        placeholder="Type here..."
+                        placeholder={languageName == "vietnamese" ? "Điền ở đây" : "Type here..."}
                         secureTextEntry={true}
                         value={formData.retypeNewPassword}
                         onChangeText={(text) => {
@@ -142,7 +142,7 @@ const PasswordUpdateForm = ({ route }) => {
 						width: 80,
 						backgroundColor: "blue",
 					}}
-                    title="Update"
+                    title={languageName == "vietnamese" ? "Cập nhật" : "Update"}
                     onPress={(e) => onSubmit(e)}
 				/>
 			</View>

@@ -8,7 +8,7 @@ import Creators from "../../../redux/action-creators";
 const ThemeSettings = ({ onPress }) => {
 	const dispatch = useDispatch();
 	const appSettingsReducer = useSelector((state) => state.appSettingsReducer);
-    const { theme, themeName } = appSettingsReducer;
+    const { theme, themeName, languageName } = appSettingsReducer;
     
     const toggleTheme = () => {
         if (themeName == "dark") {

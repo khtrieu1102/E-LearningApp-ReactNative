@@ -4,11 +4,12 @@ import { useNavigation } from "@react-navigation/native";
 import SectionPathsHeader from "./section-paths-header";
 import PathCardItem from "../path/path-card-item";
 import { useSelector } from "react-redux";
+import SectionCoursesHeader from "../section-courses/section-courses-header";
 
 
 const HorizontalSectionPaths = ({ header, paths, isLoading}) => {    
 	const appSettingsReducer = useSelector((state) => state.appSettingsReducer);
-	const { theme } = appSettingsReducer;
+	const { theme, languageName } = appSettingsReducer;
 	const navigation = useNavigation();
 
 	const onSeeAll = () => {
@@ -17,7 +18,7 @@ const HorizontalSectionPaths = ({ header, paths, isLoading}) => {
 
 	return (
 		<View>
-			<SectionPathsHeader header={header} onSeeAll={onSeeAll} showButtonSeeAll={true}/>
+			<SectionCoursesHeader header={header} onSeeAll={onSeeAll} showButtonSeeAll={true}/>
 
 			{isLoading && <ActivityIndicator color={theme.primaryTextColor} /> }
 			{!isLoading && 
@@ -33,7 +34,9 @@ const HorizontalSectionPaths = ({ header, paths, isLoading}) => {
 							))}
 						</ScrollView> : 
 						<View style={{ height: 220, justifyContent: "center", alignSelf: "center" }}>
-							<Text style={{ color: theme.primaryTextColor }}>Hiện chưa có danh mục nào ở đây</Text>
+							<Text style={{ color: theme.primaryTextColor }}>
+								{languageName == "vietnamese" ? "Hiện chưa có danh mục nào." : "There's no category in this section."}
+							</Text>
 						</View>
 					}
 				</View>

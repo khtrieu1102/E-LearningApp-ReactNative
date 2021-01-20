@@ -8,7 +8,7 @@ const SplashScreen = ({  }) => {
     const appSettingsReducer = useSelector((state) => state.appSettingsReducer);
     const authorizationReducer = useSelector((state) => state.authorizationReducer);
     const { isAuthenticated } = authorizationReducer;
-    const { theme } = appSettingsReducer;
+    const { theme, languageName } = appSettingsReducer;
 
     const navigation = useNavigation();
     const [timer, setTimer] = useState(90);
@@ -17,7 +17,7 @@ const SplashScreen = ({  }) => {
     useEffect(() => {
         const interval = setInterval(() => {
             setTimer(c => c + 1);
-            setTitle(`Loading ${timer}%...`);
+            setTitle(`${languageName == "vietnamese" ? "Đang tải" : "Loading"} ${timer}%...`);
         }, 50);
         if (timer == 100) {
             clearInterval(interval);

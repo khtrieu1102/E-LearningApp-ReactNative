@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 
 const HorizontalSectionCourses = ({ header, courses, isLoading }) => {    
 	const appSettingsReducer = useSelector((state) => state.appSettingsReducer);
-	const { theme } = appSettingsReducer;
+	const { theme, languageName } = appSettingsReducer;
 	const navigation = useNavigation();
 
 	const onSeeAll = () => {
@@ -38,7 +38,9 @@ const HorizontalSectionCourses = ({ header, courses, isLoading }) => {
 							))}
 						</ScrollView> : 
 						<View style={{ height: 220, justifyContent: "center", alignSelf: "center" }}>
-							<Text style={{ color: theme.primaryTextColor }}>Hiện chưa có khoá học nào ở mục này</Text>
+							<Text style={{ color: theme.primaryTextColor }}>
+								{languageName == "vietnamese" ? "Hiện chưa có khoá học nào ở mục này." : "There's no course in this section."}
+							</Text>
 						</View>
 					}
 				</View>

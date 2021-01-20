@@ -7,7 +7,7 @@ import RatingStarBox from "./rating-star-box";
 
 const CourseItemList = ({ courseDetails }) => {
 	const appSettingsReducer = useSelector((state) => state.appSettingsReducer);
-	const { theme } = appSettingsReducer;
+	const { theme, languageName } = appSettingsReducer;
 
 	const navigation = useNavigation();
 	const {
@@ -64,22 +64,14 @@ const CourseItemList = ({ courseDetails }) => {
 						<Text style={{ color: textColor }}> 
 							{ createdAt ? 
 								`${new Date(createdAt).toDateString()} - ${Number((totalHours*1).toFixed(2))}h` :
-								`Process: ${courseDetails?.process}%`}
+								`${languageName == "vietnamese" ? "Quá trình học: " : "Process: "}: ${courseDetails?.process}%`}
 						</Text>
 						<Text style={{ color: textColor }}> 
-							{ courseDetails.learnLesson === undefined ? `Price: ${price} VND` : `Learnt ${courseDetails?.learnLesson}/${courseDetails?.total} lessons` }
+							{ courseDetails.learnLesson === undefined ? `${languageName == "vietnamese" ? "Giá" : "Price"}: ${price} VND` : 
+							`${languageName == "vietnamese" ? "Số bài đã học: " : "Lessons learnt: "} ${courseDetails?.learnLesson}/${courseDetails?.total}` }
 						</Text>
 						{ !Number.isNaN(presentationPoint) && <RatingStarBox StarPoint={presentationPoint || 0} /> }
 					</View>	
-				</TouchableOpacity>
-
-				<TouchableOpacity>
-					<Ionicons
-						style={{ maxWidth: "10%" }}
-						name="ios-more"
-						size={20}
-						color={textColor}
-					/>
 				</TouchableOpacity>
 			</View>
 

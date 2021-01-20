@@ -12,7 +12,7 @@ import helpers from "../../../../helpers";
 
 const Actions = (props) => {
 	const appSettingsReducer = useSelector((state) => state.appSettingsReducer);
-	const { theme } = appSettingsReducer;
+	const { theme, languageName } = appSettingsReducer;
 	const textColor = theme.primaryTextColor;
 	const dispatch = useDispatch();
 	const backgroundColor = theme.primaryBackgroundColor;
@@ -73,21 +73,21 @@ const Actions = (props) => {
 					handlePress={() => onInteractWithFavorite()} 
 					iconName="ios-heart" 
 					iconColor={courseIsInFavorite ? "red" : "#8a92a1"}
-					buttonName={courseIsInFavorite ? "Unlike" : "Like"}
+					buttonName={courseIsInFavorite ? (languageName == "vietnamese" ? "Bỏ thích" : "Unlike") : (languageName == "vietnamese" ? "Thích" : "Like")}
 					textColor={textColor}
 				/>
 				<CircleButton 
 					handlePress={handlePress} 
 					iconName="md-chatbubbles" 
 					iconColor="#8a92a1" 
-					buttonName="Review" 
+					buttonName={languageName == "vietnamese" ? "Đánh giá" : "Review"}
 					textColor={textColor}
 				/>
 				<CircleButton 
 					handlePress={handlePress} 
 					iconName="ios-download" 
 					iconColor="#8a92a1" 
-					buttonName="Download" 
+					buttonName={languageName == "vietnamese" ? "Tải xuống" : "Download"}
 					textColor={textColor}
 				/>
 			</View>
@@ -99,11 +99,11 @@ const Actions = (props) => {
 				}}
 			>
 				<FullButton
-					buttonName="Related paths & courses"
+					buttonName={languageName == "vietnamese" ? "Các khoá học liên quan" : "Related paths & courses"}
 					handlePress={showRelevantCourses}
 				/>
 				<FullButton
-					buttonName="Take a learning check"
+					buttonName={languageName == "vietnamese" ? "Làm bài tập" : "Take a learning check"}
 					handlePress={handlePress}
 				/>
 			</View>

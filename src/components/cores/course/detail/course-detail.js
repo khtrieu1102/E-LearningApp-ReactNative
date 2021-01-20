@@ -26,7 +26,7 @@ const CourseDetail = () => {
 	const appSettingsReducer = useSelector((state) => state.appSettingsReducer);
 	const applicationReducer = useSelector((state) => state.applicationReducer);
 	const { processCourses } = applicationReducer;
-	const { theme } = appSettingsReducer;
+	const { theme, languageName } = appSettingsReducer;
 	const textColor = theme.primaryTextColor;
 	const [courseDetails, setCourseDetails] = useState(new Course({}));
 	const [isLoading, setIsLoading] = useState(false);
@@ -126,7 +126,7 @@ const CourseDetail = () => {
 						{ isInProcessCourses && <Details section={courseDetails.section} /> }
 						{ !isInProcessCourses && 
 							<FullButton 
-								buttonName={`Get this course now with ${courseDetails.price} VND!`} 
+								buttonName={languageName == "vietnamese" ? `Tham gia khoá học với ${courseDetails.price} VND!` : `Get this course now with ${courseDetails.price} VND!`}
 								handlePress={buyCourse}
 							/>
 						}

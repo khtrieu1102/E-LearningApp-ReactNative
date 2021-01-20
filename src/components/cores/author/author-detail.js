@@ -8,7 +8,7 @@ import apiMethods from "../../../http-client/api-methods";
 
 const AuthorDetail = (props) => {
 	const appSettingsReducer = useSelector((state) => state.appSettingsReducer);
-	const { theme } = appSettingsReducer;
+	const { theme, languageName } = appSettingsReducer;
 	const textColor = theme.primaryTextColor;
 	const [ authorDetails, setAuthorDetails ] = useState(null);
 	const route = useRoute();
@@ -72,7 +72,7 @@ const AuthorDetail = (props) => {
 							color: textColor
 						}}
 					>
-						{authorDetails["major"]} - {authorDetails["totalCourse"]} courses
+						{authorDetails["major"]} - {authorDetails["totalCourse"]} {languageName == "vietnamese" ? "khoá học" : "courses"}
 					</Text>
 					<Button
 						style={{
@@ -82,23 +82,10 @@ const AuthorDetail = (props) => {
 							width: 80,
 							backgroundColor: "blue",
 						}}
-						title="Follow"
-					>
-						Follow
-					</Button>
-					<Text
-						style={{
-							alignSelf: "center",
-							textAlign: "center",
-							marginTop: 10,
-							fontSize: 14,
-							color: textColor
-						}}
-					>
-						Follow to be notified when new courses are publisheddđ
-					</Text>
+						title={languageName == "vietnamese" ? "Theo dõi" : "Follow"}
+					/>
 				</View>
-				<VerticalSectionCourses header="In-charge Courses" courses={authorDetails["courses"]} />
+				<VerticalSectionCourses header={ languageName == "vietnamese" ? "Khoá học phụ trách" : "In-charge Courses" } courses={authorDetails["courses"]} />
 			</ScrollView> }
 		</View>
 	);

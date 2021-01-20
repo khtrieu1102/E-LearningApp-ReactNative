@@ -9,7 +9,7 @@ const ForgotPassword = () => {
 	const appSettingsReducer = useSelector((state) => state.appSettingsReducer);
 	const dispatch = useDispatch();
 
-	const { theme } = appSettingsReducer;
+	const { theme, languageName } = appSettingsReducer;
 
 	const navigation = useNavigation();
 
@@ -46,7 +46,9 @@ const ForgotPassword = () => {
 						style={{ height: 50, paddingBottom: 100 }}
 						source={require("../assets/fit-hcmus-logo.png")}
 					/>
-				<Text style={{ color: theme.primaryTextColor }}>Your registered email</Text>
+				<Text style={{ color: theme.primaryTextColor }}>
+					{ languageName == "vietnamese" ? "Email của bạn" : "Your registered email" }
+				</Text>
 				<TextInput
 					style={{
 						borderColor: theme.primaryTextColor,
@@ -72,7 +74,10 @@ const ForgotPassword = () => {
 					}}
 					onPress={() => onSubmit()}
 				>
-					<Text style={{ color: "white" }}>Get code to reset password</Text>
+					<Text style={{ color: "white" }}>
+						{ languageName == "vietnamese" ? "Nhận mã để đổi mật khẩu" : "Get code to reset password" }
+						
+					</Text>
 				</TouchableOpacity>
 				<TouchableOpacity
 					style={{
@@ -86,7 +91,9 @@ const ForgotPassword = () => {
 					}}
 					onPress={() => {navigation.navigate("Authorization/LogIn")}}
 				>
-					<Text style={{ color: theme.secondaryTextColor }}>Sign In</Text>
+					<Text style={{ color: theme.secondaryTextColor }}>
+						{ languageName == "vietnamese" ? "Đăng nhập" : "Sign In" }
+					</Text>
 				</TouchableOpacity>
 				<TouchableOpacity
 					style={{
@@ -100,7 +107,9 @@ const ForgotPassword = () => {
 					}}
 					onPress={() => {navigation.navigate("Authorization/Register")}}
 				>
-					<Text style={{ color: theme.secondaryTextColor }}>Register new account</Text>
+					<Text style={{ color: theme.secondaryTextColor }}>
+						{ languageName == "vietnamese" ? "Đăng ký tài khoản" : "Register new account" }
+					</Text>
 				</TouchableOpacity>
 				<TouchableOpacity
 					style={{
@@ -113,7 +122,9 @@ const ForgotPassword = () => {
 						marginBottom: 5,
 					}}
 				>
-					<Text style={{ color: theme.secondaryTextColor }}>Sign In with Google</Text>
+					<Text style={{ color: theme.secondaryTextColor }}>
+						{ languageName == "vietnamese" ? "Đăng nhập với Google" : "Sign in with Google" }
+					</Text>
 				</TouchableOpacity>
 			</View>
 		</View>

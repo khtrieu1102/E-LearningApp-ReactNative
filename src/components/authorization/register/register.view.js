@@ -11,7 +11,7 @@ import actionCreators from "../../../redux/action-creators";
 const Register = () => {
 	const appSettingsReducer = useSelector((state) => state.appSettingsReducer);
 	const dispatch = useDispatch();
-	const { theme } = appSettingsReducer;
+	const { theme, languageName } = appSettingsReducer;
 	const navigation = useNavigation();
 	const [formMessage, setFormMessage] = useState({
 		isError: false,
@@ -28,18 +28,18 @@ const Register = () => {
 		// Validate if there is any blank field
 		if (formData.username == "" || formData.email == "" || formData.phone == "" || formData.password == "" || formData.retypePassword == "") {
 			setFormMessage({...formMessage, isError: true});
-			return helpers.FlashMessageFunc.showSimpleError("Please fill in all input fields to complete form!");
+			return helpers.FlashMessageFunc.showSimpleError(languageName == "vietnamese" ? "Hãy điền đủ các ô nhập liệu!" : "Please fill in all input fields to complete form!");
 		}
 		// Validate password fields
 		if (formData.password != formData.retypePassword) {
 			setFormMessage({...formMessage, isError: true});
-			return helpers.FlashMessageFunc.showSimpleError("Password and Password Retype are not match! Try again!");
+			return helpers.FlashMessageFunc.showSimpleError(languageName == "vietnamese" ? "2 ô mật khẩu không khớp!" : "Password and Password Retype are not match! Try again!");
 		}
 		// Validate email is valid
 		const emailIsValid = helpers.Validation.validateEmail(formData.email);
 		if (emailIsValid == false) {
 			setFormMessage({...formMessage, isError: true});
-			return helpers.FlashMessageFunc.showSimpleError("Your email is invalid! Try again!");
+			return helpers.FlashMessageFunc.showSimpleError(languageName == "vietnamese" ? "Email không hợp lệ!" : "Your email is invalid! Try again!");
 		}
 
 		// --- Everything seems okay, refresh error message then call api
@@ -50,7 +50,7 @@ const Register = () => {
 		const emailIsValid = helpers.Validation.validateEmail(formData.email);
 		if (emailIsValid == false || formData.email == "") {
 			setFormMessage({...formMessage, isError: true});
-			return helpers.FlashMessageFunc.showSimpleError("Your email is invalid! Try again!");
+			return helpers.FlashMessageFunc.showSimpleError(languageName == "vietnamese" ? "Email không hợp lệ!" : "Your email is invalid! Try again!");
 		}
 
 		dispatch(actionCreators.authorization.emailSendActivateAccount(formData.email));
@@ -103,7 +103,9 @@ const Register = () => {
 					onChangeText={(text) => setFormData({...formData, email: text})}
 					defaultValue={formData.email}
 				/>
-				<Text style={{ color: theme.primaryTextColor }}>Phone Number</Text>
+				<Text style={{ color: theme.primaryTextColor }}>
+					{ languageName == "vietnamese" ? "Số điện thoại" : "Phone Number" }
+				</Text>
 				<TextInput
 					style={styles.InputStyle}
 					onChangeText={(text) => setFormData({...formData, phone: text})}
@@ -132,7 +134,9 @@ const Register = () => {
 						defaultValue={formData.password}
 					/>
 				</View>
-				<Text style={{ color: theme.primaryTextColor }}>Retype password</Text>
+				<Text style={{ color: theme.primaryTextColor }}>
+					{ languageName == "vietnamese" ? "Nhập lại mật khẩu" : "Retype Password" }
+				</Text>
 				<View
 					style={styles.PasswordInputStyle}
 				>
@@ -156,7 +160,9 @@ const Register = () => {
 					/>
 				</View>
 				<TouchableOpacity onPress={requestRegisterCode}>
-					<Text style={{ color: "blue", textDecorationLine: "underline", fontSize: 15 }}>Send verify code again!</Text>
+					<Text style={{ color: "blue", textDecorationLine: "underline", fontSize: 15 }}>
+						{ languageName == "vietnamese" ? "Gửi lại code xác nhận!" : "Send verify code again!" }
+					</Text>
 				</TouchableOpacity>
 				<TouchableOpacity
 					style={{
@@ -170,7 +176,9 @@ const Register = () => {
 					}}
 					onPress={onSubmit}
 				>
-					<Text style={{ color: "white" }}>Register new account</Text>
+					<Text style={{ color: "white" }}>
+						{ languageName == "vietnamese" ? "Đăng ký tài khoản" : "Register new account" }
+					</Text>
 				</TouchableOpacity>
 				<TouchableOpacity
 					style={{
@@ -184,7 +192,9 @@ const Register = () => {
 					}}
 					onPress={() => {navigation.navigate("Authorization/LogIn")}}
 				>
-					<Text style={{ color: theme.secondaryTextColor }}>Sign In</Text>
+					<Text style={{ color: theme.secondaryTextColor }}>
+						{ languageName == "vietnamese" ? "Đăng nhập" : "Sign In" }
+					</Text>
 				</TouchableOpacity>
 				<TouchableOpacity
 					style={{
@@ -197,7 +207,9 @@ const Register = () => {
 						marginBottom: 5,
 					}}
 				>
-					<Text style={{ color: theme.secondaryTextColor }}>Sign In with Google</Text>
+					<Text style={{ color: theme.secondaryTextColor }}>
+						{ languageName == "vietnamese" ? "Đăng nhập với Google" : "Sign in with Google" }
+					</Text>
 				</TouchableOpacity>
 				<TouchableOpacity
 					style={{
@@ -211,7 +223,7 @@ const Register = () => {
 					}}
 					onPress={() => {navigation.navigate("Authorization/ForgotPassword")}}
 				>
-					<Text style={{ color: theme.secondaryTextColor }}>Forgot your password?</Text>
+					<Text style={{ color: theme.secondaryTextColor }}>{ languageName == "vietnamese" ? "Quên mật khẩu?" : "Forgot your password" }</Text>
 				</TouchableOpacity>
 			</View>
 		</View>

@@ -11,6 +11,8 @@ import Course from "../../../models/course.model";
 
 const Home = (props) => {
 	const applicationReducer = useSelector((state) => state.applicationReducer);
+	const appSettingsReducer = useSelector((state) => state.appSettingsReducer);
+	const { languageName } = appSettingsReducer;
 	const { isLoading, processCourses, topNewCourses, topRateCourses, topSellCourses } = applicationReducer;
     const [shouldLoadData, setShouldLoadData] = useState(true);
 	const dispatch = useDispatch();    
@@ -40,11 +42,11 @@ const Home = (props) => {
 				backgroundColor: 'transparent',
 			}}
 		>
-			<Button onPress={() => _getInitialCourses()} title="RELOAD" />
-			<HorizontalSectionCourses header="My in-process courses" courses={processCourses} isLoading={isLoading} />
-			<HorizontalSectionCourses header="Top new" courses={topNewCourses} isLoading={isLoading}/>
-			<HorizontalSectionCourses header="Top rate" courses={topSellCourses} isLoading={isLoading}/>
-			<HorizontalSectionCourses header="Recommend for you" courses={topRateCourses} isLoading={isLoading}/>
+			<Button onPress={() => _getInitialCourses()} title={languageName == "vietnamese" ? "Tải lại" : "RELOAD" } />
+			<HorizontalSectionCourses header={languageName == "vietnamese" ? "Các khoá đang học" : "My in-process courses" } courses={processCourses} isLoading={isLoading} />
+			<HorizontalSectionCourses header={languageName == "vietnamese" ? "Các khóa mới nhất" : "Top new" } courses={topNewCourses} isLoading={isLoading}/>
+			<HorizontalSectionCourses header={languageName == "vietnamese" ? "Được đánh giá cao" : "Top rate" } courses={topSellCourses} isLoading={isLoading}/>
+			<HorizontalSectionCourses header={languageName == "vietnamese" ? "Gợi ý cho bạn" : "Recommend for you" } courses={topRateCourses} isLoading={isLoading}/>
 		</ScrollView>
 	);
 };
