@@ -94,7 +94,6 @@ const MainTabNavigator = () => {
 					name="LessonDetail" 
 					component={LessonDetail} 
 				/>
-			
 			</HomeStack.Navigator>
 		);
 	};

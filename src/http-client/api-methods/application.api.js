@@ -205,6 +205,29 @@ const httpGetLastSeenLessonOfCourse = (courseId) => {
         .catch((err) => Promise.reject(err));
 }
 
+const httpMarkLessonFinish = (lessonId) => {
+    return httpClient
+        .post(`/lesson/update-status`, {
+            lessonId: lessonId
+        })
+        .then((result) => {
+            return Promise.resolve(result);
+        })
+        .catch((err) => Promise.reject(err));
+}
+
+const httpUpdateLessonCurrentTime = (lessonId, currentTime) => {
+    return httpClient
+        .put(`/lesson/update-current-time-learn-video`, {
+            lessonId: lessonId,
+            currentTime: currentTime
+        })
+        .then((result) => {
+            return Promise.resolve(result);
+        })
+        .catch((err) => Promise.reject(err));
+}
+
 export default {
     httpGetProcessCourses,
     httpGetNewCourses,
@@ -226,4 +249,6 @@ export default {
     httpGetLessonDetail,
     httpGetLessonVideoAndLastSeenTime,
     httpGetLastSeenLessonOfCourse,
+    httpMarkLessonFinish,
+    httpUpdateLessonCurrentTime,
 };

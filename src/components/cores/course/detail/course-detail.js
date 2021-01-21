@@ -62,7 +62,12 @@ const CourseDetail = () => {
 				if (checkInProcess != -1) {
 					setIsInProcessCourses(true);
 				}
-				const data2 = new Lesson(result2);
+				const data2 = new Lesson({
+					id: result2.lessonId,
+					isFinish: result2.isFinish,
+					currentTime: result2.currentTime,
+					videoUrl: result2.videoUrl,
+				});
 				setLastLessonDetails(data2);
 				setIsLoading(false);
 			})
@@ -157,7 +162,9 @@ const CourseDetail = () => {
 							<View>
 								<FullButton 
 									buttonName={languageName == "vietnamese" ? `Xem tiếp bài học gần nhất` : `Continue learning last lesson`}
-									handlePress={() => navigation.navigate("LessonDetail", { courseId: route?.params?.id, lessonId: lastLessonDetails.id })}
+									handlePress={() => {
+										navigation.navigate("LessonDetail", { lessonId: lastLessonDetails.id, courseId: courseDetails.id });
+									}}
 								/>
 								<Details section={courseDetails.section} courseId={courseDetails.id} />
 							</View>
