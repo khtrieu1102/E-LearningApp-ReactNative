@@ -18,7 +18,7 @@ const Actions = (props) => {
 	const backgroundColor = theme.primaryBackgroundColor;
 
 	const navigation = useNavigation();
-	const { description, courseId, coursesLikeCategory } = props;
+	const { description, courseId, coursesLikeCategory, downloadCurrentLesson } = props;
 
 	const [ courseIsInFavorite, setCourseIsInFavorite ] = useState(false);
 	const handlePress = () => {
@@ -84,7 +84,7 @@ const Actions = (props) => {
 					textColor={textColor}
 				/>
 				<CircleButton 
-					handlePress={handlePress} 
+					handlePress={downloadCurrentLesson} 
 					iconName="ios-download" 
 					iconColor="#8a92a1" 
 					buttonName={languageName == "vietnamese" ? "Tải xuống" : "Download"}

@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { Video } from "expo-av";
 import FullButton from "../detail/full-button";
-import { useRoute } from "@react-navigation/native";
+import { useRoute, useNavigation } from "@react-navigation/native";
 import { useSelector, useDispatch } from "react-redux";
 import AuthorSimpleItem from "../../author/author-simple"
 import Actions from "./action-buttons";
@@ -21,38 +21,55 @@ import helper from "../../../../helpers";
 import Course from "../../../../models/course.model";
 import actionCreators from "../../../../redux/action-creators";
 import Ratings from "../../ratings/ratings";
+import * as FileSystem from "expo-file-system";
+import * as Permissions from "expo-permissions";
+import WebView from "react-native-webview";
+import { downloadToFolder } from 'expo-file-dl';
+import Lesson from "../../../../models/lesson.model";
+// import { AndroidImportance, AndroidNotificationVisibility, NotificationChannel, NotificationChannelInput, NotificationContentInput } from 'expo-notifications';
 
 const CourseDetail = () => {
+	const navigation = useNavigation();
 	const appSettingsReducer = useSelector((state) => state.appSettingsReducer);
 	const applicationReducer = useSelector((state) => state.applicationReducer);
 	const { processCourses } = applicationReducer;
 	const { theme, languageName } = appSettingsReducer;
 	const textColor = theme.primaryTextColor;
 	const [courseDetails, setCourseDetails] = useState(new Course({}));
+	const [lastLessonDetails, setLastLessonDetails] = useState(new Lesson({}));
 	const [isLoading, setIsLoading] = useState(false);
 	const route = useRoute();
 	const [isPlaying, setIsPlaying] = useState(false);
+	const [videoUrlToPlay, setVideoUrlToPlay] = useState("http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4");
 	const [isInProcessCourses, setIsInProcessCourses] = useState(false);
 	const dispatch = useDispatch();
 
 	const _getCourseDetail = async () => {
 		if (!route?.params?.courseId) return;
 		setIsLoading(true);
-		await apiMethods.application.httpGetCourseFullDetail(route?.params?.courseId)
-			.then(result => result.data.payload)
-			.then(result => {
-				const data = new Course(result);
+		await Promise.all([
+			apiMethods.application.httpGetCourseFullDetail(route?.params?.courseId),
+			apiMethods.application.httpGetLastSeenLessonOfCourse(route?.params?.courseId),
+		])
+			.then(([result1, result2]) => {
+				return [result1.data.payload, result2.data.payload];
+			})
+			.then(([result1, result2]) => {
+				const data = new Course(result1);
 				setCourseDetails(data);
-				setIsLoading(false);
+				setVideoUrlToPlay(data.promoVidUrl);
 				const checkInProcess = processCourses.findIndex(t => t.id == route?.params?.courseId);
 				if (checkInProcess != -1) {
 					setIsInProcessCourses(true);
 				}
+				const data2 = new Lesson(result2);
+				setLastLessonDetails(data2);
+				setIsLoading(false);
 			})
 			.catch(error => {
 				helper.FlashMessageFunc.showGlobalError(error?.response?.data?.message);
 				setIsLoading(false);
-			});
+			})
 	};
 	
 	const buyCourse = async () => {
@@ -73,6 +90,18 @@ const CourseDetail = () => {
 		await _getCourseDetail();
 	}
 
+	const downloadCurrentLesson = async () => {
+		console.log(courseDetails.promoVidUrl);
+		// Downloading the file
+		let fileLocation = FileSystem.documentDirectory + "download/";
+		console.log(fileLocation);
+		// await downloadToFolder({ uri: courseDetails.promoVidUrl }, courseDetails.promoVidUrl, fileLocation, "download");
+	}
+
+	const getPermissions = async () => {
+		await Permissions.askAsync(Permissions.MEDIA_LIBRARY);
+	}
+
 	useEffect(() => {
 		_getCourseDetail();
 		return () => {
@@ -89,18 +118,18 @@ const CourseDetail = () => {
 					}}
 				>
 					<Video
-							source={{
-								uri: courseDetails.promoVidUrl || "http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4",
-							}}
-							rate={1.0}
-							volume={1.0}
-							isMuted={false}
-							resizeMode="contain"
-							playing={isPlaying}
-							isLooping
-							style={{ height: "40%" }}
-							useNativeControls={true}
-						/>
+						source={{
+							uri: videoUrlToPlay,
+						}}
+						rate={1.0}
+						volume={1.0}
+						isMuted={false}
+						resizeMode="contain"
+						playing={isPlaying}
+						isLooping
+						style={{ height: "40%" }}
+						useNativeControls={true}
+					/>
 					<ScrollView style={{ paddingLeft: 10, paddingRight: 10 }}>
 						<Text
 							style={{
@@ -122,15 +151,26 @@ const CourseDetail = () => {
 							description={courseDetails.description}
 							courseId={courseDetails.id}
 							coursesLikeCategory={courseDetails.coursesLikeCategory}
+							downloadCurrentLesson={downloadCurrentLesson}
 						/>
-						{ isInProcessCourses && <Details section={courseDetails.section} /> }
-						{ !isInProcessCourses && 
-							<FullButton 
-								buttonName={languageName == "vietnamese" ? `Tham gia khoá học với ${courseDetails.price} VND!` : `Get this course now with ${courseDetails.price} VND!`}
-								handlePress={buyCourse}
-							/>
+						{ isInProcessCourses && 
+							<View>
+								<FullButton 
+									buttonName={languageName == "vietnamese" ? `Xem tiếp bài học gần nhất` : `Continue learning last lesson`}
+									handlePress={() => navigation.navigate("LessonDetail", { courseId: route?.params?.id, lessonId: lastLessonDetails.id })}
+								/>
+								<Details section={courseDetails.section} courseId={courseDetails.id} />
+							</View>
 						}
-						<Ratings courseId={courseDetails.id} ratings={courseDetails.ratings} isInProcessCourses={isInProcessCourses} />
+						{ !isInProcessCourses && 
+							<View>								
+								<FullButton 
+									buttonName={languageName == "vietnamese" ? `Tham gia khoá học với ${courseDetails.price} VND!` : `Get this course now with ${courseDetails.price} VND!`}
+									handlePress={buyCourse}
+								/>
+							</View>
+						}
+						<Ratings courseId={courseDetails.id} ratings={courseDetails.ratings} isInProcessCourses={isInProcessCourses} downloadCurrentLesson={downloadCurrentLesson} />
 					</ScrollView>
 				</View>
 			}

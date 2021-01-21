@@ -1,16 +1,20 @@
 import React from "react";
 import { TouchableOpacity, Text, SectionList, View } from "react-native";
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
-import { useSelector } from "react-redux"
+import { useSelector } from "react-redux";
+import { Ionicons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
 const Detail = (props) => {
 	const appSettingsReducer = useSelector((state) => state.appSettingsReducer);
+	const navigation = useNavigation();
 	const { theme, languageName } = appSettingsReducer;
 	const textColor = theme.primaryTextColor;
 	const backgroundColor = theme.primaryBackgroundColor;
+	const { courseId } = props;
 	const SectionsData = props.section.map((item, index) => {
 		return { section: item, data: item.lesson }
-	});		
+	});
 
 	const ExercisesData = [
 		{ title: "Course Overview", data: ["Course overview"] },
@@ -25,8 +29,11 @@ const Detail = (props) => {
 	];
 
 	const Item = ({ lesson }) => (
-		<View style={{ paddingBottom: 5, paddingTop: 5, backgroundColor: backgroundColor }}>
+		<View style={{ paddingBottom: 5, paddingTop: 5, backgroundColor: backgroundColor, flexDirection: "row", justifyContent: "space-between" }}>
 			<Text style={{ color: textColor }}>{lesson.name}</Text>
+			<TouchableOpacity onPress={() => navigation.navigate("LessonDetail", { lessonId: lesson.id, courseId: courseId})}>
+				<Ionicons name="ios-play" size={25} color={theme.primaryTextColor} />
+			</TouchableOpacity>
 		</View>
 	);
 
@@ -56,8 +63,8 @@ const Detail = (props) => {
 	]);
    
 	const renderScene = SceneMap({
-	  first: ExercisesComponent,
-	  second: ExercisesComponent,
+		first: ExercisesComponent,
+		second: ExercisesComponent,
 	});
 
 	return (

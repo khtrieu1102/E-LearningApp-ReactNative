@@ -178,6 +178,33 @@ const httpRateAndReviewCourse = (courseId, content, formalityPoint, presentation
         .catch((err) => Promise.reject(err));
 }
 
+const httpGetLessonDetail = (courseId, lessonId) => {
+    return httpClient
+        .get(`/lesson/detail/${courseId}/${lessonId}`)
+        .then((result) => {
+            return Promise.resolve(result);
+        })
+        .catch((err) => Promise.reject(err));
+}
+
+const httpGetLessonVideoAndLastSeenTime = (courseId, lessonId) => {
+    return httpClient
+        .get(`/lesson/video/${courseId}/${lessonId}`)
+        .then((result) => {
+            return Promise.resolve(result);
+        })
+        .catch((err) => Promise.reject(err));
+}
+
+const httpGetLastSeenLessonOfCourse = (courseId) => {
+    return httpClient
+        .get(`/course/last-watched-lesson/${courseId}`)
+        .then((result) => {
+            return Promise.resolve(result);
+        })
+        .catch((err) => Promise.reject(err));
+}
+
 export default {
     httpGetProcessCourses,
     httpGetNewCourses,
@@ -196,4 +223,7 @@ export default {
     httpDeleteSearchHistory,
     httpRegisterFreeCourse,
     httpRateAndReviewCourse,
+    httpGetLessonDetail,
+    httpGetLessonVideoAndLastSeenTime,
+    httpGetLastSeenLessonOfCourse,
 };

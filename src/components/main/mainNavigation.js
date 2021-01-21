@@ -26,9 +26,8 @@ import LanguageSettings from "./settings/language-settings.view";
 import ThemeSettings from "./settings/theme-settings.view";
 import PasswordUpdateForm from "./settings/password-update-form.view";
 import EmailUpdateForm from "./settings/email-update-form.view";
-
-
 import { useSelector, useDispatch } from "react-redux";
+import LessonDetail from "../cores/lesson/lesson-detail";
 
 const MainTabNavigator = () => {
     const appSettingsReducer = useSelector((state) => state.appSettingsReducer);
@@ -91,6 +90,10 @@ const MainTabNavigator = () => {
 					name="VerticalSectionPaths" 
 					component={VerticalSectionPaths} 
 				/>
+				<HomeStack.Screen 
+					name="LessonDetail" 
+					component={LessonDetail} 
+				/>
 			
 			</HomeStack.Navigator>
 		);
@@ -108,9 +111,13 @@ const MainTabNavigator = () => {
 					name="VerticalSectionCourses"
 					component={VerticalSectionCourses}
 				/>
-				<HomeStack.Screen 
+				<SearchStack.Screen 
 					name="AuthorDetail" 
 					component={AuthorDetail} 
+				/>
+				<SearchStack.Screen 
+					name="LessonDetail" 
+					component={LessonDetail} 
 				/>
 			</FavoriteStack.Navigator>
 		);
@@ -152,6 +159,10 @@ const MainTabNavigator = () => {
 					name="SkillDetail" 
 					component={SkillDetail} 
 				/>
+				<BrowseStack.Screen 
+					name="LessonDetail" 
+					component={LessonDetail} 
+				/>
 			</BrowseStack.Navigator>
 		);
 	};
@@ -164,7 +175,7 @@ const MainTabNavigator = () => {
 					name="VerticalSectionCourses"
 					component={VerticalSectionCourses}
 				/>
-				<BrowseStack.Screen 
+				<SearchStack.Screen 
 					name="VerticalSectionAuthors"
 					component={VerticalSectionAuthors}
 				/>
@@ -175,6 +186,10 @@ const MainTabNavigator = () => {
 				<SearchStack.Screen 
 					name="AuthorDetail" 
 					component={AuthorDetail} 
+				/>
+				<SearchStack.Screen 
+					name="LessonDetail" 
+					component={LessonDetail} 
 				/>
 			</SearchStack.Navigator>
 		);

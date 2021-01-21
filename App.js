@@ -7,8 +7,10 @@ import { useSelector, useDispatch } from 'react-redux';
 import FlashMessage from "react-native-flash-message";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import actionCreators from "./src/redux/action-creators";
+import store from ".//src/redux/store"
+import { Provider } from "react-redux";
 
-export default function App() {
+function App() {
   const authorizationReducer = useSelector((state) => state.authorizationReducer);
   const appSettingsReducer = useSelector((state) => state.appSettingsReducer);
   const dispatch = useDispatch();
@@ -56,5 +58,13 @@ export default function App() {
           style={{ paddingTop: "30" }}
         /> */}
       </NavigationContainer>
+  );
+}
+
+export default function Index() {
+  return (
+    <Provider store={store}>
+      <App />
+    </Provider>
   );
 }
