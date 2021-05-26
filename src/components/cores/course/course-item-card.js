@@ -1,30 +1,38 @@
 import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import { View, Text, TouchableOpacity, Image } from "react-native";
+import { useSelector } from "react-redux";
+import { Ionicons } from "@expo/vector-icons";
+import RatingStarBox from "./rating-star-box";
 
 const CourseItemCard = (props) => {
+	const appSettingsReducer = useSelector((state) => state.appSettingsReducer);
+	const { theme, languageName } = appSettingsReducer;
+
 	const navigation = useNavigation();
 	const { courseDetails } = props;
 	const {
 		title,
-		author,
 		level,
-		released,
-		duration,
-		description,
+		createdAt,
+		price,
+		totalHours,
+		imageUrl,
+		presentationPoint
 	} = courseDetails;
+	const author = courseDetails["instructor.user.name"] || "Author";
 
 	const handlePress = () => {
-		navigation.navigate("CourseDetail", { courseDetails: courseDetails });
+		navigation.navigate("CourseDetail", { courseId: courseDetails?.id });
 	};
 
 	return (
 		<TouchableOpacity
 			style={{
-				marginRight: 20,
+				margin: 10,
 				height: 220,
 				width: 220,
-				backgroundColor: "#ebf2ff",
+				backgroundColor: theme.courseItemColor,
 				shadowColor: "black",
 				shadowOffset: {
 					width: 5,
@@ -37,18 +45,24 @@ const CourseItemCard = (props) => {
 		>
 			<Image
 				source={{
-					uri:
-						"https://cdn.yankodesign.com/images/design_news/2018/10/the-keyboard-like-youve-never-seen-it/fangyuan_mechanical_keyboard_layout.jpg",
+					uri: imageUrl || "https://cdn.yankodesign.com/images/design_news/2018/10/the-keyboard-like-youve-never-seen-it/fangyuan_mechanical_keyboard_layout.jpg",
 				}}
-				style={{ height: 100 }}
+				style={{ height: "50%" }}
 			/>
-			<View style={{ marginTop: 10, marginLeft: 10 }}>
-				<Text style={{ fontWeight: "bold" }}>{title}</Text>
-				<Text>{author}</Text>
-				<Text>
-					{level} - {released} - {duration}
+			<View style={{ margin: 10, height: "30%" }}>
+				<Text style={{ fontWeight: "bold" }}>{title} - <Text style={{ fontWeight: "normal" }}>{author}</Text> </Text>
+				
+				<Text> 
+					{ createdAt ? 
+						`${new Date(createdAt).toDateString()} - ${Number((totalHours*1).toFixed(2))}h` :
+						`${languageName == "vietnamese" ? "Quá trình học: " : "Process: "}: ${courseDetails?.process}%`}
+				</Text>
+				<Text> 
+					{ courseDetails.learnLesson === undefined ? `${languageName == "vietnamese" ? "Giá" : "Price"}: ${price} VND` : 
+					`${languageName == "vietnamese" ? "Số bài đã học: " : "Lessons learnt: "} ${courseDetails?.learnLesson}/${courseDetails?.total}` }
 				</Text>
 			</View>
+			{ presentationPoint !== undefined && <RatingStarBox StarPoint={presentationPoint || 0} /> }
 		</TouchableOpacity>
 	);
 };

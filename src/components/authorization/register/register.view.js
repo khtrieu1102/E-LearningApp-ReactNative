@@ -1,177 +1,231 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, Image, TouchableOpacity } from "react-native";
+import { View, Text, TextInput, Image, TouchableOpacity, Alert } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native"
+import { useSelector, useDispatch } from "react-redux";
+
+import apiMethods from "../../../http-client/api-methods";
+import helpers from "../../../helpers";
+import actionCreators from "../../../redux/action-creators";
 
 const Register = () => {
+	const appSettingsReducer = useSelector((state) => state.appSettingsReducer);
+	const dispatch = useDispatch();
+	const { theme, languageName } = appSettingsReducer;
 	const navigation = useNavigation();
-	const [formData, setFormData] = useState({
-		email: "",
-		fullName: "",
-		password: "",
-		retypePassword: "",
+	const [formMessage, setFormMessage] = useState({
+		isError: false,
 	});
-	const textColor = "black";
+	const [formData, setFormData] = useState({
+		username: "trieu",
+		email: "khactrieu98@gmail.com",
+		phone: "0903020202",
+		password: "12",
+		retypePassword: "12",
+	});
 
-	const onSubmit = () => {
-		console.log(formData);
+	const onSubmit = async () => {
+		// Validate if there is any blank field
+		if (formData.username == "" || formData.email == "" || formData.phone == "" || formData.password == "" || formData.retypePassword == "") {
+			setFormMessage({...formMessage, isError: true});
+			return helpers.FlashMessageFunc.showSimpleError(languageName == "vietnamese" ? "Hãy điền đủ các ô nhập liệu!" : "Please fill in all input fields to complete form!");
+		}
+		// Validate password fields
+		if (formData.password != formData.retypePassword) {
+			setFormMessage({...formMessage, isError: true});
+			return helpers.FlashMessageFunc.showSimpleError(languageName == "vietnamese" ? "2 ô mật khẩu không khớp!" : "Password and Password Retype are not match! Try again!");
+		}
+		// Validate email is valid
+		const emailIsValid = helpers.Validation.validateEmail(formData.email);
+		if (emailIsValid == false) {
+			setFormMessage({...formMessage, isError: true});
+			return helpers.FlashMessageFunc.showSimpleError(languageName == "vietnamese" ? "Email không hợp lệ!" : "Your email is invalid! Try again!");
+		}
+
+		// --- Everything seems okay, refresh error message then call api
+		dispatch(actionCreators.authorization.userRegister(formData.username, formData.password, formData.email, formData.phone))
+	}
+
+	const requestRegisterCode = async () => {
+		const emailIsValid = helpers.Validation.validateEmail(formData.email);
+		if (emailIsValid == false || formData.email == "") {
+			setFormMessage({...formMessage, isError: true});
+			return helpers.FlashMessageFunc.showSimpleError(languageName == "vietnamese" ? "Email không hợp lệ!" : "Your email is invalid! Try again!");
+		}
+
+		dispatch(actionCreators.authorization.emailSendActivateAccount(formData.email));
+	};
+
+	const styles = {
+		PasswordInputStyle: {
+			flexDirection: "row",
+			borderWidth: formMessage.isError ? 2 : 1,
+			borderColor: formMessage.isError ? "red" : theme.primaryTextColor,
+			borderRadius: 5,
+			marginBottom: 5,
+		},
+		InputStyle: {
+			borderColor: formMessage.isError ? "red" : theme.primaryTextColor,
+			borderWidth: formMessage.isError ? 2 : 1,
+			borderRadius: 5,
+			height: 40,
+			color: theme.primaryTextColor,
+			marginBottom: 5,
+			paddingLeft: 5,
+		}
 	}
 	
 	return (
-		<View
-			style={{
-				flexDirection: "column",
-				justifyContent: "center",
-				alignItems: "stretch",
-				maxWidth: 500,
-				marginLeft: "5%",
-				marginRight: "5%",
-				height: "100%",
-			}}
-		>
-			<Image
-				style={{ height: "50px", paddingBottom: 100 }}
-				source={require("../assets/fit-hcmus-logo.png")}
-			/>
-			<Text style={{ color: textColor }}>Email</Text>
-			<TextInput
-				style={{
-					borderColor: textColor,
-					borderWidth: 1,
-					borderRadius: 5,
-                    height: 40,
-                    color: textColor,
-					marginBottom: 5,
-					paddingLeft: 5,
-				}}
-				onChangeText={(text) => setFormData({...formData, email: text})}
-				defaultValue={formData.email}
-			/>
-			<Text style={{ color: textColor }}>Full name</Text>
-			<TextInput
-				style={{
-					borderColor: textColor,
-					borderWidth: 1,
-					borderRadius: 5,
-                    height: 40,
-                    color: textColor,
-					marginBottom: 5,
-					paddingLeft: 5,
-				}}
-				onChangeText={(text) => setFormData({...formData, fullName: text})}
-				defaultValue={formData.fullName}
-			/>
-			<Text style={{ color: textColor }}>Password</Text>
+		<View style={{flex: 1, alignItems: "center", backgroundColor: theme.primaryBackgroundColor}}>
 			<View
 				style={{
-					flexDirection: "row",
-					borderWidth: 1,
-					borderColor: textColor,
-					borderRadius: 5,
-					marginBottom: 5,
+					flexDirection: "column",
+					justifyContent: "center",
+					alignItems: "stretch",
+					maxWidth: 500,
+					height: "100%",
+					width: 250,
 				}}
 			>
-				<Ionicons
-					style={{ justifyContent: "center", paddingLeft: 5, paddingRight: 5 }}
-					name="md-eye-off"
-					size={40}
-					color={textColor}
+				<Image
+					style={{ height: 50, paddingBottom: 100 }}
+					source={require("../assets/fit-hcmus-logo.png")}
 				/>
+				<Text style={{ color: theme.primaryTextColor }}>Username</Text>
 				<TextInput
-					style={{
-						flex: 1,
-						borderRadius: 5,
-						height: 40,
-						paddingLeft: 5,
-                        color: textColor,
-					}}
-					onChangeText={(text) => setFormData({...formData, password: text})}
-					defaultValue={formData.password}
+					style={styles.InputStyle}
+					onChangeText={(text) => setFormData({...formData, username: text})}
+					defaultValue={formData.username}
 				/>
-			</View>
-			<Text style={{ color: textColor }}>Retype password</Text>
-			<View
-				style={{
-					flexDirection: "row",
-					borderWidth: 1,
-					borderColor: textColor,
-					borderRadius: 5,
-					marginBottom: 5,
-				}}
-			>
-				<Ionicons
-					style={{ justifyContent: "center", paddingLeft: 5, paddingRight: 5 }}
-					name="md-eye-off"
-					size={40}
-					color={textColor}
-				/>
+				<Text style={{ color: theme.primaryTextColor }}>Email</Text>
 				<TextInput
-					style={{
-						flex: 1,
-						borderRadius: 5,
-						height: 40,
-						paddingLeft: 5,
-                        color: textColor,
-					}}
-					onChangeText={(text) => setFormData({...formData, retypePassword: text})}
-					defaultValue={formData.retypePassword}
+					style={styles.InputStyle}
+					onChangeText={(text) => setFormData({...formData, email: text})}
+					defaultValue={formData.email}
 				/>
+				<Text style={{ color: theme.primaryTextColor }}>
+					{ languageName == "vietnamese" ? "Số điện thoại" : "Phone Number" }
+				</Text>
+				<TextInput
+					style={styles.InputStyle}
+					onChangeText={(text) => setFormData({...formData, phone: text})}
+					defaultValue={formData.phone}
+				/>
+				<Text style={{ color: theme.primaryTextColor }}>Password</Text>
+				<View
+					style={styles.PasswordInputStyle}
+				>
+					<Ionicons
+						style={{ justifyContent: "center", paddingLeft: 5, paddingRight: 5 }}
+						name="md-eye-off"
+						size={40}
+						color={theme.primaryTextColor}
+					/>
+					<TextInput
+						secureTextEntry={true}
+						style={{
+							flex: 1,
+							borderRadius: 5,
+							height: 40,
+							paddingLeft: 5,
+							color: theme.primaryTextColor,
+						}}
+						onChangeText={(text) => setFormData({...formData, password: text})}
+						defaultValue={formData.password}
+					/>
+				</View>
+				<Text style={{ color: theme.primaryTextColor }}>
+					{ languageName == "vietnamese" ? "Nhập lại mật khẩu" : "Retype Password" }
+				</Text>
+				<View
+					style={styles.PasswordInputStyle}
+				>
+					<Ionicons
+						style={{ justifyContent: "center", paddingLeft: 5, paddingRight: 5 }}
+						name="md-eye-off"
+						size={40}
+						color={theme.primaryTextColor}
+					/>
+					<TextInput
+						secureTextEntry={true}
+						style={{
+							flex: 1,
+							borderRadius: 5,
+							height: 40,
+							paddingLeft: 5,
+							color: theme.primaryTextColor,
+						}}
+						onChangeText={(text) => setFormData({...formData, retypePassword: text})}
+						defaultValue={formData.retypePassword}
+					/>
+				</View>
+				<TouchableOpacity onPress={requestRegisterCode}>
+					<Text style={{ color: "blue", textDecorationLine: "underline", fontSize: 15 }}>
+						{ languageName == "vietnamese" ? "Gửi lại code xác nhận!" : "Send verify code again!" }
+					</Text>
+				</TouchableOpacity>
+				<TouchableOpacity
+					style={{
+						backgroundColor: theme.secondaryBackgroundColor,
+						alignItems: "center",
+						justifyContent: "center",
+						height: 40,
+						borderRadius: 5,
+						marginTop: 5,
+						marginBottom: 5,
+					}}
+					onPress={onSubmit}
+				>
+					<Text style={{ color: "white" }}>
+						{ languageName == "vietnamese" ? "Đăng ký tài khoản" : "Register new account" }
+					</Text>
+				</TouchableOpacity>
+				<TouchableOpacity
+					style={{
+						alignItems: "center",
+						justifyContent: "center",
+						height: 40,
+						borderColor: theme.secondaryBackgroundColor,
+						borderWidth: 1,
+						borderRadius: 5,
+						marginBottom: 5,
+					}}
+					onPress={() => {navigation.navigate("Authorization/LogIn")}}
+				>
+					<Text style={{ color: theme.secondaryTextColor }}>
+						{ languageName == "vietnamese" ? "Đăng nhập" : "Sign In" }
+					</Text>
+				</TouchableOpacity>
+				<TouchableOpacity
+					style={{
+						alignItems: "center",
+						justifyContent: "center",
+						height: 40,
+						borderColor: theme.secondaryBackgroundColor,
+						borderWidth: 1,
+						borderRadius: 5,
+						marginBottom: 5,
+					}}
+				>
+					<Text style={{ color: theme.secondaryTextColor }}>
+						{ languageName == "vietnamese" ? "Đăng nhập với Google" : "Sign in with Google" }
+					</Text>
+				</TouchableOpacity>
+				<TouchableOpacity
+					style={{
+						alignItems: "center",
+						justifyContent: "center",
+						height: 40,
+						borderColor: theme.secondaryBackgroundColor,
+						borderWidth: 1,
+						borderRadius: 5,
+						marginBottom: 5,
+					}}
+					onPress={() => {navigation.navigate("Authorization/ForgotPassword")}}
+				>
+					<Text style={{ color: theme.secondaryTextColor }}>{ languageName == "vietnamese" ? "Quên mật khẩu?" : "Forgot your password" }</Text>
+				</TouchableOpacity>
 			</View>
-			<TouchableOpacity
-				style={{
-					backgroundColor: "#6998f5",
-					alignItems: "center",
-					justifyContent: "center",
-					height: 40,
-					borderRadius: 5,
-					marginTop: 5,
-					marginBottom: 5,
-				}}
-				onPress={() => onSubmit()}
-			>
-				<Text style={{ color: "white" }}>Register new account</Text>
-			</TouchableOpacity>
-			<TouchableOpacity
-				style={{
-					alignItems: "center",
-					justifyContent: "center",
-					height: 40,
-					borderColor: "#6998f5",
-					borderWidth: 1,
-					borderRadius: 5,
-					marginBottom: 5,
-				}}
-				onPress={() => {navigation.navigate("Authorization/LogIn")}}
-			>
-				<Text style={{ color: "#6998f5" }}>Sign In</Text>
-			</TouchableOpacity>
-			<TouchableOpacity
-				style={{
-					alignItems: "center",
-					justifyContent: "center",
-					height: 40,
-					borderColor: "#6998f5",
-					borderWidth: 1,
-					borderRadius: 5,
-					marginBottom: 5,
-				}}
-			>
-				<Text style={{ color: "#6998f5" }}>Sign In with Google</Text>
-			</TouchableOpacity>
-			<TouchableOpacity
-				style={{
-					alignItems: "center",
-					justifyContent: "center",
-					height: 40,
-					borderColor: "#6998f5",
-					borderWidth: 1,
-					borderRadius: 5,
-					marginBottom: 5,
-				}}
-				onPress={() => {navigation.navigate("Authorization/ForgotPassword")}}
-			>
-				<Text style={{ color: "#6998f5" }}>Forgot your password?</Text>
-			</TouchableOpacity>
 		</View>
 	);
 };

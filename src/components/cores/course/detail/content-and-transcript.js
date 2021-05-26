@@ -1,21 +1,22 @@
 import React from "react";
 import { TouchableOpacity, Text, SectionList, View } from "react-native";
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
+import { useSelector } from "react-redux";
+import { Ionicons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
 const Detail = (props) => {
-	const ContentsData = [
-		{ title: "Course Overview", data: ["Course overview"] },
-		{ title: "Main Contents", data: ["Section 1", "Section 2", "Section 3"] },
-		{ title: "Conclusion", data: ["Ending 1", "Ending 2"] },
-		{ title: "Course Overview", data: ["Course overview"] },
-		{ title: "Main Contents", data: ["Section 1", "Section 2", "Section 3"] },
-		{ title: "Conclusion", data: ["Ending 1", "Ending 2"] },
-		{ title: "Course Overview", data: ["Course overview"] },
-		{ title: "Main Contents", data: ["Section 1", "Section 2", "Section 3"] },
-		{ title: "Conclusion", data: ["Ending 1", "Ending 2"] },
-	];		
+	const appSettingsReducer = useSelector((state) => state.appSettingsReducer);
+	const navigation = useNavigation();
+	const { theme, languageName } = appSettingsReducer;
+	const textColor = theme.primaryTextColor;
+	const backgroundColor = theme.primaryBackgroundColor;
+	const { courseId } = props;
+	const SectionsData = props.section.map((item, index) => {
+		return { section: item, data: item.lesson }
+	});
 
-	const TranscriptData = [
+	const ExercisesData = [
 		{ title: "Course Overview", data: ["Course overview"] },
 		{ title: "Main Contents", data: ["Section 1", "Section 2", "Section 3"] },
 		{ title: "Conclusion", data: ["Ending 1", "Ending 2"] },
@@ -27,40 +28,29 @@ const Detail = (props) => {
 		{ title: "Conclusion", data: ["Ending 1", "Ending 2"] },
 	];
 
-	const handlePress = () => {
-		console.log("Go to author name");
-		// navigation.navigate("AuthorDetail", { authorDetails: authorDetails });
-	};
-
-	const Item = ({ title }) => (
-		<View style={{ paddingBottom: 5, paddingTop: 5 }}>
-			<Text>{title}</Text>
+	const Item = ({ lesson }) => (
+		<View style={{ paddingBottom: 5, paddingTop: 5, backgroundColor: backgroundColor, flexDirection: "row", justifyContent: "space-between" }}>
+			<Text style={{ color: textColor }}>{lesson.name}</Text>
+			<TouchableOpacity onPress={() => navigation.navigate("LessonDetail", { lessonId: lesson.id, courseId: courseId})}>
+				<Ionicons name="ios-play" size={25} color={theme.primaryTextColor} />
+			</TouchableOpacity>
 		</View>
 	);
 
-	const Header = ({ title }) => (
-		<View style={{ paddingTop: 5 }}>
-			<Text style={{ fontSize: 20 }}>{title}</Text>
+	const Header = ({ section }) => (
+		<View style={{ paddingTop: 5, backgroundColor: backgroundColor, flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
+			<Text style={{ fontSize: 20, color: textColor }}>{section.name}</Text>
+			<Text style={{ color: textColor }}>{Math.round((section.sumHours + Number.EPSILON) * 100) / 100} hours</Text>
 		</View>
 	);
 
-	const ContentsComponent = () => (
+	const ExercisesComponent = () => (
 		<SectionList
-			sections={ContentsData}
+			sections={SectionsData}
 			keyExtractor={(item, index) => item + index}
-			renderItem={({ item }) => <Item title={item} />}
-			renderSectionHeader={({ section: { title } }) => <Header title={title} />}
-			stickySectionHeadersEnabled={true}
-		/>
-	);
-
-	const TranscriptComponent = () => (
-		<SectionList
-			sections={TranscriptData}
-			keyExtractor={(item, index) => item + index}
-			renderItem={({ item }) => <Item title={item} />}
-			renderSectionHeader={({ section: { title } }) => (
-				<Header title={"Transcript" + title} />
+			renderItem={({ item }) => <Item lesson={item} />}
+			renderSectionHeader={({ section: { section } }) => (
+				<Header section={section} />
 			)}
 			stickySectionHeadersEnabled={true}
 		/>
@@ -68,13 +58,13 @@ const Detail = (props) => {
 
 	const [index, setIndex] = React.useState(0);
 	const [routes] = React.useState([
-	  { key: 'first', title: 'Contents' },
-	  { key: 'second', title: 'Transcripts' },
+	  { key: 'first', title: languageName ? 'Bài học' : 'Sections' },
+	  { key: 'second', title: languageName ? 'Bài tập' : 'Exercises' },
 	]);
    
 	const renderScene = SceneMap({
-	  first: ContentsComponent,
-	  second: TranscriptComponent,
+		first: ExercisesComponent,
+		second: ExercisesComponent,
 	});
 
 	return (
@@ -83,11 +73,11 @@ const Detail = (props) => {
 				navigationState={{ index, routes }}
 				renderScene={renderScene}
 				onIndexChange={setIndex}
-				initialLayout={{height: 300, background: "white"}}
+				initialLayout={{height: 300, background: backgroundColor}}
 				renderTabBar={props => <TabBar 
-                    style={{backgroundColor: "white"}} 
+                    style={{backgroundColor: backgroundColor}} 
                     renderLabel={({ route, focused, color }) => (
-                        <Text style={{ color:'black', margin: 8 }}>
+                        <Text style={{ color: textColor, margin: 8 }}>
                           {route.title.toUpperCase()}
                         </Text>
                     )}                 

@@ -1,64 +1,47 @@
 import React from "react";
-import { View, ScrollView } from "react-native";
+import { View, ScrollView, Text, ActivityIndicator } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-
 import SectionPathsHeader from "./section-paths-header";
-import PathCardItem from "../Path/path-card-item";
+import PathCardItem from "../path/path-card-item";
+import { useSelector } from "react-redux";
+import SectionCoursesHeader from "../section-courses/section-courses-header";
 
-const HorizontalSectionPaths = (props) => {
-	const { header, isMultipleSections } = props;
+
+const HorizontalSectionPaths = ({ header, paths, isLoading}) => {    
+	const appSettingsReducer = useSelector((state) => state.appSettingsReducer);
+	const { theme, languageName } = appSettingsReducer;
 	const navigation = useNavigation();
-	const paths = [
-		{
-			id: 1,
-			pathName: "React",
-			amount: 12,
-			duration: 4.5,
-			description:
-				"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-		},
-		{
-			id: 2,
-			pathName: "Leadership and Management for: Project Managers",
-			amount: 44,
-			duration: 4.5,
-			description:
-				"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-		},
-		{
-			id: 3,
-			pathName: "Android and Android simulator",
-			amount: 10,
-			duration: 4.5,
-			description:
-				"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-		},
-		{
-			id: 3,
-			pathName: "Advanced Website application development",
-			amount: 15,
-			duration: 4.5,
-			description:
-				"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-		},
-	];
 
 	const onSeeAll = () => {
 		navigation.navigate("VerticalSectionPaths", { paths: paths })
 	}
 
 	return (
-		<View style={{ paddingTop: 20 }}>
-			<SectionPathsHeader header={header} onSeeAll={onSeeAll} showButtonSeeAll={true}/>
-			<ScrollView horizontal={true}>
-				{paths.map((path, index) => (
-					<PathCardItem
-						key={index}
-						pathDetails={path}
-						navigation={navigation}
-					/>
-				))}
-			</ScrollView>
+		<View>
+			<SectionCoursesHeader header={header} onSeeAll={onSeeAll} showButtonSeeAll={true}/>
+
+			{isLoading && <ActivityIndicator color={theme.primaryTextColor} /> }
+			{!isLoading && 
+				<View>
+					{
+						paths?.length > 0 ? 
+						<ScrollView horizontal={true} >
+							{paths.map((item, index) => (
+								<PathCardItem
+									key={index}
+									pathDetails={item}
+								/>
+							))}
+						</ScrollView> : 
+						<View style={{ height: 220, justifyContent: "center", alignSelf: "center" }}>
+							<Text style={{ color: theme.primaryTextColor }}>
+								{languageName == "vietnamese" ? "Hiện chưa có danh mục nào." : "There's no category in this section."}
+							</Text>
+						</View>
+					}
+				</View>
+			}
+
 		</View>
 	);
 };

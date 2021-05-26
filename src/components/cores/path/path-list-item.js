@@ -2,9 +2,14 @@ import React from "react";
 import { View, Text, TouchableOpacity, Image } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import { useSelector } from "react-redux"
 
 const PathListItem = ({ pathDetails }) => {
-	const { id, pathName, amount } = pathDetails;
+	const appSettingsReducer = useSelector((state) => state.appSettingsReducer);
+	const { theme } = appSettingsReducer;
+	const textColor = theme.primaryTextColor;
+
+	const { id, name, amount } = pathDetails;
 	const navigation = useNavigation();
 
 	const handlePress = () => {
@@ -15,15 +20,15 @@ const PathListItem = ({ pathDetails }) => {
 		<View>
 			<View
 				style={{
-					backgroundColor: "white",
+					backgroundColor: "transparent",
 					flexDirection: "row",
 					paddingTop: 10,
+					marginBottom: 10
 				}}
 			>
 				<TouchableOpacity
 					style={{
 						width: "90%",
-						backgroundColor: "white",
 						flexDirection: "row",
 						justifyContent: "flex-start",
 						marginBottom: 10,
@@ -42,13 +47,14 @@ const PathListItem = ({ pathDetails }) => {
 							style={{
 								fontWeight: "bold",
 								marginBottom: 5,
+								color: textColor,
 							}}
 						>
-							{pathName}
+							{name}
 						</Text>
-						<Text style={{ color: "#979ba1", fontSize: 11, paddingTop: 3 }}>
+						{/* <Text style={{ color: "#979ba1", fontSize: 11, paddingTop: 3 }}>
 							{amount} courses
-						</Text>
+						</Text> */}
 						{/* <Text style={{ color: "#979ba1", fontSize: 11, paddingTop: 3 }}>
 							{level} - {released} - {duration}
 						</Text> */}
@@ -60,7 +66,7 @@ const PathListItem = ({ pathDetails }) => {
 						style={{ maxWidth: "10%" }}
 						name="ios-more"
 						size={20}
-						color="black"
+						color={textColor}
 					/>
 				</TouchableOpacity>
 			</View>

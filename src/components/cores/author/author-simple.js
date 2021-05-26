@@ -2,17 +2,11 @@ import React from "react";
 import { TouchableOpacity, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native"
 
-const AuthorSimpleItem = ({ authorName }) => {
+const AuthorSimpleItem = ({ authorDetails }) => {
 	const navigation = useNavigation();
-	
-	const authorDetails = {
-		authorName: authorName,
-
-	}
 
 	const handlePress = () => {
-		console.log("Go to author name");
-		navigation.navigate("AuthorDetail");
+		navigation.navigate("AuthorDetail", { authorId: authorDetails.id});
 	};
 
 	return (
@@ -37,7 +31,7 @@ const AuthorSimpleItem = ({ authorName }) => {
 					paddingRight: 10,
 				}}
 			>
-				by {authorName}
+				by {authorDetails.name}
 			</Text>
 		</TouchableOpacity>
 	);

@@ -1,131 +1,162 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, Image, TouchableOpacity } from "react-native";
+import { View, Text, TextInput, Image, TouchableOpacity, StyleSheet, ActivityIndicator } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from '@react-navigation/native';
+import { useSelector, useDispatch } from "react-redux";
+import actionCreators from '../../../redux/action-creators';
+import helpers from "../../../helpers";
+import apiMethods from "../../../http-client/api-methods";
 
 const Login = () => {	
+    const appSettingsReducer = useSelector((state) => state.appSettingsReducer);
+	const authorizationReducer = useSelector((state) => state.authorizationReducer);
+	const { isLoading } = authorizationReducer;
+	const { theme, languageName } = appSettingsReducer;
+	const dispatch = useDispatch();
+
 	const navigation = useNavigation();
 	const [formData, setFormData] = useState({
-		email: "",
-		password: "",
+		email: "khactrieu98@gmail.com",
+		password: "12345678",
+	});	
+	const [formMessage, setFormMessage] = useState({
+		isError: false,
+		isSuccess: false,
+		errorMessage: "",
 	});
-	const textColor = "black";
-	const onSubmit = () => {
-		console.log(formData.email, formData.password);
+
+	const onSubmit = async () => {
+		// Validate if there is any blank field
+		if (formData.email == "" || formData.password == "") {
+			setFormMessage({...formMessage, isError: true, errorMessage: languageName == "vietnamese" ? "Hãy điền vào các ô nhập liệu!" : "Please fill in all input fields to complete form!"});
+			return;
+		}
+		// Validate email is valid
+		const emailIsValid = helpers.Validation.validateEmail(formData.email);
+		if (emailIsValid == false) {
+			setFormMessage({...formMessage, isError: true, errorMessage: languageName == "vietnamese" ? "Email không hợp lệ, hãy thử lại!" : "Your email is invalid! Try again!"});
+			return;
+		}
+
+		// --- Everything seems okay, refresh error message then call api
+		setFormMessage({...formMessage, isError: false, errorMessage: ""});
+		dispatch(actionCreators.authorization.userLogin(formData.email, formData.password));
 	}
+
+	const styles = StyleSheet.create({
+		OtherOptionsStyle: {
+			alignItems: "center",
+			justifyContent: "center",
+			height: 40,
+			borderColor: theme.secondaryBackgroundColor,
+			borderWidth: 1,
+			borderRadius: 5,
+			marginBottom: 5,
+		},
+		MainSubmitButtonStyle: {
+			backgroundColor: theme.secondaryBackgroundColor,
+			alignItems: "center",
+			justifyContent: "center",
+			height: 40,
+			borderRadius: 5,
+			marginTop: 5,
+			marginBottom: 5,
+		},
+		PasswordInputStyle: {
+			flexDirection: "row",
+			borderWidth: formMessage.isError ? 2 : 1,
+			borderColor: formMessage.isError ? "red" : theme.primaryTextColor,
+			borderRadius: 5,
+			marginBottom: 5,
+		},
+		InputStyle: {
+			borderColor: formMessage.isError ? "red" : theme.primaryTextColor,
+			borderWidth: formMessage.isError ? 2 : 1,
+			borderRadius: 5,
+			height: 40,
+			color: theme.primaryTextColor,
+			marginBottom: 5,
+			paddingLeft: 5,
+		}
+	});
+
 	return (
-		<View
-			style={{
-				flexDirection: "column",
-				justifyContent: "center",
-				alignItems: "stretch",
-				maxWidth: 500,
-				marginLeft: "5%",
-				marginRight: "5%",
-				height: "100%",
-			}}
-		>
-			<Image
-					style={{ height: "50px", paddingBottom: 100 }}
-					source={require("../assets/fit-hcmus-logo.png")}
-				/>
-			<Text style={{ color: textColor }}>Email</Text>
-			<TextInput
-				style={{
-					borderColor: textColor,
-					borderWidth: 1,
-					borderRadius: 5,
-                    height: 40,
-                    color: textColor,
-					marginBottom: 5,
-					paddingLeft: 5,
-				}}
-				onChangeText={(text) => setFormData({...formData, email: text})}
-				defaultValue={formData.email}
-			/>
-			<Text style={{ color: textColor }}>Password</Text>
+		<View style={{flex: 1, alignItems: "center", backgroundColor: theme.primaryBackgroundColor}}>
 			<View
 				style={{
-					flexDirection: "row",
-					borderWidth: 1,
-					borderColor: textColor,
-					borderRadius: 5,
-					marginBottom: 5,
+					flexDirection: "column",
+					justifyContent: "center",
+					alignItems: "stretch",
+					maxWidth: 500,
+					height: "100%",
+					width: 250,
 				}}
 			>
-				<Ionicons
-					style={{ justifyContent: "center", paddingLeft: 5, paddingRight: 5 }}
-					name="md-eye-off"
-					size={40}
-					color={textColor}
-				/>
+				<Image
+						style={{ height: 50, paddingBottom: 100 }}
+						source={require("../assets/fit-hcmus-logo.png")}
+					/>
+				<Text style={{ color: theme.primaryTextColor }}>Email</Text>
 				<TextInput
-					style={{
-						flex: 1,
-						borderRadius: 5,
-						height: 40,
-						paddingLeft: 5,
-                        color: textColor,
-					}}
-					onChangeText={(text) => setFormData({...formData, password: text})}
-					defaultValue={formData.password}
+					style={styles.InputStyle}
+					onChangeText={(text) => setFormData({...formData, email: text})}
+					defaultValue={formData.email}
 				/>
+				<Text style={{ color: theme.primaryTextColor }}>Password</Text>
+				<View
+					style={styles.PasswordInputStyle}
+				>
+					<Ionicons
+						style={{ justifyContent: "center", paddingLeft: 5, paddingRight: 5 }}
+						name="md-eye-off"
+						size={40}
+						color={theme.primaryTextColor}
+					/>
+					<TextInput
+						secureTextEntry={true}
+						style={{
+							flex: 1,
+							borderRadius: 5,
+							height: 40,
+							paddingLeft: 5,
+							color: theme.primaryTextColor,
+						}}
+						onChangeText={(text) => setFormData({...formData, password: text})}
+						defaultValue={formData.password}
+					/>
+				</View>
+				{formMessage.isError && <Text style={{ color: "red", fontSize: 10 }}>{formMessage.errorMessage}</Text>}
+				<TouchableOpacity
+					style={styles.MainSubmitButtonStyle}
+					onPress={onSubmit}
+				>
+					<Text style={{ color: "white" }}>
+					    {/* {isLoading ? <span>Please wait... <ActivityIndicator /></span> : "Sign In"} */}
+						{ languageName == "vietnamese" ? "Đăng nhập" : "Sign In" }
+					</Text>
+				</TouchableOpacity>
+				<TouchableOpacity
+					style={styles.OtherOptionsStyle}
+					onPress={() => {navigation.navigate("Authorization/Register")}}
+				>
+					<Text style={{ color: theme.secondaryTextColor }}>
+						{ languageName == "vietnamese" ? "Đăng ký tài khoản" : "Register new account" }
+					</Text>
+				</TouchableOpacity>
+				<TouchableOpacity
+					style={styles.OtherOptionsStyle}
+				>
+					<Text style={{ color: theme.secondaryTextColor }}>
+						{ languageName == "vietnamese" ? "Đăng nhập với Google" : "Sign in with Google" }
+					</Text>
+				</TouchableOpacity>
+				<TouchableOpacity
+					style={styles.OtherOptionsStyle}
+					onPress={() => {navigation.navigate("Authorization/ForgotPassword")}}
+				>
+					<Text style={{ color: theme.secondaryTextColor }}>{ languageName == "vietnamese" ? "Quên mật khẩu?" : "Forgot your password" }</Text>
+				</TouchableOpacity>
 			</View>
-			<TouchableOpacity
-				style={{
-					backgroundColor: "#6998f5",
-					alignItems: "center",
-					justifyContent: "center",
-					height: 40,
-					borderRadius: 5,
-					marginTop: 5,
-					marginBottom: 5,
-				}}
-				onPress={() => onSubmit()}
-			>
-				<Text style={{ color: "white" }}>Sign In</Text>
-			</TouchableOpacity>
-			<TouchableOpacity
-				style={{
-					alignItems: "center",
-					justifyContent: "center",
-					height: 40,
-					borderColor: "#6998f5",
-					borderWidth: 1,
-					borderRadius: 5,
-					marginBottom: 5,
-				}}
-				onPress={() => {navigation.navigate("Authorization/Register")}}
-			>
-				<Text style={{ color: "#6998f5" }}>Register new account</Text>
-			</TouchableOpacity>
-			<TouchableOpacity
-				style={{
-					alignItems: "center",
-					justifyContent: "center",
-					height: 40,
-					borderColor: "#6998f5",
-					borderWidth: 1,
-					borderRadius: 5,
-					marginBottom: 5,
-				}}
-			>
-				<Text style={{ color: "#6998f5" }}>Sign In with Google</Text>
-			</TouchableOpacity>
-			<TouchableOpacity
-				style={{
-					alignItems: "center",
-					justifyContent: "center",
-					height: 40,
-					borderColor: "#6998f5",
-					borderWidth: 1,
-					borderRadius: 5,
-					marginBottom: 5,
-				}}
-				onPress={() => {navigation.navigate("Authorization/ForgotPassword")}}
-			>
-				<Text style={{ color: "#6998f5" }}>Forgot your password?</Text>
-			</TouchableOpacity>
 		</View>
 	);
 };

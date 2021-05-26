@@ -9,14 +9,14 @@ import SkillItemCard from "../skill/skill-card-item";
 const HorizontalSectionSkills = ({ header }) => {
 	const navigation = useNavigation();
 	const skills = [
-		{ id: 1, skillName: "react" },
-		{ id: 2, skillName: "javascript" },
-		{ id: 3, skillName: "mobile" },
-		{ id: 4, skillName: "angular" },
-		{ id: 5, skillName: "website" },
-		{ id: 6, skillName: "design" },
-		{ id: 7, skillName: "flux" },
-		{ id: 8, skillName: "react-redux react-redux" },
+		{ id: 1, content: "react" },
+		{ id: 2, content: "javascript" },
+		{ id: 3, content: "mobile" },
+		{ id: 4, content: "angular" },
+		{ id: 5, content: "website" },
+		{ id: 6, content: "design" },
+		{ id: 7, content: "flux" },
+		{ id: 8, content: "react-redux react-redux" },
 	];
 
 	const skillTopics = [
@@ -32,7 +32,6 @@ const HorizontalSectionSkills = ({ header }) => {
 
 	const handleCardSkillPress = () => {
 		navigation.navigate("FullSkillTopic");
-		console.log("card");
 	};
 
 	return (

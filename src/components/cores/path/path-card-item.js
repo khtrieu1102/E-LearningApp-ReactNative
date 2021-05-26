@@ -1,14 +1,16 @@
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
 import { View, Text, TouchableOpacity, Image } from "react-native";
+import { useSelector } from "react-redux"
 
 const PathCardItem = (props) => {
+	const appSettingsReducer = useSelector((state) => state.appSettingsReducer);
+	const { theme } = appSettingsReducer;
 	const { pathDetails } = props;
-	const { id, pathName, amount, description, duration } = pathDetails;
+	const { id, name } = pathDetails;
 	const navigation = useNavigation();
 
 	const handlePress = () => {
-		// console.log(pathDetails);
 		navigation.navigate("PathDetail", { pathDetails: pathDetails });
 	};
 
@@ -18,7 +20,7 @@ const PathCardItem = (props) => {
 				marginRight: 20,
 				height: 200,
 				width: 220,
-				backgroundColor: "#ebf2ff",
+				backgroundColor: theme.courseItemColor,
 				shadowColor: "#000",
 				shadowOffset: {
 					width: 5,
@@ -37,8 +39,7 @@ const PathCardItem = (props) => {
 				style={{ height: 100 }}
 			/>
 			<View style={{ marginTop: 10, marginLeft: 10 }}>
-				<Text style={{ fontWeight: "bold" }}>{pathName}</Text>
-				<Text>{amount} courses</Text>
+				<Text style={{ fontWeight: "bold" }}>{name}</Text>
 			</View>
 		</TouchableOpacity>
 	);

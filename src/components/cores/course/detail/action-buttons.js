@@ -1,74 +1,64 @@
-import React from "react";
-import { TouchableOpacity, Text, View } from "react-native";
-import { NavigationContainer, useNavigation } from "@react-navigation/native";
-import { Ionicons } from "@expo/vector-icons";
+import React, { useEffect, useState } from "react";
+import { View } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { useSelector, useDispatch } from "react-redux";
+import apiMethods from "../../../../http-client/api-methods";
+import actionCreators from "../../../../redux/action-creators";
 
 import Description from "../../description/description";
+import CircleButton from "./circle-button";
+import FullButton from "./full-button";
+import helpers from "../../../../helpers";
 
 const Actions = (props) => {
+	const appSettingsReducer = useSelector((state) => state.appSettingsReducer);
+	const { theme, languageName } = appSettingsReducer;
+	const textColor = theme.primaryTextColor;
+	const dispatch = useDispatch();
+	const backgroundColor = theme.primaryBackgroundColor;
+
 	const navigation = useNavigation();
-	const { description, onAddToFavorite, onRemoveFromFavorite } = props;
+	const { description, courseId, coursesLikeCategory, downloadCurrentLesson } = props;
+
+	const [ courseIsInFavorite, setCourseIsInFavorite ] = useState(false);
 	const handlePress = () => {
 		console.log("Go to author name");
 		// navigation.navigate("AuthorDetail", { authorDetails: authorDetails });
 	};
 
-	const CircleButton = ({ buttonName, iconName, handlePress }) => (
-		<TouchableOpacity
-			style={{
-				marginRight: 20,
-				alignItems: "center",
-			}}
-			onPress={handlePress}
-		>
-			<TouchableOpacity
-				style={{
-					borderRadius: 50,
-					width: 50, 
-					height: 50,
-					backgroundColor: "#dedede",
-					alignItems: "center"
-				}}
-				onPress={handlePress}
-			>
-				<Ionicons
-					style={{ alignSelf: "center", 
-					flex: 1,}}
-					name={iconName}
-					size={32}
-					color="#8a92a1"
-				/>
-			</TouchableOpacity>
-			<View>
-				<Text style={{ alignSelf: "center" }}>{buttonName}</Text>
-			</View>
-		</TouchableOpacity>
-	);
+	const showRelevantCourses = () => {
+		navigation.navigate("VerticalSectionCourses", { courses: coursesLikeCategory })
+	}
 
-	const FullButton = ({ buttonName, handlePress }) => (
-		<TouchableOpacity
-			style={{
-				backgroundColor: "#dedede",
-				flexDirection: "column",
-				borderRadius: 10,
-				marginBottom: 10,
-			}}
-			onPress={handlePress}
-		>
-			<Text
-				style={{
-					flex: 1,
-					color: "black",
-					alignSelf: "center",
-					fontSize: 12,
-					padding: 15,
-				}}
-			>
-				{buttonName}
-			</Text>
-		</TouchableOpacity>
-	);
+	const _checkCourseIsInFavorite = async () => {
+		await apiMethods.application.httpGetCourseFavoriteStatus(courseId)
+			.then(result => result?.data?.likeStatus)
+			.then(result => {
+				setCourseIsInFavorite(result);
+			}).catch(error => {
+				console.log(error);
+			})
+	}
 
+	const onInteractWithFavorite = async () => {
+		await apiMethods.application
+			.httpLikeCourse(courseId)
+			.then(async (result) => {
+				_checkCourseIsInFavorite();
+			})
+			.catch(error => {
+				helpers.FlashMessageFunc.showSimpleError("Không thể hoàn thành tác vụ, hãy thử lại sau!");
+			});
+	}
+
+	useEffect(() => {
+		_checkCourseIsInFavorite();
+
+		return () => {
+
+		}
+	}, [])
+	
 	return (
 		<>
 			<View
@@ -79,13 +69,27 @@ const Actions = (props) => {
 					paddingTop: 10,
 				}}
 			>
-				<CircleButton handlePress={handlePress} iconName="ios-add" buttonName="Bookmark" />
-				<CircleButton handlePress={handlePress} iconName="ios-add" buttonName="Channel" />
-				<CircleButton handlePress={onAddToFavorite} iconName="ios-heart" buttonName="Downloads" />
-				{/* <CircleButton
-					handlePress={onAddToFavorite}
-					buttonName="Remove downloads"
-				/> */}
+				<CircleButton 
+					handlePress={() => onInteractWithFavorite()} 
+					iconName="ios-heart" 
+					iconColor={courseIsInFavorite ? "red" : "#8a92a1"}
+					buttonName={courseIsInFavorite ? (languageName == "vietnamese" ? "Bỏ thích" : "Unlike") : (languageName == "vietnamese" ? "Thích" : "Like")}
+					textColor={textColor}
+				/>
+				<CircleButton 
+					handlePress={handlePress} 
+					iconName="md-chatbubbles" 
+					iconColor="#8a92a1" 
+					buttonName={languageName == "vietnamese" ? "Đánh giá" : "Review"}
+					textColor={textColor}
+				/>
+				<CircleButton 
+					handlePress={downloadCurrentLesson} 
+					iconName="ios-download" 
+					iconColor="#8a92a1" 
+					buttonName={languageName == "vietnamese" ? "Tải xuống" : "Download"}
+					textColor={textColor}
+				/>
 			</View>
 			<Description description={description} />
 			<View
@@ -95,11 +99,11 @@ const Actions = (props) => {
 				}}
 			>
 				<FullButton
-					buttonName="Related paths & courses"
-					handlePress={handlePress}
+					buttonName={languageName == "vietnamese" ? "Các khoá học liên quan" : "Related paths & courses"}
+					handlePress={showRelevantCourses}
 				/>
 				<FullButton
-					buttonName="Take a learning check"
+					buttonName={languageName == "vietnamese" ? "Làm bài tập" : "Take a learning check"}
 					handlePress={handlePress}
 				/>
 			</View>

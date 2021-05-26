@@ -1,8 +1,12 @@
 import React from "react";
 import { Text, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { useSelector } from "react-redux";
 
 const FullWidthButton = ({ text, onPress}) => {
+	const appSettingsReducer = useSelector((state) => state.appSettingsReducer);
+    const { theme } = appSettingsReducer;
+    
 	return (
         <TouchableOpacity
             style={{
@@ -11,14 +15,13 @@ const FullWidthButton = ({ text, onPress}) => {
                 height: 50,
                 alignItems: "center",
                 borderColor: "#8a92a1",
-                backgroundColor: "white",
             }}
             onPress={onPress}
         >
             <Text
                 style={{
                     flex: 1,
-                    color: "black",
+                    color: theme.primaryTextColor,
                     fontSize: 15,
                     paddingLeft: 5,
                 }}

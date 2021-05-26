@@ -2,24 +2,28 @@ import React from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 
 import { Ionicons } from "@expo/vector-icons";
+import { useSelector } from "react-redux"
 
 const SectionCoursesHeader = ({ header, onSeeAll, showButtonSeeAll }) => {
-	const textColor = "black";
+	const appSettingsReducer = useSelector((state) => state.appSettingsReducer);
+	const { theme, languageName } = appSettingsReducer;
+
 	return (
 		<View
 			style={{
 				flexDirection: "row",
 				justifyContent: "space-between",
 				alignItems: "center",
-				marginTop: 10
+				marginTop: 10,
 			}}
 		>
-			<Text style={{ fontSize: 18, fontWeight: "bold", color: textColor }}>{header}</Text>
+			<Text style={{ fontSize: 18, fontWeight: "bold", color: theme.primaryTextColor }}>{header}</Text>
 			{showButtonSeeAll && <TouchableOpacity
 				style={{
 					backgroundColor: "#dedede",
 					flexDirection: "row",
 					borderRadius: 20,
+					width: "30%",
 				}}
 				onPress={onSeeAll}
 			>
@@ -32,7 +36,7 @@ const SectionCoursesHeader = ({ header, onSeeAll, showButtonSeeAll }) => {
 						paddingLeft: 5,
 					}}
 				>
-					See all
+					{languageName == "vietnamese" ? "Xem hết" : "See all"}
 				</Text>
 				<Ionicons
 					style={{ paddingLeft: 5, paddingRight: 5 }}

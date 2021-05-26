@@ -1,11 +1,15 @@
 import React from "react";
 import { View, Text, Image, TouchableOpacity } from "react-native";
 import { useNavigation } from '@react-navigation/native';
+import { useSelector } from "react-redux";
 
 const AuthorizationHome = () => {
+    const appSettingsReducer = useSelector((state) => state.appSettingsReducer);
+	const { theme, languageName } = appSettingsReducer;
+	
 	const navigation = useNavigation();
 	return (
-		<View style={{flex: 1, alignItems: "center", backgroundColor: "white"}}>
+		<View style={{flex: 1, alignItems: "center", backgroundColor: theme.primaryBackgroundColor}}>
 			<View
 				style={{
 					flexDirection: "column",
@@ -17,12 +21,12 @@ const AuthorizationHome = () => {
 				}}
 			>
 				<Image
-					style={{ height: "50px", paddingBottom: 100 }}
+					style={{ height: 50, paddingBottom: 100 }}
 					source={require("../assets/fit-hcmus-logo.png")}
 				/>
 				<TouchableOpacity
 					style={{
-						backgroundColor: "#6998f5",
+						backgroundColor: theme.secondaryBackgroundColor,
 						alignItems: "center",
 						justifyContent: "center",
 						height: 40,
@@ -32,48 +36,56 @@ const AuthorizationHome = () => {
 					}}
 					onPress={() => {navigation.navigate("Authorization/LogIn")}}
 				>
-					<Text style={{ color: "white" }}>Sign In</Text>
+					<Text style={{ color: "white" }}>
+						{ languageName == "vietnamese" ? "Đăng nhập" : "Sign In" }
+					</Text>				
 				</TouchableOpacity>
 				<TouchableOpacity
 					style={{
 						alignItems: "center",
 						justifyContent: "center",
 						height: 40,
-						borderColor: "#6998f5",
+						borderColor: theme.secondaryBackgroundColor,
 						borderWidth: 1,
 						borderRadius: 5,
 						marginBottom: 5,
 					}}
 					onPress={() => {navigation.navigate("Authorization/Register")}}
 				>
-					<Text style={{ color: "#6998f5" }}>Register new account</Text>
+					<Text style={{ color: theme.secondaryTextColor }}>
+						{ languageName == "vietnamese" ? "Đăng ký tài khoản" : "Register new account" }
+					</Text>
 				</TouchableOpacity>
 				<TouchableOpacity
 					style={{
 						alignItems: "center",
 						justifyContent: "center",
 						height: 40,
-						borderColor: "#6998f5",
+						borderColor: theme.secondaryBackgroundColor,
 						borderWidth: 1,
 						borderRadius: 5,
 						marginBottom: 5,
 					}}
 				>
-					<Text style={{ color: "#6998f5" }}>Sign In with Google</Text>
+					<Text style={{ color: theme.secondaryTextColor }}>
+						{ languageName == "vietnamese" ? "Đăng nhập với Google" : "Sign in with Google" }
+					</Text>
 				</TouchableOpacity>
 				<TouchableOpacity
 					style={{
 						alignItems: "center",
 						justifyContent: "center",
 						height: 40,
-						borderColor: "#6998f5",
+						borderColor: theme.secondaryBackgroundColor,
 						borderWidth: 1,
 						borderRadius: 5,
 						marginBottom: 5,
 					}}
 					onPress={() => {navigation.navigate("Authorization/ForgotPassword")}}
 				>
-					<Text style={{ color: "#6998f5" }}>Forgot your password</Text>
+					<Text style={{ color: theme.secondaryTextColor }}>
+						{ languageName == "vietnamese" ? "Quên mật khẩu?" : "Forgot your password?" }
+					</Text>
 				</TouchableOpacity>
 			</View>
 		</View>
