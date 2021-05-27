@@ -1,7 +1,9 @@
 # Phát triển ứng dụng di đông nâng cao - CQ2017-03
 
 > Sinh viên: Nguyễn Ngọc Khắc Triệu - 1612738
+>
 > Phát Triển ứng dụng Di Động Nâng Cao - Đồ án cuối kì - PTWDDDNC 2020 - HCMUS
+> 
 > Xây dựng ứng dụng trên di động, xem các video về IT, hỗ trợ quản lý thông tin cá nhân, xem video, bình luận, rate...
 
 1. Deadline 1: Github
